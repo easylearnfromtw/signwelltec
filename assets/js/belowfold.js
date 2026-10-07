@@ -11,7 +11,7 @@
       { selector:'#part-records', src:'assets/js/products-filter.js?v=20261007-lazy' }
     ],
     'social-responsibility': [
-      { selector:'#giving', src:'assets/js/donations.js?v=20261007-lazy' }
+      { selector:'#giving', src:'assets/js/donations.js?v=20261007-countup1' }
     ]
   }[page] || [];
 
