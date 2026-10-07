@@ -1412,3 +1412,18 @@ body::before,body::after{content:none!important;display:none!important}
     line-height:1.75;
   }
 }
+
+
+/* Four distinct business families on desktop; compact cards on mobile. */
+.service-card.accent-graphite{--accent:var(--black)}
+@media(min-width:981px){
+  #business .service-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  #business .service-card{padding:24px;min-height:370px}
+  #business .service-title h3{font-size:clamp(27px,2.45vw,42px);overflow-wrap:anywhere}
+  #business .service-card p{font-size:12px;line-height:1.85}
+}
+@media(min-width:641px) and (max-width:980px){
+  #business .service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #business .service-card:last-child{grid-column:auto}
+  #business .service-card{min-height:330px}
+}
