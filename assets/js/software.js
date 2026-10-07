@@ -4,6 +4,7 @@
 
   const story=document.querySelector('[data-sw-story]');
   const world=document.querySelector('[data-sw-world]');
+  const camera=document.querySelector('.sw-camera');
   if(!story||!world) return;
 
   const fill=document.querySelector('[data-sw-progress-fill]');
@@ -45,6 +46,18 @@
 
   // Keyframes intentionally contain flat sections. Those pauses recreate the
   // "arrive -> inspect -> move again" rhythm in the supplied reference video.
+  const photoKeys=[
+    {p:0.00,x:0,y:120,s:.92,b:1.00},
+    {p:0.10,x:0,y:120,s:.92,b:1.00},
+    {p:0.20,x:-8,y:245,s:1.26,b:1.03},
+    {p:0.31,x:-8,y:245,s:1.26,b:1.03},
+    {p:0.43,x:92,y:-32,s:1.18,b:1.02},
+    {p:0.55,x:92,y:-32,s:1.18,b:1.02},
+    {p:0.66,x:30,y:-100,s:1.23,b:1.02},
+    {p:0.78,x:-120,y:-178,s:1.31,b:1.01},
+    {p:1.00,x:-120,y:-178,s:1.31,b:1.01}
+  ];
+
   const keys=[
     {p:0.00,x:620,y:-88,s:.91,r:-.35,stage:'exterior'},
     {p:0.10,x:620,y:-88,s:.91,r:-.35,stage:'exterior'},
@@ -75,6 +88,20 @@
     if(w<1200)return .86;
     return 1;
   }
+  function photoAt(p){
+    let a=photoKeys[0],b=photoKeys[photoKeys.length-1];
+    for(let i=0;i<photoKeys.length-1;i++){
+      if(p>=photoKeys[i].p&&p<=photoKeys[i+1].p){a=photoKeys[i];b=photoKeys[i+1];break}
+    }
+    const raw=b.p===a.p?1:(p-a.p)/(b.p-a.p);
+    const t=ease(raw);
+    const mobile=window.innerWidth<760;
+    const x=mix(a.x,b.x,t)*(mobile?1.12:1);
+    const y=mix(a.y,b.y,t)*(mobile?1.08:1);
+    const s=mix(a.s,b.s,t)*(mobile?1.08:1);
+    return {x,y,s,b:mix(a.b,b.b,t)};
+  }
+
   function cameraAt(p){
     let a=keys[0],b=keys[keys.length-1];
     for(let i=0;i<keys.length-1;i++){
@@ -140,6 +167,13 @@
     if(fill)fill.style.width=(p*100).toFixed(2)+'%';
 
     const cam=cameraAt(p);
+    const photoCam=photoAt(p);
+    if(camera){
+      camera.style.setProperty('--photo-x',photoCam.x.toFixed(1)+'px');
+      camera.style.setProperty('--photo-y',photoCam.y.toFixed(1)+'px');
+      camera.style.setProperty('--photo-s',photoCam.s.toFixed(4));
+      camera.style.setProperty('--photo-brightness',photoCam.b.toFixed(3));
+    }
     world.style.transform=
       'translate3d(calc(-50% + '+cam.x.toFixed(1)+'px),calc(-50% + '+cam.y.toFixed(1)+'px),0) '+
       'scale('+cam.s.toFixed(4)+') rotateZ('+cam.r.toFixed(3)+'deg)';
