@@ -90,26 +90,36 @@
 .sw-world[data-focus="city"] ~ *{
   visibility:visible;
 }
-.sw-camera::before{
-  inset:-34vh -28vw;
-  width:auto;
-  height:auto;
-  aspect-ratio:auto;
-  min-width:156vw;
-  min-height:168vh;
-  background-size:cover;
-  background-position:center;
-}
 @media(max-width:760px){
-  .sw-camera::before{
-    inset:-42vh -46vw;
-    width:auto;
-    min-width:192vw;
-    min-height:190vh;
-    background-size:cover;
-  }
   .sw-world[data-focus="road"] svg,
   .sw-world[data-focus="city"] svg{
     opacity:1;
+  }
+}
+
+
+/* Canonical photo-stage geometry — keep the camera layer centered */
+.sw-camera::before{
+  left:50%!important;
+  top:50%!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:min(1320px,118vw)!important;
+  height:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  aspect-ratio:1882/3344!important;
+  background-size:cover!important;
+  background-position:center!important;
+  transform:translate3d(calc(-50% + var(--photo-x)),calc(-50% + var(--photo-y)),0) scale(var(--photo-s))!important;
+}
+@media(max-width:760px){
+  .sw-camera::before{
+    width:860px!important;
+  }
+}
+@media(min-width:1200px){
+  .sw-camera::before{
+    width:1320px!important;
   }
 }
