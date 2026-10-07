@@ -470,3 +470,55 @@ body[data-page=software]{color:var(--sw-ink);overflow-x:hidden}
   .sw-hud p{-webkit-line-clamp:1}
   .sw-story-progress{left:calc(46vw + 34px)}
 }
+
+
+/* Cinematic camera focus states — reference-video behavior */
+.sw-world{
+  will-change:transform;
+  transform-style:preserve-3d;
+}
+.sw-world [data-sw-office-shell]{
+  will-change:opacity;
+}
+.sw-world-note{
+  transition:opacity .26s ease;
+}
+.sw-world[data-focus="exterior"] .sw-world-note.chekai,
+.sw-world[data-focus="exterior"] .sw-world-note.lcw,
+.sw-world[data-focus="exterior"] .sw-world-note.project-city,
+.sw-world[data-focus="interior"] .sw-world-note.chekai,
+.sw-world[data-focus="interior"] .sw-world-note.lcw,
+.sw-world[data-focus="interior"] .sw-world-note.project-city{
+  opacity:0;
+  pointer-events:none;
+}
+.sw-world[data-focus="road"] .sw-world-note.chekai,
+.sw-world[data-focus="road"] .sw-world-note.lcw{
+  opacity:1;
+}
+.sw-world[data-focus="road"] .sw-world-note.project-city{
+  opacity:0;
+  pointer-events:none;
+}
+.sw-world[data-focus="city"] .sw-world-note.chekai,
+.sw-world[data-focus="city"] .sw-world-note.lcw{
+  opacity:.18;
+}
+.sw-world[data-focus="city"] .sw-world-note.project-city{
+  opacity:1;
+  pointer-events:auto;
+}
+.sw-hud[data-stage="exterior"]{border-left:4px solid var(--sw-yellow)}
+.sw-hud[data-stage="interior"]{border-left:4px solid var(--sw-green)}
+.sw-hud[data-stage="road"]{border-left:4px solid var(--sw-wine)}
+.sw-hud[data-stage="city"]{border-left:4px solid var(--sw-blue)}
+
+@media(max-width:760px){
+  /* The motion is more obvious on a narrow display when the model fills the screen. */
+  .sw-world{
+    transform-origin:50% 50%;
+  }
+  .sw-world-note{
+    transition:opacity .18s linear;
+  }
+}
