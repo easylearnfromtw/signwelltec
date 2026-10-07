@@ -11,7 +11,6 @@
       { selector:'#part-records', src:'assets/js/products-filter.js?v=20261007-lazy' }
     ],
     'social-responsibility': [
-      { early:true, src:'assets/js/service-tape.js?v=20261007-lazy' },
       { selector:'#giving', src:'assets/js/donations.js?v=20261007-lazy' }
     ]
   }[page] || [];
