@@ -1998,3 +1998,92 @@ html.page-transition-active .page-transition-brand{
     margin-top:14px;
   }
 }
+
+
+/* =========================================================
+   TRANSITION SYSTEM — SINGLE LAYER FINAL AUTHORITY
+   One layer handles both welcome and page navigation.
+   ========================================================= */
+body::before,
+body::after{
+  content:none!important;
+  display:none!important;
+  animation:none!important;
+}
+
+.page-transition-layer{
+  position:fixed!important;
+  inset:-2px!important;
+  width:calc(100vw + 4px)!important;
+  height:calc(100vh + 4px)!important;
+  height:calc(100dvh + 4px)!important;
+  min-width:calc(100vw + 4px)!important;
+  min-height:calc(100vh + 4px)!important;
+  min-height:calc(100dvh + 4px)!important;
+  margin:0!important;
+  padding:
+    max(2px,env(safe-area-inset-top))
+    max(2px,env(safe-area-inset-right))
+    max(2px,env(safe-area-inset-bottom))
+    max(2px,env(safe-area-inset-left))!important;
+  z-index:2147483647!important;
+  display:grid!important;
+  place-items:center!important;
+  overflow:hidden!important;
+  background:#000!important;
+  border:0!important;
+  box-sizing:border-box!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+  transform:none!important;
+  transition:opacity .24s ease,visibility 0s linear .24s!important;
+  will-change:opacity;
+  contain:none!important;
+  isolation:isolate;
+}
+
+html.transition-visible .page-transition-layer{
+  opacity:1!important;
+  visibility:visible!important;
+  pointer-events:auto!important;
+  transition:opacity .12s ease,visibility 0s!important;
+}
+
+html.transition-instant .page-transition-layer{
+  opacity:1!important;
+  visibility:visible!important;
+  pointer-events:auto!important;
+  transition:none!important;
+}
+
+.page-transition-brand{
+  position:relative!important;
+  z-index:1!important;
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+  color:#fff!important;
+  opacity:1!important;
+  transform:none!important;
+  transition:none!important;
+  font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",Arial,sans-serif!important;
+  font-size:clamp(18px,3vw,34px)!important;
+  font-weight:800!important;
+  line-height:1!important;
+  letter-spacing:.07em!important;
+  white-space:nowrap!important;
+}
+
+@media(max-width:640px){
+  .page-transition-brand{
+    font-size:18px!important;
+    letter-spacing:.05em!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .page-transition-layer{
+    transition:none!important;
+  }
+}
