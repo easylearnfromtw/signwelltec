@@ -5090,7 +5090,6 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
 
   function start(event) {
     if (activePointer !== null || !event.isPrimary || event.button !== 0) return;
-    if (event.pointerType === "touch" && i.closest(".csr-hero") && !i.classList.contains("is-touch-drawing")) return;
     const point = aim(event);
     if (!point) return;
     event.preventDefault();
