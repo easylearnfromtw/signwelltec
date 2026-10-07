@@ -4,6 +4,17 @@ document.addEventListener('DOMContentLoaded',()=>{
   pageTransition.innerHTML='<span class="page-transition-brand">SIGNWELL欣緯科技</span>';
   pageTransition.setAttribute('aria-hidden','true');
   document.body.appendChild(pageTransition);
+
+  // One reusable layer for both welcome and page transfer.
+  // It is immediately opaque so no edge of the page can flash through.
+  document.documentElement.classList.add('transition-instant');
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      document.documentElement.classList.remove('transition-instant');
+      document.documentElement.classList.add('transition-visible');
+      setTimeout(()=>document.documentElement.classList.remove('transition-visible'),520);
+    });
+  });
   // Hard invariant: the site may scroll vertically, never horizontally.
   const lockHorizontalViewport=()=>{
     document.documentElement.style.overflowX='clip';
@@ -88,7 +99,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 
   // Internal page transition
-  window.addEventListener('pageshow',()=>{document.body.classList.remove('page-leaving');document.documentElement.classList.remove('page-transition-active')});
+  window.addEventListener('pageshow',()=>{
+    document.body.classList.remove('page-leaving');
+    document.documentElement.classList.remove('page-transition-active','transition-instant','transition-visible');
+  });
   document.querySelectorAll('a[href]').forEach(a=>{
     a.addEventListener('click',e=>{
       if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
@@ -100,8 +114,13 @@ document.addEventListener('DOMContentLoaded',()=>{
       if(url.pathname===location.pathname&&url.hash) return;
       e.preventDefault();
       document.body.classList.add('page-leaving');
-      document.documentElement.classList.add('page-transition-active');
-      setTimeout(()=>{location.href=url.href},400);
+      document.documentElement.classList.remove('page-transition-active','transition-visible');
+      document.documentElement.classList.add('transition-instant');
+      requestAnimationFrame(()=>{
+        document.documentElement.classList.remove('transition-instant');
+        document.documentElement.classList.add('transition-visible');
+      });
+      setTimeout(()=>{location.href=url.href},260);
     });
   });
 
