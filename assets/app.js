@@ -1,4 +1,17 @@
 document.addEventListener('DOMContentLoaded',()=>{
+  // Hard invariant: the site may scroll vertically, never horizontally.
+  const lockHorizontalViewport=()=>{
+    document.documentElement.style.overflowX='clip';
+    document.body.style.overflowX='clip';
+    if(window.scrollX!==0){
+      const y=window.scrollY;
+      window.scrollTo(0,y);
+    }
+  };
+  lockHorizontalViewport();
+  window.addEventListener('resize',lockHorizontalViewport,{passive:true});
+  window.addEventListener('orientationchange',()=>setTimeout(lockHorizontalViewport,120),{passive:true});
+  window.addEventListener('scroll',lockHorizontalViewport,{passive:true});
   document.querySelectorAll('[data-year]').forEach(el=>el.textContent=new Date().getFullYear());
   const page=document.body.dataset.page;
   document.querySelectorAll('.desktop-nav a').forEach(a=>{
