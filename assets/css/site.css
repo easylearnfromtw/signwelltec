@@ -122,3 +122,17 @@ body{view-transition-name:none}
   html{view-transition-name:root}
 }
 .site-header,.tabbar{backface-visibility:hidden;transform:translateZ(0)}
+
+
+/* Dedicated hidden people page */
+.people-page-head{padding:calc(var(--header-h) + 70px) 0 52px;border-bottom:1px solid var(--line)}
+.people-page-head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:28px}
+.people-page-head .page-kicker{margin-bottom:24px}
+.people-page-head .t-h1{max-width:920px}
+.people-back{flex:0 0 auto;margin-bottom:10px}
+body[data-page=people] #people{padding-top:clamp(64px,8vw,110px)}
+@media(max-width:760px){
+  .people-page-head{padding:calc(var(--header-h) + 38px) 0 34px}
+  .people-page-head-row{display:grid;align-items:start}
+  .people-back{margin:0}
+}
