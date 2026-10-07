@@ -203,3 +203,31 @@ html[data-nav-enter=backward]::after{
   html.is-page-leaving::after,
   html[data-nav-enter]::after{animation-duration:.001ms!important}
 }
+
+
+/* Audience order-volume notice */
+.aud-volume-note{
+  display:grid;
+  gap:4px;
+  margin:2px 0 4px;
+  padding:13px 15px;
+  border:1px solid rgba(255,216,77,.34);
+  border-left:3px solid var(--yellow);
+  border-radius:12px;
+  background:rgba(255,216,77,.07);
+  color:#fff;
+  font-family:var(--f-cn);
+  font-size:12.5px;
+  line-height:1.65;
+}
+.aud-volume-note .mono{
+  color:var(--yellow);
+  font-size:10px;
+  letter-spacing:.08em;
+}
+.aud-volume-note strong{
+  font-weight:800;
+}
+.aud-volume-note span:last-child{
+  color:rgba(255,255,255,.62);
+}
