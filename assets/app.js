@@ -389,36 +389,80 @@ document.addEventListener('DOMContentLoaded',()=>{
       }
     };
 
-    form.addEventListener('submit',e=>{
-      e.preventDefault();
-      if(current!==steps.length-1){showStep(steps.length-1);return;}
+    const openComposeDirectly=()=>{
+      const mailSubject=subject();
+      const mailBody=makeText();
 
-      // Keep everything inside the original tap/click event. iOS in-app browsers
-      // may block navigation if we await clipboard APIs before opening Gmail.
-      const copied=copyRichMailSync();
+      // Keep the designed HTML mail ready on the clipboard when the browser allows it.
+      copyRichMailSync();
 
-      const compose=new URL('https://mail.google.com/mail/u/0/');
-      compose.searchParams.set('view','cm');
-      compose.searchParams.set('fs','1');
-      compose.searchParams.set('tf','1');
-      compose.searchParams.set('to',gmailRecipient);
-      compose.searchParams.set('su',subject());
+      const params='to='+encodeURIComponent(gmailRecipient)+
+        '&subject='+encodeURIComponent(mailSubject)+
+        '&body='+encodeURIComponent(mailBody);
 
-      // If rich copy is unavailable, the user still reaches Gmail with all content.
-      if(!copied) compose.searchParams.set('body',makeText());
+      const gmailAppUrl='googlegmail:///co?'+params;
+      const mailtoUrl='mailto:'+encodeURIComponent(gmailRecipient)+
+        '?subject='+encodeURIComponent(mailSubject)+
+        '&body='+encodeURIComponent(mailBody);
+
+      const ua=navigator.userAgent||'';
+      const isiOS=/iPhone|iPad|iPod/i.test(ua);
 
       if(submit){
         submit.disabled=true;
-        submit.textContent='開啟 Gmail…';
+        submit.textContent='開啟寄件…';
       }
-      if(status){
-        status.textContent=copied
-          ?'HTML 郵件已複製，正在開啟 Gmail。進入撰寫頁後直接貼上即可。'
-          :'正在開啟 Gmail；此瀏覽器無法複製 HTML，因此已改為預填純文字內容。';
+      if(status) status.textContent='正在開啟新郵件寄件畫面…';
+
+      if(isiOS){
+        let fallbackTimer=null;
+        let leftPage=false;
+
+        const cancelFallback=()=>{
+          leftPage=true;
+          if(fallbackTimer) clearTimeout(fallbackTimer);
+          document.removeEventListener('visibilitychange',onVisibilityChange);
+          window.removeEventListener('pagehide',cancelFallback);
+        };
+        const onVisibilityChange=()=>{
+          if(document.hidden) cancelFallback();
+        };
+
+        document.addEventListener('visibilitychange',onVisibilityChange);
+        window.addEventListener('pagehide',cancelFallback,{once:true});
+
+        // Attempt Gmail's iOS compose scheme inside the original user gesture.
+        window.location.href=gmailAppUrl;
+
+        // If Gmail is not installed or the scheme is blocked, open the system
+        // compose sheet instead. If Gmail is the default mail app, mailto opens Gmail.
+        fallbackTimer=setTimeout(()=>{
+          if(leftPage) return;
+          window.location.href=mailtoUrl;
+          setTimeout(()=>{
+            if(submit){
+              submit.disabled=false;
+              submit.textContent='傳送';
+            }
+          },1200);
+        },850);
+        return;
       }
 
-      // Same-tab navigation is intentionally synchronous for maximum iPhone reliability.
-      window.location.href=compose.toString();
+      // Other mobile/desktop browsers: mailto opens the configured mail client.
+      window.location.href=mailtoUrl;
+      setTimeout(()=>{
+        if(submit){
+          submit.disabled=false;
+          submit.textContent='傳送';
+        }
+      },1200);
+    };
+
+    form.addEventListener('submit',e=>{
+      e.preventDefault();
+      if(current!==steps.length-1){showStep(steps.length-1);return;}
+      openComposeDirectly();
     });
     showStep(0);
   }
