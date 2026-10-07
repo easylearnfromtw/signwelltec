@@ -780,3 +780,5 @@ h1,h2,h3,p,li,dd,dt,a,span,strong,em{
     flex-basis:88%;
   }
 }
+
+.team-card .role{white-space:normal;overflow-wrap:anywhere;line-height:1.35}
