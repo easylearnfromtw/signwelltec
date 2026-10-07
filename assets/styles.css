@@ -1244,3 +1244,225 @@ button:active{
 @media(max-width:640px){
   .hero-copy{max-width:100%}
 }
+
+
+/* =========================================================
+   Chinese-first editorial typography system
+   ========================================================= */
+.hero h1,
+.page-hero h1,
+.section-head h2,
+.split-head h2,
+.editorial-body h2,
+.team-carousel-head h2,
+.company-copy h2,
+.rfq-grid h2,
+.form-note h2{
+  font-family:inherit;
+  font-weight:700;
+  letter-spacing:-.045em;
+  line-height:.96;
+  text-wrap:balance;
+  word-break:keep-all;
+}
+
+.title-en{
+  display:block;
+  margin-top:18px;
+  font-size:clamp(10px,.9vw,13px)!important;
+  line-height:1.35!important;
+  font-weight:600!important;
+  letter-spacing:.14em!important;
+  text-transform:uppercase;
+  color:currentColor;
+  opacity:.5;
+  word-break:normal;
+}
+
+.hero h1 .title-en{
+  margin-top:26px;
+  max-width:560px;
+}
+
+.hero-kicker{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.hero-kicker small,
+.eyebrow small,
+.page-kicker small,
+.editorial-label small{
+  font-size:.72em;
+  line-height:1;
+  font-weight:600;
+  letter-spacing:.16em;
+  opacity:.48;
+  white-space:nowrap;
+}
+
+.eyebrow,
+.page-kicker,
+.editorial-label{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.section-head h2,
+.split-head h2,
+.editorial-body h2,
+.team-carousel-head h2,
+.company-copy h2,
+.rfq-grid h2,
+.form-note h2{
+  max-width:900px;
+}
+
+.section-head>h2,
+.split-head h2{
+  font-size:clamp(42px,5.4vw,78px);
+}
+
+.editorial-body h2,
+.team-carousel-head h2,
+.company-copy h2,
+.rfq-grid h2,
+.form-note h2{
+  font-size:clamp(38px,4.8vw,68px);
+}
+
+.hero h1{
+  max-width:1000px;
+  font-size:clamp(66px,9.6vw,148px);
+}
+
+.page-hero h1{
+  max-width:1050px;
+  font-size:clamp(58px,8vw,118px);
+}
+
+.hero-lead,
+.page-hero p,
+.section-head+p,
+.split-head p,
+.editorial-body>p,
+.company-copy>p,
+.team-intro,
+.rfq-grid>p,
+.form-note>p{
+  max-width:640px;
+  font-size:clamp(14px,1.25vw,18px);
+  line-height:1.85;
+  letter-spacing:.01em;
+}
+
+.service-card h3,
+.big-list-item h3{
+  line-height:1.02;
+  letter-spacing:-.035em;
+}
+
+.card-en{
+  display:block;
+  margin-top:12px;
+  font-size:11px!important;
+  line-height:1.35!important;
+  font-weight:600!important;
+  letter-spacing:.12em!important;
+  text-transform:uppercase;
+  opacity:.5;
+}
+
+.portfolio-row strong{
+  letter-spacing:-.025em;
+}
+.portfolio-row em{
+  font-style:normal;
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  opacity:.52;
+}
+
+.people-card-head h3{
+  letter-spacing:-.035em;
+  line-height:1;
+}
+.people-card-head span{
+  letter-spacing:.02em;
+}
+
+.people-experience p,
+.data-row span:last-child,
+.process-step p,
+.contact-card p,
+.field input,
+.field textarea{
+  line-height:1.75;
+}
+
+@media(max-width:640px){
+  .hero h1{
+    font-size:clamp(50px,15vw,72px);
+    line-height:.95;
+    letter-spacing:-.04em;
+  }
+  .page-hero h1{
+    font-size:clamp(46px,13.5vw,66px);
+    line-height:.96;
+    letter-spacing:-.04em;
+  }
+  .section-head h2,
+  .split-head h2,
+  .editorial-body h2,
+  .team-carousel-head h2,
+  .company-copy h2,
+  .rfq-grid h2,
+  .form-note h2{
+    font-size:clamp(34px,10.5vw,48px);
+    line-height:1;
+    letter-spacing:-.035em;
+  }
+  .title-en{
+    margin-top:14px;
+    font-size:9px!important;
+    letter-spacing:.13em!important;
+  }
+  .hero h1 .title-en{
+    margin-top:20px;
+  }
+  .hero-kicker,
+  .eyebrow,
+  .page-kicker,
+  .editorial-label{
+    gap:8px;
+  }
+  .hero-kicker small,
+  .eyebrow small,
+  .page-kicker small,
+  .editorial-label small{
+    font-size:7px;
+    letter-spacing:.14em;
+  }
+  .hero-lead,
+  .page-hero p,
+  .editorial-body>p,
+  .company-copy>p,
+  .team-intro,
+  .rfq-grid>p,
+  .form-note>p{
+    font-size:14px;
+    line-height:1.78;
+  }
+  .service-card h3,
+  .big-list-item h3{
+    font-size:clamp(30px,9.5vw,42px);
+  }
+  .card-en{
+    margin-top:9px;
+    font-size:9px!important;
+  }
+}
