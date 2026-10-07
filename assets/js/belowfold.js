@@ -10,7 +10,7 @@
     products: [
       { selector:'#part-records', src:'assets/js/products-filter.js?v=20261007-lazy' }
     ],
-    csr: [
+    'social-responsibility': [
       { selector:'#giving', src:'assets/js/donations.js?v=20261007-lazy' }
     ]
   }[page] || [];
