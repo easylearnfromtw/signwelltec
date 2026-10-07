@@ -1022,7 +1022,7 @@ body.person-modal-open{overflow:hidden!important}
   .team-grid.team-carousel{
     padding-right:18%;
     scroll-padding-right:18%;
-    touch-action:pan-x;
+    touch-action:pan-x pan-y;
   }
   .team-grid.team-carousel .team-card,
   .team-grid.team-carousel .representative-card{
