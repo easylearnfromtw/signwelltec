@@ -106,7 +106,11 @@
         if (preview) preview.innerHTML = markup;
         return '<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SIGNWELL 詢價</title></head><body style="margin:0;background:#F3F3F0">' + markup + '</body></html>';
       };
-      const gmailUrl = function () {
+      const ua = navigator.userAgent || '';
+      const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const isMobile = isIOS || /Android|Mobile|IEMobile|Opera Mini/i.test(ua);
+
+      const gmailWebUrl = function () {
         const params = new URLSearchParams({
           view: 'cm',
           fs: '1',
@@ -115,6 +119,54 @@
           body: options.text()
         });
         return 'https://mail.google.com/mail/u/0/?' + params.toString();
+      };
+
+      const gmailIOSUrl = function () {
+        const params = new URLSearchParams({
+          to: recipient,
+          subject: options.subject(),
+          body: options.text()
+        });
+        return 'googlegmail://co?' + params.toString();
+      };
+
+      const setDeviceLabel = function () {
+        if (!submit) return;
+        const label = submit.querySelector('[data-submit-label]');
+        if (!label) return;
+        label.textContent = isIOS ? '以 Gmail App 開啟' : '開啟 Gmail 寄件視窗';
+      };
+      setDeviceLabel();
+
+      const openMailComposer = function () {
+        const web = gmailWebUrl();
+
+        if (isIOS) {
+          setStatus('正在開啟 Gmail App；若未安裝 Gmail，將自動改用 Gmail 網頁版。網站不會自動寄出。');
+          const started = Date.now();
+          window.location.href = gmailIOSUrl();
+
+          setTimeout(function () {
+            if (document.visibilityState === 'visible' && Date.now() - started < 2400) {
+              window.location.href = web;
+            }
+          }, 900);
+          return true;
+        }
+
+        if (isMobile) {
+          setStatus('正在開啟手機版 Gmail 寄件視窗；網站不會自動寄出。');
+          window.location.href = web;
+          return true;
+        }
+
+        setStatus('正在開啟 Gmail 寄件視窗；收件人、主旨與純文字內容會自動帶入。網站不會自動寄出。');
+        const draft = window.open(web, '_blank', 'noopener');
+        if (!draft) {
+          setStatus('瀏覽器封鎖了新分頁，正在改用目前分頁開啟 Gmail。');
+          window.location.href = web;
+        }
+        return true;
       };
       const copy = async function () {
         const copied = await copyRich(preview, render(), options.text());
@@ -172,23 +224,12 @@
         event.preventDefault();
         if (!options.isFinal()) { options.showFinal(); return; }
 
-        const url = gmailUrl();
         if (submit) submit.disabled = true;
-        setStatus('正在開啟 Gmail 寄件視窗；收件人、主旨與純文字內容會自動帶入。網站不會自動寄出。');
-
-        const draft = window.open(url, '_blank', 'noopener');
-        if (!draft) {
-          const manual = form.querySelector('[data-rfq-open-gmail]');
-          if (manual) {
-            manual.href = url;
-            manual.hidden = false;
-          }
-          setStatus('瀏覽器封鎖了新分頁，請按「開啟 Gmail 寄件視窗」；內容仍會自動帶入。最後請在 Gmail 內自行按「傳送」。');
-        }
+        openMailComposer();
 
         setTimeout(function () {
           if (submit) submit.disabled = false;
-        }, 450);
+        }, isIOS ? 1200 : 500);
       });
     }
   };
