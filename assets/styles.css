@@ -1427,3 +1427,44 @@ body::before,body::after{content:none!important;display:none!important}
   #business .service-card:last-child{grid-column:auto}
   #business .service-card{min-height:330px}
 }
+
+
+/* Company registry information in the footer. */
+.footer-company-meta{
+  display:flex;
+  align-items:flex-end;
+  flex-direction:column;
+  gap:8px;
+  text-align:right;
+}
+.footer-company-meta>span{
+  display:block;
+}
+.footer-registry-link{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding-bottom:4px;
+  border-bottom:1px solid rgba(255,255,255,.38);
+  color:rgba(255,255,255,.72);
+  font-family:var(--font-round);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.04em;
+}
+.footer-registry-link:hover{
+  color:#fff;
+  border-bottom-color:#fff;
+}
+@media(max-width:640px){
+  .footer-company-meta{
+    align-items:flex-start;
+    text-align:left;
+    gap:7px;
+  }
+  .footer-registry-link{
+    min-height:34px;
+    align-items:center;
+    font-size:10px;
+  }
+}
