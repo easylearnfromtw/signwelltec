@@ -62,7 +62,8 @@
       const t=smooth((p-hold2)/(trans2-hold2));
       x=mix(b[0],c[0],t);y=mix(b[1],c[1],t);s=mix(b[2],c[2],t);
     }else{[x,y,s]=c}
-    return [x,y,s*factor()];
+    const f=factor();
+    return [x*f,y*f,s*f];
   }
   function stageAt(p){
     if(p<.31)return stages[0];
@@ -89,7 +90,8 @@
   function render(){
     raf=0;
     const r=story.getBoundingClientRect();
-    const max=Math.max(1,story.offsetHeight-window.innerHeight);
+    const vh=(window.visualViewport&&window.visualViewport.height)||window.innerHeight;
+    const max=Math.max(1,story.offsetHeight-vh);
     const p=clamp(-r.top/max);
     if(fill)fill.style.width=(p*100).toFixed(2)+'%';
     const [x,y,s]=cameraAt(reduce?(p<.31?0:p<.64?.42:1):p);
@@ -104,7 +106,8 @@
   const stageTarget={office:.02,road:.40,city:.78};
   pills.forEach(btn=>btn.addEventListener('click',()=>{
     const p=stageTarget[btn.dataset.swJump]||0;
-    const max=Math.max(1,story.offsetHeight-window.innerHeight);
+    const vh=(window.visualViewport&&window.visualViewport.height)||window.innerHeight;
+    const max=Math.max(1,story.offsetHeight-vh);
     const top=window.scrollY+story.getBoundingClientRect().top+p*max;
     window.scrollTo({top,behavior:reduce?'auto':'smooth'});
   }));
