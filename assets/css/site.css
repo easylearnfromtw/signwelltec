@@ -286,3 +286,103 @@ body[data-page="social-responsibility"] .csr-page-content{
   [data-donation-total].is-counted,
   [data-donation-amount].is-counted{animation:none!important}
 }
+
+
+/* Leadership team desktop split layout */
+@media(min-width:1024px){
+  #team.team-desktop-split{
+    padding-block:clamp(96px,8vw,138px);
+  }
+
+  #team.team-desktop-split>.wrap{
+    display:grid;
+    grid-template-columns:minmax(300px,.72fr) minmax(0,1.48fr);
+    grid-template-areas:
+      "intro tools"
+      "intro cards";
+    column-gap:clamp(48px,5vw,88px);
+    row-gap:22px;
+    align-items:start;
+  }
+
+  #team.team-desktop-split .sec-head{
+    grid-area:intro;
+    display:block;
+    margin:0;
+    padding-top:22px;
+    position:sticky;
+    top:calc(var(--header-h) + 34px);
+  }
+
+  #team.team-desktop-split .sec-head .sec-index{
+    flex-direction:row;
+    align-items:baseline;
+    gap:14px;
+    padding-top:0;
+    margin-bottom:clamp(30px,3vw,44px);
+  }
+
+  #team.team-desktop-split .sec-head .sec-body{
+    display:block;
+  }
+
+  #team.team-desktop-split .sec-head .t-h2{
+    max-width:6.4em;
+    font-size:clamp(48px,4.4vw,72px);
+    line-height:1.02;
+  }
+
+  #team.team-desktop-split .sec-head .t-lead{
+    max-width:25em;
+    margin-top:26px;
+    font-size:15px;
+    line-height:1.85;
+  }
+
+  #team.team-desktop-split .people-head{
+    grid-area:tools;
+    margin:0;
+    min-height:44px;
+  }
+
+  #team.team-desktop-split .people-head .t-small{
+    max-width:21em;
+    text-align:right;
+  }
+
+  #team.team-desktop-split .cardbox{
+    grid-area:cards;
+    width:100%;
+    max-width:none;
+    margin:0;
+  }
+
+  #team.team-desktop-split .cardbox.is-list .cardbox-stage{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+  }
+
+  #team.team-desktop-split .cardbox.is-list .pcard,
+  #team.team-desktop-split .cardbox.is-list .pcard-face{
+    min-height:350px;
+  }
+
+  #team.team-desktop-split .cardbox.is-list .pcard-face{
+    padding:22px;
+  }
+
+  #team.team-desktop-split .cardbox.is-list .pcard-name h3{
+    font-size:clamp(36px,3.1vw,52px);
+  }
+}
+
+@media(min-width:1500px){
+  #team.team-desktop-split>.wrap{
+    grid-template-columns:minmax(330px,.68fr) minmax(0,1.62fr);
+    column-gap:96px;
+  }
+
+  #team.team-desktop-split .cardbox.is-list .cardbox-stage{
+    gap:18px;
+  }
+}
