@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap">
 <link rel="preload" href="assets/fonts/archivo-var.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20261007-public-note-white-text2">
+<link rel="stylesheet" href="assets/css/site.css?v=20261007-capital-band1">
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <script defer src="assets/js/app.js?v=20261007-displayfix1"></script>
 <script defer src="assets/js/belowfold.js?v=20261007-countup1"></script>
@@ -571,6 +571,56 @@
     </div>
   </div>
 </section>
+
+<!-- ============================== CAPITAL TOTAL ============================== -->
+<section class="capital-band" id="capital" data-tone="light" aria-labelledby="capital-title">
+  <div class="wrap capital-band-grid">
+    <div class="capital-band-meta">
+      <span class="mono">REGISTERED CAPITAL</span>
+      <h2 id="capital-title">資本總額</h2>
+      <a class="capital-source" href="https://findbiz.nat.gov.tw/fts/company/24389585" target="_blank" rel="noopener noreferrer">
+        根據欣緯科技有限公司經濟部商工登記公示資料
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+    <div class="capital-number-wrap" aria-label="資本總額新台幣五百萬元">
+      <span class="capital-currency">NT$</span>
+      <strong class="capital-number" data-capital-count="5000000">0</strong>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var el=document.querySelector('[data-capital-count]');
+  if(!el)return;
+  var target=Number(el.getAttribute('data-capital-count'))||0;
+  var fmt=new Intl.NumberFormat('zh-TW');
+  var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var played=false;
+  function run(){
+    if(played)return;
+    played=true;
+    if(reduced){el.textContent=fmt.format(target);el.classList.add('is-complete');return;}
+    var start=performance.now(),duration=1450;
+    el.classList.add('is-counting');
+    function frame(now){
+      var p=Math.min(1,(now-start)/duration);
+      var eased=1-Math.pow(1-p,4);
+      el.textContent=fmt.format(Math.round(target*eased));
+      if(p<1){requestAnimationFrame(frame)}
+      else{el.textContent=fmt.format(target);el.classList.remove('is-counting');el.classList.add('is-complete')}
+    }
+    requestAnimationFrame(frame);
+  }
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      if(entries.some(function(e){return e.isIntersecting})){io.disconnect();run()}
+    },{threshold:.45,rootMargin:'0px 0px -8% 0px'});
+    io.observe(el);
+  }else{run()}
+})();
+</script>
 
 <!-- ============================== 07 ENQUIRY ============================== -->
 <section class="section s-yellow cta-band" id="enquiry" data-tone="light" data-surface="yellow" data-rail="07" data-rail-label="詢價">
