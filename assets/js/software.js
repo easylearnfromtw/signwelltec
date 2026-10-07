@@ -17,6 +17,18 @@
   const officeShell=document.querySelector('[data-sw-office-shell]');
   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  function clearSoftwareEntryBridge(){
+    const root=document.documentElement;
+    delete root.dataset.navEnter;
+    delete root.dataset.navDir;
+    root.classList.remove('is-page-leaving');
+    root.style.removeProperty('--sw-nav-color');
+    root.style.removeProperty('background');
+  }
+  requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(clearSoftwareEntryBridge,230)));
+  window.addEventListener('pageshow',()=>setTimeout(clearSoftwareEntryBridge,80));
+  setTimeout(clearSoftwareEntryBridge,700);
+
   const stageCopy={
     exterior:{
       nav:'office',label:'OFFICE / EXTERIOR',
