@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap">
 <link rel="preload" href="assets/fonts/archivo-var.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20261008-capital-cta1">
+<link rel="stylesheet" href="assets/css/site.css?v=20261008-capital-jump1">
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <script defer src="assets/js/app.js?v=20261007-displayfix1"></script>
 <script defer src="assets/js/belowfold.js?v=20261007-home-identity-capital5"></script>
@@ -620,27 +620,58 @@
   var fmt=new Intl.NumberFormat('zh-TW');
   var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var played=false;
+  function pulse(){
+    el.classList.remove('is-jumping');
+    void el.offsetWidth;
+    el.classList.add('is-jumping');
+  }
   function run(){
     if(played)return;
     played=true;
-    if(reduced){el.textContent=fmt.format(target);el.classList.add('is-complete');return;}
-    var start=performance.now(),duration=1450;
+    if(reduced){
+      el.textContent=fmt.format(target);
+      el.classList.add('is-complete');
+      return;
+    }
+    var start=performance.now();
+    var duration=1750;
+    var lastBucket=-1;
     el.classList.add('is-counting');
     function frame(now){
       var p=Math.min(1,(now-start)/duration);
-      var eased=1-Math.pow(1-p,4);
-      el.textContent=fmt.format(Math.round(target*eased));
-      if(p<1){requestAnimationFrame(frame)}
-      else{el.textContent=fmt.format(target);el.classList.remove('is-counting');el.classList.add('is-complete')}
+      var eased=1-Math.pow(1-p,3.4);
+      var value=Math.round(target*eased);
+      el.textContent=fmt.format(value);
+
+      var bucket=Math.floor(p*18);
+      if(bucket!==lastBucket){
+        lastBucket=bucket;
+        pulse();
+      }
+
+      if(p<1){
+        requestAnimationFrame(frame);
+      }else{
+        el.textContent=fmt.format(target);
+        el.classList.remove('is-counting','is-jumping');
+        el.classList.add('is-complete');
+        void el.offsetWidth;
+        el.classList.add('is-final-pop');
+      }
     }
     requestAnimationFrame(frame);
   }
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(entries){
-      if(entries.some(function(e){return e.isIntersecting})){io.disconnect();run()}
-    },{threshold:.45,rootMargin:'0px 0px -8% 0px'});
+      if(entries.some(function(e){return e.isIntersecting})){
+        io.disconnect();
+        run();
+      }
+    },{threshold:.3,rootMargin:'0px 0px -6% 0px'});
     io.observe(el);
-  }else{run()}
+  }else{
+    run();
+  }
 })();
 </script>
 
