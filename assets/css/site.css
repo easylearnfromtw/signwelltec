@@ -879,3 +879,12 @@ body[data-page="home"] #capital.capital-band{
     min-height:520px;
   }
 }
+
+
+/* Homepage tape HUD cleanup */
+body[data-page="home"] #identity .tape-hud{
+  justify-content:flex-end;
+}
+body[data-page="home"] #identity .tape-hud-r{
+  margin-left:auto;
+}
