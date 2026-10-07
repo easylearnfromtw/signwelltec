@@ -42,6 +42,36 @@ document.addEventListener('DOMContentLoaded',()=>{
     reveals.forEach(el=>io.observe(el));
   }else reveals.forEach(el=>el.classList.add('visible'));
 
+  const teamCarousel=document.querySelector('[data-team-carousel]');
+  if(teamCarousel){
+    const prev=document.querySelector('[data-carousel-prev]');
+    const next=document.querySelector('[data-carousel-next]');
+    const cards=[...teamCarousel.querySelectorAll('.team-card')];
+
+    const step=()=>{
+      const first=cards[0];
+      if(!first) return Math.max(260,teamCarousel.clientWidth*.8);
+      const gap=parseFloat(getComputedStyle(teamCarousel).columnGap||getComputedStyle(teamCarousel).gap||0)||0;
+      return first.getBoundingClientRect().width+gap;
+    };
+
+    const updateControls=()=>{
+      const max=Math.max(0,teamCarousel.scrollWidth-teamCarousel.clientWidth-2);
+      if(prev) prev.disabled=teamCarousel.scrollLeft<=2;
+      if(next) next.disabled=teamCarousel.scrollLeft>=max;
+    };
+
+    prev?.addEventListener('click',()=>teamCarousel.scrollBy({left:-step(),behavior:'smooth'}));
+    next?.addEventListener('click',()=>teamCarousel.scrollBy({left:step(),behavior:'smooth'}));
+    teamCarousel.addEventListener('scroll',updateControls,{passive:true});
+    window.addEventListener('resize',updateControls,{passive:true});
+    teamCarousel.addEventListener('keydown',e=>{
+      if(e.key==='ArrowLeft'){e.preventDefault();teamCarousel.scrollBy({left:-step(),behavior:'smooth'})}
+      if(e.key==='ArrowRight'){e.preventDefault();teamCarousel.scrollBy({left:step(),behavior:'smooth'})}
+    });
+    updateControls();
+  }
+
   const photoGroups=new Map();
   document.querySelectorAll('img[data-photo]').forEach(img=>{
     const key=img.dataset.photo;
