@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="zh-Hant" class="no-js">
 <head>
-<script>try{var d=sessionStorage.getItem("sw-nav-enter");if(d){document.documentElement.dataset.navEnter=d;sessionStorage.removeItem("sw-nav-enter")}}catch(e){}</script>
+<script>try{history.scrollRestoration="manual";var d=sessionStorage.getItem("sw-nav-enter"),c=sessionStorage.getItem("sw-nav-color");if(d){document.documentElement.dataset.navEnter=d;sessionStorage.removeItem("sw-nav-enter")}if(c){document.documentElement.style.setProperty("--sw-nav-color",c);document.documentElement.style.background=c;sessionStorage.removeItem("sw-nav-color")}}catch(e){}</script>
+<style>html[data-nav-enter],html[data-nav-enter] body{background:var(--sw-nav-color)!important}</style>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SIGNWELL 欣緯科技｜電子零件貿易・尋料・採購協作</title>
@@ -18,10 +19,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap">
 <link rel="preload" href="assets/fonts/archivo-var.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20261007-nav-fix">
+<link rel="stylesheet" href="assets/css/site.css?v=20261007-nav-opt3">
 <script>document.documentElement.classList.replace('no-js','js')</script>
-<script defer src="assets/js/app.js?v=20261007-nav-fix"></script>
-<script defer src="assets/js/people-guide.js?v=20261007-audience"></script>
+<script defer src="assets/js/app.js?v=20261007-nav-opt3"></script>
+<script defer src="assets/js/belowfold.js?v=20261007-nav-opt3"></script>
 <script defer src="assets/js/gpu-lifecycle.js?v=20261007-refine"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "欣緯科技有限公司", "alternateName": "SIGNWELL", "email": "luca.sinwell@gmail.com", "taxID": "24389585", "sameAs": ["https://findbiz.nat.gov.tw/fts/company/24389585"]}</script>
 </head>
@@ -179,7 +180,7 @@
         <span class="svc-desc">承接電阻相關料件需求，依料號、規格、數量與專案條件進行確認。</span>
         <span class="tag">CORE</span>
         <span class="svc-arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
-        <span class="svc-thumb" aria-hidden="true"><img src="assets/img/parts/axial.webp" alt="" width="400" height="400" loading="lazy"></span>
+        <span class="svc-thumb" aria-hidden="true"><img src="assets/img/parts/axial.webp" alt="" width="400" height="400" loading="lazy" decoding="async" fetchpriority="low"></span>
       </a>
       <a class="svc rv" href="products.html#part-records" data-accent="mist" data-preview="img:assets/img/parts/qfn3x3-20.webp" data-preview-tone="mist" data-preview-label="Electronic components">
         <span class="svc-num">03</span>
@@ -187,7 +188,7 @@
         <span class="svc-desc">業務涵蓋貼片二極體、DC-DC 轉換器、磁珠、電感、電源開關與 DC-DC 穩壓器。</span>
         <span class="tag">6 CATEGORIES</span>
         <span class="svc-arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
-        <span class="svc-thumb" aria-hidden="true"><img src="assets/img/parts/qfn3x3-20.webp" alt="" width="400" height="400" loading="lazy"></span>
+        <span class="svc-thumb" aria-hidden="true"><img src="assets/img/parts/qfn3x3-20.webp" alt="" width="400" height="400" loading="lazy" decoding="async" fetchpriority="low"></span>
       </a>
       <a class="svc rv" href="sourcing.html" data-accent="pink" data-preview="loupe" data-preview-tone="pink" data-preview-label="Part sourcing">
         <span class="svc-num">04</span>
@@ -236,7 +237,7 @@
       </div>
 
       <div class="lib-stage" data-viewer3d>
-        <div class="lib-fallback"><img src="assets/img/parts/smd-diode.webp" alt="" width="800" height="800" data-lib-fallback></div>
+        <div class="lib-fallback"><img src="assets/img/parts/smd-diode.webp" alt="" width="800" height="800" data-lib-fallback loading="lazy" decoding="async" fetchpriority="low"></div>
         <div class="lib-fig"><span class="mono" data-lib-fig>FIG. 02-01 — SMD</span><span class="label">Package · illustrative</span></div>
         <span class="lib-corner tr" aria-hidden="true"></span><span class="lib-corner bl" aria-hidden="true"></span><span class="lib-corner br" aria-hidden="true"></span>
         <button class="dims-toggle lg" type="button" aria-pressed="true" data-dims-toggle><i aria-hidden="true"></i>尺寸標註</button>
