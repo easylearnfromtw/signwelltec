@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="zh-Hant" class="no-js">
 <head>
-<script>try{var d=sessionStorage.getItem("sw-nav-enter");if(d){document.documentElement.dataset.navEnter=d;sessionStorage.removeItem("sw-nav-enter")}}catch(e){}</script>
+<script>try{history.scrollRestoration="manual";var d=sessionStorage.getItem("sw-nav-enter"),c=sessionStorage.getItem("sw-nav-color");if(d){document.documentElement.dataset.navEnter=d;sessionStorage.removeItem("sw-nav-enter")}if(c){document.documentElement.style.setProperty("--sw-nav-color",c);document.documentElement.style.background=c;sessionStorage.removeItem("sw-nav-color")}}catch(e){}</script>
+<style>html[data-nav-enter],html[data-nav-enter] body{background:var(--sw-nav-color)!important}</style>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>詢價｜SIGNWELL 欣緯科技</title>
@@ -18,10 +19,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap">
 <link rel="preload" href="assets/fonts/archivo-var.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20261007-nav-fix">
+<link rel="stylesheet" href="assets/css/site.css?v=20261007-nav-opt3">
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <script defer src="assets/js/rfq-mail.js?v=20261007-rich-mail"></script>
-<script defer src="assets/js/app.js?v=20261007-nav-fix"></script>
+<script defer src="assets/js/app.js?v=20261007-nav-opt3"></script>
+<script defer src="assets/js/belowfold.js?v=20261007-nav-opt3"></script>
 <script defer src="assets/js/gpu-lifecycle.js?v=20261007-refine"></script>
 </head>
 <body data-page="rfq" id="top">
