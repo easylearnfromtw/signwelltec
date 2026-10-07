@@ -25,19 +25,24 @@ document.addEventListener('DOMContentLoaded',()=>{
     reveals.forEach(el=>io.observe(el));
   }else reveals.forEach(el=>el.classList.add('visible'));
 
-  const profilePhotos=document.querySelectorAll('img[data-photo="lin-che-wei"]');
-  if(profilePhotos.length){
-    fetch('assets/people/lin-che-wei.b64',{cache:'force-cache'})
+  const photoGroups=new Map();
+  document.querySelectorAll('img[data-photo]').forEach(img=>{
+    const key=img.dataset.photo;
+    if(!photoGroups.has(key)) photoGroups.set(key,[]);
+    photoGroups.get(key).push(img);
+  });
+  photoGroups.forEach((images,key)=>{
+    fetch(`assets/people/${key}.b64`,{cache:'force-cache'})
       .then(r=>{if(!r.ok) throw new Error('photo asset unavailable'); return r.text()})
       .then(raw=>{
         const src='data:image/webp;base64,'+raw.trim();
-        profilePhotos.forEach(img=>{
+        images.forEach(img=>{
           img.src=src;
           img.addEventListener('load',()=>img.closest('.team-card-photo')?.classList.add('loaded'),{once:true});
         });
       })
       .catch(()=>{});
-  }
+  });
 
   const form=document.querySelector('[data-rfq-form]');
   const status=document.querySelector('[data-form-status]');
