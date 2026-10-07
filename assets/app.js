@@ -262,31 +262,48 @@ document.addEventListener('DOMContentLoaded',()=>{
     // Adapted from the SIGN WELL biomedical Sky Glass newsletter visual language.
     // All text, branding and user data are customized for SIGNWELL technology.
     const makeMailMarkup=()=>{
-      const rows=readEntries().map(([key,value],index)=>{
-        const bgcolor=index%2?'#F4FAFE':'#FFFFFF';
-        return '<tr><td valign="top" bgcolor="'+bgcolor+'" style="width:34%;padding:12px 10px;border-bottom:1px solid #E1EDF5;color:#65859B;font:700 11px/1.65 -apple-system,BlinkMacSystemFont,Arial,sans-serif;overflow-wrap:anywhere">'+escapeHtml(key)+'</td>'+
-          '<td valign="top" bgcolor="'+bgcolor+'" style="padding:12px 10px;border-bottom:1px solid #E1EDF5;color:#193A53;font:600 13px/1.65 -apple-system,BlinkMacSystemFont,Arial,sans-serif;word-break:break-word;overflow-wrap:anywhere;white-space:pre-wrap">'+escapeHtml(value)+'</td></tr>';
+      const fields=new Map(readEntries());
+      const part=fields.get('料號');
+      const type=fields.get('需求類型');
+      const displayPart=part&&part!=='未提供'?part:'';
+      const displayType=type&&type!=='未提供'?type:'電子零件';
+      const mailTitle=displayPart?'零件詢價｜'+displayPart:'新的'+displayType+'詢價';
+      const rows=readEntries().map(([key,value])=>{
+        return '<tr>'+
+          '<td valign="top" style="width:31%;padding:13px 10px 13px 0;border-bottom:1px solid #E4E9ED;color:#7E919F;font:700 11px/1.65 -apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif;overflow-wrap:anywhere">'+escapeHtml(key)+'</td>'+
+          '<td valign="top" style="padding:13px 0 13px 10px;border-bottom:1px solid #E4E9ED;color:#172631;font:600 13px/1.7 -apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif;word-break:break-word;overflow-wrap:anywhere;white-space:pre-wrap">'+escapeHtml(value)+'</td>'+
+        '</tr>';
       }).join('');
-      return '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" bgcolor="#EAF6FF" style="width:100%;margin:0;padding:0;table-layout:fixed;border-collapse:collapse;background-color:#EAF6FF;background-image:linear-gradient(150deg,#F5FBFF 0%,#D7EFFF 65%,#B9DFF7 100%)">'+
-        '<tr><td align="center" style="padding:20px 12px 34px">'+
-        '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="width:100%;max-width:640px;table-layout:fixed;border-collapse:separate;border-spacing:0">'+
-        '<tr><td style="padding:32px 26px 60px;border:1px solid #CBEAFB;border-radius:28px 28px 18px 18px;background-color:#79BBE9;background-image:linear-gradient(145deg,#A5DAF7 0%,#75BDEE 50%,#568FC9 100%)">'+
-        '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed"><tr><td>'+
-        '<div style="color:#FFFFFF;font:800 11px/1.4 -apple-system,BlinkMacSystemFont,Arial,sans-serif;letter-spacing:.16em">SIGNWELL / BUSINESS ENQUIRY</div>'+
-        '<div style="margin-top:5px;color:#ECFAFF;font:600 12px/1.5 -apple-system,BlinkMacSystemFont,Arial,sans-serif">欣緯科技有限公司 · 電子零件採購需求</div>'+
-        '</td><td align="right" valign="top" style="width:48px"><span style="display:inline-block;width:42px;height:42px;border-radius:21px;background:#FFD84D;border:1px solid #FFF2B2;color:#151515;font:800 13px/42px Arial,sans-serif;text-align:center">SW</span></td></tr></table>'+
-        '<h1 style="margin:38px 0 0;color:#FFFFFF;font:800 33px/1.17 -apple-system,BlinkMacSystemFont,Arial,sans-serif;letter-spacing:-.025em">零件詢價 · 需求明細</h1>'+
-        '<p style="margin:12px 0 0;color:#EDF9FF;font:700 10px/1.5 Arial,sans-serif;letter-spacing:.14em">COMPONENTS / RFQ</p>'+
+      return '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" bgcolor="#EEF3F6" style="width:100%;margin:0;padding:0;table-layout:fixed;border-collapse:collapse;background:#EEF3F6">'+
+        '<tr><td align="center" style="padding:32px 14px 42px">'+
+          '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="width:100%;max-width:650px;table-layout:fixed;border-collapse:separate;border-spacing:0;background:#FFFFFF;border:1px solid #E1E8EC;border-radius:30px">'+
+            '<tr><td style="padding:48px 46px 42px">'+
+              '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed"><tr>'+
+                '<td>'+
+                  '<div style="color:#7990A0;font:800 11px/1.45 -apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif;letter-spacing:.18em">SIGNWELL · BUSINESS INBOX</div>'+
+                '</td>'+
+                '<td align="right" valign="top" style="width:48px">'+
+                  '<span style="display:inline-block;width:14px;height:14px;background:#FFD84D;border-radius:2px"></span>'+
+                '</td>'+
+              '</tr></table>'+
+              '<h1 style="margin:26px 0 0;color:#172631;font:800 38px/1.18 -apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif;letter-spacing:-.035em">'+escapeHtml(mailTitle)+'</h1>'+
+              '<p style="margin:22px 0 0;color:#778A98;font:500 15px/1.85 -apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif">'+
+                '以下為 SIGNWELL 網站整理的詢價內容，敬請協助確認料件規格、數量與相關商務條件。'+
+              '</p>'+
+              '<div style="height:1px;margin:30px 0 0;background:#E2E8EC"></div>'+
+              '<div style="margin-top:28px;color:#172631;font:800 20px/1.45 -apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif">需求明細</div>'+
+              '<div style="margin-top:6px;color:#81929E;font:500 12px/1.7 -apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif">REQUEST DETAILS · '+escapeHtml(displayType)+'</div>'+
+              '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;margin-top:18px;border-collapse:collapse">'+rows+'</table>'+
+              '<div style="margin-top:26px;padding:18px 20px;border-radius:16px;background:#F5F8FA;color:#718491;font:500 12px/1.8 -apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif">'+
+                '此郵件由詢價人確認後寄出。網站顯示之料號與規格不代表即時庫存或正式報價，實際供應條件仍須另行確認。'+
+              '</div>'+
+              '<div style="margin-top:34px;padding-top:22px;border-top:1px solid #E2E8EC;color:#8C9BA5;font:700 10px/1.8 -apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif;letter-spacing:.08em">'+
+                'SIGNWELL · 欣緯科技有限公司<br>TECHNOLOGY · COMPONENTS · SOURCING'+
+              '</div>'+
+            '</td></tr>'+
+          '</table>'+
         '</td></tr>'+
-        '<tr><td style="padding:0 12px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;margin-top:-30px;border:1px solid #FFFFFF;border-radius:24px;background:#F8FCFF;box-shadow:0 18px 35px rgba(42,102,148,.12)">'+
-        '<tr><td style="padding:28px 20px 24px">'+
-        '<div style="display:inline-block;padding:7px 10px;border:1px solid #D8EAF6;border-radius:30px;background:#E5F4FD;color:#3475A2;font:800 10px/1.3 Arial,sans-serif;letter-spacing:.1em">SIGNWELL · REQUEST DETAILS</div>'+
-        '<p style="margin:18px 0 16px;color:#5D7890;font:500 13px/1.8 -apple-system,BlinkMacSystemFont,Arial,sans-serif">您好，以下為本次電子零件詢價需求，敬請協助確認相關規格與商務條件。</p>'+
-        '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="width:100%;table-layout:fixed;border-collapse:collapse">'+rows+'</table>'+
-        '<p style="margin:20px 0 0;color:#5D7890;font:500 12px/1.8 -apple-system,BlinkMacSystemFont,Arial,sans-serif">此信件由詢價人確認後寄出。實際報價、數量與供貨條件仍須另行確認。</p>'+
-        '</td></tr></table></td></tr>'+
-        '<tr><td align="center" style="padding:28px 16px 10px;color:#6D8AA0;font:600 11px/1.7 Arial,sans-serif">SIGNWELL · 欣緯科技<br>TECHNOLOGY & COMPONENTS</td></tr>'+
-        '</table></td></tr></table>';
+      '</table>';
     };
     const makeMailDocument=()=>'<html lang="zh-Hant"><head><meta charset="utf-8"></head><body style="margin:0;background:#EAF6FF">'+makeMailMarkup()+'</body></html>';
     const updatePreview=()=>{
