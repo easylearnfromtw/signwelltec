@@ -22,12 +22,16 @@ document.addEventListener('DOMContentLoaded',()=>{
   const toggle=document.querySelector('.menu-toggle');
   const menu=document.querySelector('.mobile-menu');
   if(toggle&&menu){
-    toggle.addEventListener('click',()=>{
-      const open=menu.classList.toggle('open');
+    const setMenu=open=>{
+      menu.classList.toggle('open',open);
       document.body.classList.toggle('menu-open',open);
       toggle.setAttribute('aria-expanded',String(open));
+      toggle.setAttribute('aria-label',open?'關閉選單':'開啟選單');
       menu.setAttribute('aria-hidden',String(!open));
-    });
+    };
+    toggle.addEventListener('click',()=>setMenu(!menu.classList.contains('open')));
+    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+    document.addEventListener('keydown',e=>{if(e.key==='Escape') setMenu(false)});
   }
 
   const reveals=document.querySelectorAll('.reveal');
