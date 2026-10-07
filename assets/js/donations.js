@@ -33,6 +33,7 @@
       }
 
       element.dataset.counted = "true";
+      element.textContent = "0";
       element.classList.add("is-counting");
       var start = performance.now();
       var duration = element.hasAttribute("data-donation-total") ? 1200 : 980;
@@ -98,7 +99,9 @@
       }
 
       if (amountObserver) {
-        element.textContent = "0";
+        // Keep the real value in the DOM until the element is actually visible.
+        // This prevents hidden totals from becoming 0 and being copied into the 3D floor.
+        element.textContent = formatted;
         if (element.dataset.countArmed !== "true") {
           element.dataset.countArmed = "true";
           amountObserver.observe(element);
