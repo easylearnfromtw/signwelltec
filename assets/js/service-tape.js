@@ -4,7 +4,7 @@
   const stage = document.querySelector('[data-tape3d]');
   const items = Array.from(document.querySelectorAll('[data-tape-index] .tape-item'));
   if (!stage || !items.length) return;
-  const sceneURL = new URL('scene.js?v=20261007-refine', document.currentScript.src);
+  const sceneURL = new URL('scene.js?v=20261007-direct-drag', document.currentScript.src);
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const tip = stage.querySelector('[data-tape-tip]');
   const count = stage.querySelector('[data-tape-count]');
@@ -20,7 +20,7 @@
 
   function idleMessage() {
     return touchDevice
-      ? '在膠帶上拖曳可以貼下；向上滑動繼續閱讀'
+      ? '直接拖曳膠帶即可貼下；向上滑動繼續閱讀'
       : '按住並拖曳，在地板上貼膠帶';
   }
 
