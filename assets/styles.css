@@ -1060,7 +1060,7 @@ body.person-modal-open{overflow:hidden!important}
 
 /* Automatic first-load veil */
 body::before{
-  content:"SIGNWELL TEC & MED";
+  content:"SIGNWELL｜科技與生醫";
   position:fixed;
   inset:0;
   z-index:9998;
@@ -1229,4 +1229,18 @@ button:active{
   body::before{animation-duration:.01ms;animation-delay:0s}
   body::after{transition-duration:.01ms}
   .ui-ripple{display:none}
+}
+
+/* Hero graphic removed: text-only landing composition */
+.hero-grid{
+  grid-template-columns:minmax(0,1fr)!important;
+}
+.hero-copy{
+  max-width:980px;
+}
+.hero-visual,.signal-board{
+  display:none!important;
+}
+@media(max-width:640px){
+  .hero-copy{max-width:100%}
 }
