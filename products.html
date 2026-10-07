@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="zh-Hant" class="no-js">
 <head>
-<script>try{var d=sessionStorage.getItem("sw-nav-enter");if(d){document.documentElement.dataset.navEnter=d;sessionStorage.removeItem("sw-nav-enter")}}catch(e){}</script>
+<script>try{history.scrollRestoration="manual";var d=sessionStorage.getItem("sw-nav-enter"),c=sessionStorage.getItem("sw-nav-color");if(d){document.documentElement.dataset.navEnter=d;sessionStorage.removeItem("sw-nav-enter")}if(c){document.documentElement.style.setProperty("--sw-nav-color",c);document.documentElement.style.background=c;sessionStorage.removeItem("sw-nav-color")}}catch(e){}</script>
+<style>html[data-nav-enter],html[data-nav-enter] body{background:var(--sw-nav-color)!important}</style>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>產品與服務｜SIGNWELL 欣緯科技</title>
@@ -18,10 +19,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap">
 <link rel="preload" href="assets/fonts/archivo-var.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20261007-nav-fix">
+<link rel="stylesheet" href="assets/css/site.css?v=20261007-nav-opt3">
 <script>document.documentElement.classList.replace('no-js','js')</script>
-<script defer src="assets/js/app.js?v=20261007-nav-fix"></script>
-<script defer src="assets/js/products-filter.js?v=20261007-filter-fix"></script>
+<script defer src="assets/js/app.js?v=20261007-nav-opt3"></script>
+<script defer src="assets/js/belowfold.js?v=20261007-nav-opt3"></script>
 <script defer src="assets/js/gpu-lifecycle.js?v=20261007-refine"></script>
 </head>
 <body data-page="products" id="top">
@@ -162,7 +163,7 @@
         <div class="part-list" data-part-list>
           <article class="part-row part-reference-item rv" data-part-row data-part="FM104SGP" data-group="diode">
             <span class="part-ref-index">01 / DIODE</span>
-            <div class="part-thumb"><img src="assets/img/parts/smd-diode.webp" alt="" width="640" height="640" loading="lazy"></div>
+            <div class="part-thumb"><img src="assets/img/parts/smd-diode.webp" alt="" width="640" height="640" loading="lazy" decoding="async" fetchpriority="low"></div>
             <div class="part-main part-ref-main"><h3>FM104SGP</h3><p>貼片二極體 <small>SMD DIODE</small></p></div>
             <p class="part-spec part-ref-spec">400 V · 1 A · SMD</p>
             <div class="part-actions">
@@ -173,7 +174,7 @@
           </article>
           <article class="part-row part-reference-item rv" data-part-row data-part="GS5581LAF" data-group="power">
             <span class="part-ref-index">02 / CONVERTER</span>
-            <div class="part-thumb"><img src="assets/img/parts/sot23-5.webp" alt="" width="640" height="640" loading="lazy"></div>
+            <div class="part-thumb"><img src="assets/img/parts/sot23-5.webp" alt="" width="640" height="640" loading="lazy" decoding="async" fetchpriority="low"></div>
             <div class="part-main part-ref-main"><h3>GS5581LAF</h3><p>DC-DC 轉換器 <small>DC-DC CONVERTER</small></p></div>
             <p class="part-spec part-ref-spec">1 A · SOT-25</p>
             <div class="part-actions">
@@ -184,7 +185,7 @@
           </article>
           <article class="part-row part-reference-item rv" data-part-row data-part="HCB3216KF-800T30" data-group="magnetic">
             <span class="part-ref-index">03 / FERRITE BEAD</span>
-            <div class="part-thumb"><img src="assets/img/parts/3216.webp" alt="" width="640" height="640" loading="lazy"></div>
+            <div class="part-thumb"><img src="assets/img/parts/3216.webp" alt="" width="640" height="640" loading="lazy" decoding="async" fetchpriority="low"></div>
             <div class="part-main part-ref-main"><h3>HCB3216KF-800T30</h3><p>磁珠 <small>CHIP BEAD</small></p></div>
             <p class="part-spec part-ref-spec">80 Ω · 3216 · 3 A</p>
             <div class="part-actions">
@@ -195,7 +196,7 @@
           </article>
           <article class="part-row part-reference-item rv" data-part-row data-part="PIN252012A-1R0M" data-group="magnetic">
             <span class="part-ref-index">04 / INDUCTOR</span>
-            <div class="part-thumb"><img src="assets/img/parts/2520.webp" alt="" width="640" height="640" loading="lazy"></div>
+            <div class="part-thumb"><img src="assets/img/parts/2520.webp" alt="" width="640" height="640" loading="lazy" decoding="async" fetchpriority="low"></div>
             <div class="part-main part-ref-main"><h3>PIN252012A-1R0M</h3><p>電感 <small>CHOKE</small></p></div>
             <p class="part-spec part-ref-spec">1.0 µH</p>
             <div class="part-actions">
@@ -206,7 +207,7 @@
           </article>
           <article class="part-row part-reference-item rv" data-part-row data-part="SY6280AAC" data-group="power">
             <span class="part-ref-index">05 / SWITCH</span>
-            <div class="part-thumb"><img src="assets/img/parts/sot23-5.webp" alt="" width="640" height="640" loading="lazy"></div>
+            <div class="part-thumb"><img src="assets/img/parts/sot23-5.webp" alt="" width="640" height="640" loading="lazy" decoding="async" fetchpriority="low"></div>
             <div class="part-main part-ref-main"><h3>SY6280AAC</h3><p>電源開關 <small>POWER SWITCH</small></p></div>
             <p class="part-spec part-ref-spec">2.4–5.5 V · 2 A · SOT-23-5 · LF</p>
             <div class="part-actions">
@@ -217,7 +218,7 @@
           </article>
           <article class="part-row part-reference-item rv" data-part-row data-part="SY8286ARAC" data-group="power">
             <span class="part-ref-index">06 / DC-DC REGULATOR</span>
-            <div class="part-thumb"><img src="assets/img/parts/qfn3x3-20.webp" alt="" width="640" height="640" loading="lazy"></div>
+            <div class="part-thumb"><img src="assets/img/parts/qfn3x3-20.webp" alt="" width="640" height="640" loading="lazy" decoding="async" fetchpriority="low"></div>
             <div class="part-main part-ref-main"><h3>SY8286ARAC</h3><p>DC-DC 穩壓器 <small>DC-DC REGULATOR</small></p></div>
             <p class="part-spec part-ref-spec">23 V · 6 A · QFN 3×3-20</p>
             <div class="part-actions">
@@ -236,7 +237,7 @@
 
       <aside class="lib lib--side rv" data-lib aria-label="封裝 3D 檢視">
         <div class="lib-stage" data-viewer3d>
-          <div class="lib-fallback"><img src="assets/img/parts/smd-diode.webp" alt="" width="640" height="640" data-lib-fallback></div>
+          <div class="lib-fallback"><img src="assets/img/parts/smd-diode.webp" alt="" width="640" height="640" data-lib-fallback loading="lazy" decoding="async" fetchpriority="low"></div>
           <div class="lib-fig"><span class="mono" data-lib-fig>FIG. 02-01 — SMD</span><span class="label">Package · illustrative</span></div>
           <span class="lib-corner tr" aria-hidden="true"></span><span class="lib-corner bl" aria-hidden="true"></span><span class="lib-corner br" aria-hidden="true"></span>
           <button class="dims-toggle lg" type="button" aria-pressed="true" data-dims-toggle><i aria-hidden="true"></i>尺寸標註</button>
