@@ -21,12 +21,15 @@
 .principle-card .micro-index{opacity:.46}
 .principle-card h3{margin:auto 0 18px;font-size:clamp(25px,2.5vw,34px);line-height:1.12;letter-spacing:-.04em}
 .principle-card p{margin:0;max-width:350px;color:#62625c;font-size:13px;line-height:1.85}
-.role-chain{display:grid;grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr) 44px minmax(0,1fr);gap:12px;align-items:center;padding:34px;background:var(--black);color:#fff}
-.role-chain>div{display:flex;flex-direction:column;min-width:0;min-height:220px}
-.role-chain small{font-family:var(--font-round);font-size:9px;font-weight:800;letter-spacing:.05em;color:var(--yellow)}
-.role-chain strong{margin:auto 0 12px;font-size:clamp(24px,2.6vw,38px);letter-spacing:-.05em}
-.role-chain p{margin:0;color:rgba(255,255,255,.6);font-size:12px;line-height:1.7}
-.chain-separator{color:var(--yellow);font-size:25px;justify-self:center}
+/* Company cooperation process: centered copy and CSS-drawn arrows (no emoji). */
+.role-chain{display:grid;grid-template-columns:minmax(0,1fr) 72px minmax(0,1fr) 72px minmax(0,1fr);gap:12px;align-items:center;padding:34px;background:var(--black);color:#fff}
+.role-chain>div{display:flex;flex-direction:column;justify-content:center;align-items:center;min-width:0;min-height:220px;text-align:center}
+.role-chain small{width:100%;text-align:center;font-family:var(--font-round);font-size:9px;font-weight:800;letter-spacing:.05em;color:var(--yellow)}
+.role-chain strong{width:100%;margin:28px 0 12px;text-align:center;font-size:clamp(24px,2.6vw,38px);letter-spacing:-.05em}
+.role-chain p{width:100%;margin:0;text-align:center;color:rgba(255,255,255,.6);font-size:12px;line-height:1.7}
+.chain-separator{position:relative;display:flex;align-items:center;justify-content:center;width:72px;min-height:220px;justify-self:center}
+.chain-separator::before{content:"";display:block;width:46px;height:1px;background:var(--yellow)}
+.chain-separator::after{content:"";position:absolute;right:11px;width:10px;height:10px;border-top:2px solid var(--yellow);border-right:2px solid var(--yellow);transform:rotate(45deg)}
 .history-feature{display:grid;grid-template-columns:200px minmax(0,1fr);gap:30px;align-items:start;padding:36px;background:var(--blue)}
 .history-feature .micro-index{opacity:.7}
 .history-feature h3{margin:0 0 18px;font-size:clamp(38px,5vw,70px);letter-spacing:-.05em;line-height:1}
@@ -149,10 +152,12 @@
  .principle-grid,.issue-grid,.contact-routing,.sourcing-selector{grid-template-columns:1fr}
  .principle-card,.issue-card,.route-card{min-height:230px;padding:22px}
  .principle-card h3{margin-top:45px}
- .role-chain{grid-template-columns:1fr;gap:14px}
- .role-chain>div{min-height:auto;padding:12px 0}
- .role-chain strong{margin:24px 0 8px}
- .chain-separator{transform:rotate(135deg);font-size:20px}
+ .role-chain{grid-template-columns:minmax(0,1fr);gap:12px;padding:24px}
+ .role-chain>div{min-height:auto;padding:16px 0}
+ .role-chain strong{margin:22px 0 8px}
+ .chain-separator{width:100%;min-height:62px}
+ .chain-separator::before{width:1px;height:42px}
+ .chain-separator::after{right:auto;bottom:9px;width:10px;height:10px;border-top:0;border-bottom:2px solid var(--yellow);border-right:2px solid var(--yellow);transform:rotate(45deg)}
  .history-feature{grid-template-columns:1fr;gap:18px;padding:22px}
  .history-feature h3{font-size:44px}
  .next-inline{align-items:flex-start;flex-direction:column}
