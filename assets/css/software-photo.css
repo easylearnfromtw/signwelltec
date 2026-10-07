@@ -57,3 +57,59 @@
 .sw-world{
   z-index:1;
 }
+
+
+/* Scene visibility fallback: road/city must never become a black frame. */
+.sw-camera{
+  background:
+    radial-gradient(120% 72% at 72% 10%,rgba(255,255,255,.55),transparent 58%),
+    linear-gradient(180deg,#dce7ef 0 40%,#dfe5dc 40% 65%,#cbd0c7 65% 100%) !important;
+}
+.sw-story{
+  background:#dce3df !important;
+}
+.sw-world{
+  opacity:1;
+}
+.sw-world svg{
+  transition:opacity .22s ease;
+}
+.sw-world[data-focus="exterior"] svg,
+.sw-world[data-focus="interior"] svg{
+  opacity:.28;
+}
+.sw-world[data-focus="road"] svg{
+  opacity:.92;
+  mix-blend-mode:normal;
+}
+.sw-world[data-focus="city"] svg{
+  opacity:.96;
+  mix-blend-mode:normal;
+}
+.sw-world[data-focus="road"] ~ *,
+.sw-world[data-focus="city"] ~ *{
+  visibility:visible;
+}
+.sw-camera::before{
+  inset:-34vh -28vw;
+  width:auto;
+  height:auto;
+  aspect-ratio:auto;
+  min-width:156vw;
+  min-height:168vh;
+  background-size:cover;
+  background-position:center;
+}
+@media(max-width:760px){
+  .sw-camera::before{
+    inset:-42vh -46vw;
+    width:auto;
+    min-width:192vw;
+    min-height:190vh;
+    background-size:cover;
+  }
+  .sw-world[data-focus="road"] svg,
+  .sw-world[data-focus="city"] svg{
+    opacity:1;
+  }
+}
