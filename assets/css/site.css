@@ -386,3 +386,63 @@ body[data-page="social-responsibility"] .csr-page-content{
     gap:18px;
   }
 }
+
+
+/* Leadership team desktop: left copy, right extraction stack */
+@media(min-width:1024px){
+  #team.team-desktop-split>.wrap{
+    grid-template-areas:
+      "intro cards";
+    grid-template-columns:minmax(320px,.72fr) minmax(560px,1.48fr);
+    align-items:start;
+  }
+
+  #team.team-desktop-split .people-head{
+    display:none!important;
+  }
+
+  #team.team-desktop-split .cardbox{
+    grid-area:cards;
+    max-width:none;
+    width:100%;
+    margin:0;
+    --ch:420px;
+    --step:44px;
+    --tab:38px;
+    --inset:3%;
+  }
+
+  #team.team-desktop-split .cardbox-stage{
+    min-height:calc(var(--ch) + var(--step) * 4 + var(--tab) + 28px);
+  }
+
+  #team.team-desktop-split .pcard{
+    left:var(--inset);
+    right:var(--inset);
+  }
+
+  #team.team-desktop-split .pcard-name h3{
+    font-size:clamp(42px,3.8vw,60px);
+  }
+
+  #team.team-desktop-split .pcard-exp p{
+    font-size:14px;
+  }
+
+  #team.team-desktop-split .cardbox-front{
+    height:calc(var(--ch) * .46 + 28px);
+  }
+}
+
+@media(min-width:1440px){
+  #team.team-desktop-split>.wrap{
+    grid-template-columns:minmax(340px,.68fr) minmax(680px,1.62fr);
+    column-gap:clamp(72px,6vw,108px);
+  }
+
+  #team.team-desktop-split .cardbox{
+    --ch:440px;
+    --step:46px;
+    --tab:40px;
+  }
+}
