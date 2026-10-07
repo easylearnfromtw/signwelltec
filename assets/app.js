@@ -143,24 +143,118 @@ document.addEventListener('DOMContentLoaded',()=>{
     el.addEventListener('pointerleave',release,{passive:true});
   });
 
+  // Sourcing guide: choose a scenario without leaving the page.
+  const sourcingScenarios={
+    part:{
+      title:'已有完整料號',
+      description:'先確認型號、版本與製造商資料是否一致，避免誤用相似名稱。',
+      points:['完整料號（包括前後綴）','製造商名稱及規格書','數量、包裝方式、期望時程','是否接受替代料']
+    },
+    spec:{
+      title:'只有規格需求',
+      description:'先區分不可改變的規格和可以討論的條件，避免過早假設某個型號適用。',
+      points:['使用情境與關鍵電氣條件','尺寸、封裝或安裝介面','必須符合的標準及限制','需求數量與期望時程']
+    },
+    project:{
+      title:'多項專案採購',
+      description:'建議用清楚的項目清單整理不同料件，再逐一核對規格與優先順序。',
+      points:['BOM 或多項料件清單及版本','各項料號、製造商與數量','不可替代或優先確認的項目','整體進度與分批需求']
+    }
+  };
+  const sourcingOutput=document.querySelector('[data-sourcing-output]');
+  document.querySelectorAll('[data-sourcing-mode]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(!sourcingOutput) return;
+      const info=sourcingScenarios[btn.dataset.sourcingMode];
+      if(!info) return;
+      document.querySelectorAll('[data-sourcing-mode]').forEach(item=>{
+        const selected=item===btn;
+        item.classList.toggle('is-selected',selected);
+        item.setAttribute('aria-pressed',String(selected));
+      });
+      sourcingOutput.querySelector('[data-sourcing-title]').textContent=info.title;
+      sourcingOutput.querySelector('[data-sourcing-description]').textContent=info.description;
+      const list=sourcingOutput.querySelector('[data-sourcing-list]');
+      list.replaceChildren();
+      info.points.forEach(point=>{
+        const item=document.createElement('li');
+        item.textContent=point;
+        list.appendChild(item);
+      });
+    });
+  });
+
+  // RFQ wizard: client-side formatting only. No backend and no send action.
   const form=document.querySelector('[data-rfq-form]');
-  const status=document.querySelector('[data-form-status]');
   if(form){
+    const steps=[...form.querySelectorAll('[data-rfq-step]')];
+    const stepNames=['需求類型','零件條件','聯絡資料','最終確認'];
+    const prev=form.querySelector('[data-rfq-prev]');
+    const next=form.querySelector('[data-rfq-next]');
+    const submit=form.querySelector('[data-rfq-submit]');
+    const wizardLabel=form.querySelector('[data-wizard-label]');
+    const wizardProgress=form.querySelector('[data-wizard-progress]');
+    const review=form.querySelector('[data-rfq-review]');
+    const copyFallback=form.querySelector('[data-rfq-copy-text]');
+    const status=form.querySelector('[data-form-status]');
+    let current=0;
+
+    const readEntries=()=>Array.from(new FormData(form).entries());
+    const makeText=()=>{
+      const lines=['SIGNWELL 欣緯科技｜詢價資料','────────────────────'];
+      readEntries().forEach(([key,value])=>lines.push(key+'：'+(String(value).trim()||'未提供')));
+      return lines.join('\n');
+    };
+    const updateReview=()=>{
+      if(!review) return;
+      review.replaceChildren();
+      readEntries().forEach(([label,value])=>{
+        const row=document.createElement('div');
+        row.className='wizard-review-row';
+        const dt=document.createElement('dt');
+        const dd=document.createElement('dd');
+        dt.textContent=label;
+        dd.textContent=String(value).trim()||'未提供';
+        row.append(dt,dd);
+        review.appendChild(row);
+      });
+    };
+    const showStep=n=>{
+      current=Math.max(0,Math.min(steps.length-1,n));
+      steps.forEach((step,i)=>{step.hidden=i!==current});
+      if(prev) prev.hidden=current===0;
+      if(next) next.hidden=current===steps.length-1;
+      if(submit) submit.hidden=current!==steps.length-1;
+      if(wizardLabel) wizardLabel.textContent='STEP '+String(current+1).padStart(2,'0')+' / 04　'+stepNames[current];
+      if(wizardProgress) wizardProgress.style.width=((current+1)/steps.length*100)+'%';
+      if(current===steps.length-1) updateReview();
+      if(status) status.textContent='';
+      if(copyFallback) copyFallback.hidden=true;
+      // Avoid jumping the page when the user has not scrolled to the form.
+      const rect=form.getBoundingClientRect();
+      if(rect.top<0) form.scrollIntoView({behavior:'smooth',block:'start'});
+    };
+    next?.addEventListener('click',()=>showStep(current+1));
+    prev?.addEventListener('click',()=>showStep(current-1));
+
     form.addEventListener('submit',async e=>{
       e.preventDefault();
-      const data=new FormData(form);
-      const lines=[
-        'SIGNWELL 詢價需求',
-        '----------------',
-        ...Array.from(data.entries()).map(([k,v])=>`${k}: ${v||'-'}`)
-      ];
-      const text=lines.join('\n');
+      if(current!==steps.length-1){showStep(steps.length-1);return;}
+      const formatted=makeText();
+      if(copyFallback) copyFallback.value=formatted;
       try{
-        await navigator.clipboard.writeText(text);
-        if(status) status.textContent='詢價內容已複製，可貼到您使用的聯絡工具中。';
+        if(!navigator.clipboard?.writeText) throw new Error('Clipboard not available');
+        await navigator.clipboard.writeText(formatted);
+        if(status) status.textContent='詢價內容已複製。請貼至你與 SIGNWELL 已確認的聯絡管道；目前沒有自動寄出。';
       }catch{
-        if(status) status.textContent='已整理詢價內容；您的瀏覽器未允許自動複製，請手動複製欄位資訊。';
+        if(copyFallback){
+          copyFallback.hidden=false;
+          copyFallback.focus();
+          copyFallback.select();
+        }
+        if(status) status.textContent='瀏覽器未允許自動複製。已在下方提供文字，請長按選取並手動複製。';
       }
     });
+    showStep(0);
   }
 });
