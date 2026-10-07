@@ -484,9 +484,11 @@ main,header,footer,section,div,article,aside,form{min-width:0}
 .team-grid.team-carousel .people-card{
   flex:0 0 clamp(300px,35%,420px);
   min-height:420px;
+  height:auto;
   padding:26px;
   display:grid;
-  grid-template-rows:42px 100px minmax(0,1fr) auto;
+  grid-template-rows:42px 100px auto auto;
+  align-content:start;
   scroll-snap-align:start;
   color:var(--black);
 }
@@ -520,7 +522,8 @@ main,header,footer,section,div,article,aside,form{min-width:0}
   line-height:1.45;
 }
 .people-experience{
-  align-self:end;
+  grid-row:3;
+  align-self:start;
   width:100%;
   border-top:1px solid rgba(10,10,10,.24);
 }
@@ -530,6 +533,9 @@ main,header,footer,section,div,article,aside,form{min-width:0}
   border-bottom:1px solid rgba(10,10,10,.18);
   font-size:12px;
   line-height:1.55;
+}
+.people-experience .experience-founder{
+  font-weight:700;
 }
 .person-site-link{
   display:inline-flex;
@@ -1143,7 +1149,8 @@ body::before,body::after{content:none!important;display:none!important}
     flex:0 0 82%;
     min-height:390px;
     padding:22px;
-    grid-template-rows:38px 84px minmax(0,1fr) auto;
+    grid-template-rows:38px 84px auto auto;
+    align-content:start;
   }
   .people-card-head h3{font-size:36px}
   .company-teaser{
