@@ -186,3 +186,59 @@
  .site-footer-minimal .footer-upper{flex-direction:column;gap:30px}
  .site-footer-minimal .footer-links{gap:15px 20px}
 }
+
+/* Part reference list — model numbers and technical attributes only.
+   No customer, supplier, transaction, inventory or pricing data. */
+.part-reference-list{border-top:1px solid var(--line)}
+.part-reference-item{
+  display:grid;
+  grid-template-columns:140px minmax(0,1.15fr) minmax(210px,.85fr);
+  align-items:center;
+  gap:clamp(16px,4vw,54px);
+  padding:26px 0;
+  border-bottom:1px solid var(--line);
+}
+.part-ref-index{
+  align-self:start;
+  padding-top:9px;
+  color:#88877e;
+  font:800 9px/1.5 var(--font-round);
+  letter-spacing:.08em;
+}
+.part-ref-main{min-width:0}
+.part-ref-main h3{
+  margin:0 0 10px;
+  font-size:clamp(22px,3vw,42px);
+  font-weight:800;
+  letter-spacing:-.04em;
+  line-height:1.08;
+  overflow-wrap:anywhere;
+}
+.part-ref-main p{margin:0;font-size:13px;line-height:1.7}
+.part-ref-main small{
+  margin-left:8px;
+  color:#83817c;
+  font:800 9px/1.5 var(--font-round);
+  letter-spacing:.07em;
+}
+.part-ref-spec{
+  margin:0;
+  padding:12px 0 12px 18px;
+  border-left:3px solid var(--yellow);
+  color:#5f5e58;
+  font-size:clamp(12px,1.2vw,15px);
+  font-weight:650;
+  line-height:1.7;
+  overflow-wrap:anywhere;
+}
+@media(max-width:980px){
+  .part-reference-item{grid-template-columns:100px minmax(0,1fr);gap:12px 22px}
+  .part-ref-spec{grid-column:2}
+}
+@media(max-width:640px){
+  .part-reference-item{grid-template-columns:1fr;gap:8px;padding:20px 0}
+  .part-ref-index{grid-column:1;padding:0 0 6px}
+  .part-ref-main h3{font-size:clamp(23px,6.6vw,32px)}
+  .part-ref-spec{grid-column:1;margin-top:5px;padding:5px 0 5px 12px}
+  .part-ref-main small{display:inline-block}
+}
