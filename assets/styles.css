@@ -933,45 +933,33 @@ main,header,footer,section,div,article,aside,form{min-width:0}
 }
 .btn,.header-cta,.mobile-rfq,.service-card,.team-carousel-btn{position:relative;overflow:hidden}
 
-/* Single welcome / page-transfer layer */
+/* Welcome appears once per tab; page-to-page navigation has no animation. */
 body::before,body::after{content:none!important;display:none!important}
-.page-transition-layer{
-  position:fixed!important;
-  inset:-2px!important;
-  z-index:2147483647!important;
-  width:calc(100vw + 4px)!important;
-  height:calc(100dvh + 4px)!important;
-  min-width:calc(100vw + 4px)!important;
-  min-height:calc(100vh + 4px)!important;
-  padding:max(2px,env(safe-area-inset-top)) max(2px,env(safe-area-inset-right)) max(2px,env(safe-area-inset-bottom)) max(2px,env(safe-area-inset-left))!important;
-  display:grid!important;
-  place-items:center!important;
-  background:#000!important;
-  opacity:0!important;
-  visibility:hidden!important;
-  pointer-events:none!important;
-  transition:opacity .22s ease,visibility 0s linear .22s!important;
-}
-html.transition-visible .page-transition-layer{
-  opacity:1!important;
-  visibility:visible!important;
-  pointer-events:auto!important;
-  transition:opacity .1s ease,visibility 0s!important;
-}
-html.transition-instant .page-transition-layer{
-  opacity:1!important;
-  visibility:visible!important;
-  pointer-events:auto!important;
-  transition:none!important;
-}
-.page-transition-brand{
+.page-welcome-layer{
+  position:fixed;
+  inset:0;
+  z-index:2147483647;
+  display:grid;
+  place-items:center;
+  width:100vw;
+  min-height:100vh;
+  height:100dvh;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  background:#000;
   color:#fff;
-  font-family:var(--font-round)!important;
-  font-size:clamp(18px,3vw,34px)!important;
-  font-weight:800!important;
-  letter-spacing:.05em!important;
+  pointer-events:none;
+  opacity:1;
+  transition:opacity .26s ease;
+}
+.page-welcome-layer.welcome-exit{opacity:0}
+.page-welcome-brand{
+  font-family:var(--font-round);
+  font-size:clamp(18px,3vw,34px);
+  font-weight:800;
+  letter-spacing:.05em;
   white-space:nowrap;
 }
+@media(prefers-reduced-motion:reduce){.page-welcome-layer{transition:none}}
 
 :focus-visible{
   outline:2px solid var(--yellow);
@@ -1226,7 +1214,7 @@ html.transition-instant .page-transition-layer{
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .reveal{opacity:1;transform:none;transition:none}
-  .page-transition-layer{transition:none!important}
+  .page-welcome-layer{transition:none!important}
   .ui-ripple{display:none}
 }
 
