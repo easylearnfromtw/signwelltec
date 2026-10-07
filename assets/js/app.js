@@ -155,11 +155,26 @@ if(t.opts.mode==="nav"&&window.SignwellWarmPage){
   resetTop();
   window.addEventListener('pageshow', resetTop);
 
-  window.addEventListener('load', function(){
-    setTimeout(function(){
-      delete html.dataset.navEnter;
-      html.style.removeProperty('--sw-nav-color');
-      html.style.removeProperty('background');
-    }, 220);
+  function clearEntryBridge(){
+    delete html.dataset.navEnter;
+    delete html.dataset.navDir;
+    html.classList.remove('is-page-leaving');
+    html.style.removeProperty('--sw-nav-color');
+    html.style.removeProperty('background');
+  }
+
+  // Do not wait for window.load: large images, 3D modules or third-party fonts
+  // must never keep the transition layer over the page.
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      setTimeout(clearEntryBridge, 230);
+    });
   });
+  document.addEventListener('DOMContentLoaded', function(){
+    setTimeout(clearEntryBridge, 260);
+  }, {once:true});
+  window.addEventListener('pageshow', function(){
+    setTimeout(clearEntryBridge, 80);
+  });
+  setTimeout(clearEntryBridge, 700);
 })();
