@@ -358,3 +358,154 @@
   .rfq-wizard .wizard-actions .btn{width:100%;min-height:46px}
   .rfq-wizard [data-rfq-submit]{min-height:52px!important}
 }
+
+
+/* =========================================================
+   Inner-page UI refinement
+   ========================================================= */
+.page-hero{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+.page-hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:56px 56px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.55),transparent 80%);
+}
+.page-hero.yellow::before,
+.page-hero.blue::before{
+  background-image:
+    linear-gradient(rgba(10,10,10,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(10,10,10,.045) 1px,transparent 1px);
+}
+.inner-block{
+  position:relative;
+}
+.inner-block::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:42px;
+  height:3px;
+  background:var(--yellow);
+  opacity:.85;
+}
+.principle-card,
+.detail-item,
+.issue-card,
+.route-card,
+.part-reference-item,
+.scenario-btn{
+  transition:transform .18s var(--ease),box-shadow .18s ease,background-color .18s ease;
+}
+@media(hover:hover){
+  .principle-card:hover,
+  .detail-item:hover,
+  .issue-card:hover,
+  .route-card:hover,
+  .part-reference-item:hover{
+    transform:translateY(-3px);
+    box-shadow:0 16px 34px rgba(10,10,10,.07);
+    z-index:2;
+  }
+}
+.next-inline>a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:40px;
+  padding:0 13px;
+  border:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  border-radius:999px;
+  background:#fff;
+  transition:background .18s ease,color .18s ease,border-color .18s ease;
+}
+.next-inline>a:hover{
+  background:var(--black);
+  color:#fff;
+  border-color:var(--black);
+}
+.scenario-btn{
+  position:relative;
+  overflow:hidden;
+}
+.scenario-btn::after{
+  content:"";
+  position:absolute;
+  inset:auto 0 0;
+  height:4px;
+  background:var(--yellow);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .18s var(--ease);
+}
+.scenario-btn.is-selected::after{transform:scaleX(1)}
+.part-catalog-tools{
+  padding:14px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.55);
+}
+.part-search-field input{
+  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;
+}
+.part-search-field input:focus{
+  border-color:rgba(10,10,10,.38);
+  box-shadow:0 0 0 4px rgba(10,10,10,.045);
+}
+.part-ref-enquire{
+  border-radius:999px;
+}
+.wizard-head{
+  position:sticky;
+  top:calc(var(--header-h) + 10px);
+  z-index:20;
+  margin-bottom:10px;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  background:rgba(244,244,240,.94);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+.wizard-progress-track{
+  border-radius:999px;
+  overflow:hidden;
+}
+.wizard-progress-fill{
+  border-radius:999px;
+}
+.wizard-choice span{
+  transition:transform .14s var(--ease),background .18s ease,border-color .18s ease;
+}
+.wizard-choice:active span{transform:scale(.985)}
+.rfq-mail-preview{
+  box-shadow:0 16px 46px rgba(28,52,68,.08);
+}
+.contact-routing,
+.principle-grid,
+.issue-grid,
+.detail-grid,
+.sourcing-selector{
+  box-shadow:0 12px 34px rgba(10,10,10,.035);
+}
+@media(max-width:640px){
+  .page-hero::before{background-size:38px 38px}
+  .inner-block::before{width:30px}
+  .wizard-head{
+    top:calc(var(--header-h) + 6px);
+    padding:10px 12px;
+  }
+  .next-inline>a{
+    width:100%;
+    border-radius:12px;
+  }
+}
