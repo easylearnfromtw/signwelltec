@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="分四步整理料號、規格、數量與聯絡資訊，複製成可直接使用的詢價文字。"><meta name="theme-color" content="#0a0a0a"><title>詢價 | SIGNWELL</title><link rel="icon" href="assets/favicon.svg"><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/sections.css"><script defer src="assets/app.js"></script></head>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="四步完成電子零件詢價內容，預覽 SIGNWELL HTML 信件並開啟 Gmail 編輯寄送。"><meta name="theme-color" content="#0a0a0a"><title>詢價 | SIGNWELL</title><link rel="icon" href="assets/favicon.svg"><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/sections.css?v=20261007-gmail1"><script defer src="assets/app.js?v=20261007-gmail1"></script></head>
 <body data-page="rfq">
 <header class="site-header">
   <a class="brand" href="index.html" aria-label="SIGNWELL 首頁"><span class="brand-mark"></span><span>SIGNWELL</span></a>
@@ -16,9 +16,9 @@
   <a href="contact.html"><small>04</small> 聯絡</a>
   <a class="mobile-rfq" href="rfq.html">詢價</a>
 </div></div><main>
-<section class="page-hero yellow"><div class="page-kicker reveal">04 <small>REQUEST BUILDER</small></div><div><h1 class="reveal">讓需求，<br>變成一份清單。<small class="title-en">Build a Clear Request</small></h1><p class="reveal">依照自己的進度填寫，最後會產生一段可複製的詢價文字。目前沒有啟用線上寄送或正式收件後端。</p></div></section>
+<section class="page-hero yellow"><div class="page-kicker reveal">04 <small>REQUEST BUILDER</small></div><div><h1 class="reveal">讓需求，<br>變成一份清單。<small class="title-en">Build a Clear Request</small></h1><p class="reveal">分步填寫需求，產生品牌化郵件預覽；按下「傳送」即可開啟 Gmail 草稿，收件人預設為 signwell.com.tw@gmail.com。</p></div></section>
 <section class="section inner-content"><div class="content-wrap">
- <div class="inner-heading reveal"><div class="eyebrow">01 <small>FORM TOOL</small></div><h2>四個步驟，<br>不用一次填完。</h2><p>未知的欄位可以留空；已有完整料號時，建議優先填寫。所有內容只在這個頁面整理，不會自動寄給公司。</p></div>
+ <div class="inner-heading reveal"><div class="eyebrow">01 <small>FORM TOOL</small></div><h2>四個步驟，<br>不用一次填完。</h2><p>未知欄位可先留空；確認內容後開啟 Gmail 撰寫視窗，請在 Gmail 內自行確認並按下寄送。</p></div>
  <form class="rfq-wizard reveal" data-rfq-form>
   <p class="wizard-prefill-hint" data-rfq-prefill hidden></p>
   <div class="wizard-head"><strong data-wizard-label>STEP 01 / 04　需求類型</strong><div class="wizard-progress-track" aria-hidden="true"><span class="wizard-progress-fill" data-wizard-progress></span></div></div>
@@ -28,6 +28,7 @@
    <div class="wizard-choice-grid">
     <label class="wizard-choice"><input type="radio" name="需求類型" value="電阻" checked><span>電阻</span></label>
     <label class="wizard-choice"><input type="radio" name="需求類型" value="焊接相關零件"><span>焊接相關零件</span></label>
+    <label class="wizard-choice"><input type="radio" name="需求類型" value="電子零件"><span>電子零件</span></label>
     <label class="wizard-choice"><input type="radio" name="需求類型" value="其他料件／專案"><span>其他料件／專案</span></label>
    </div>
   </fieldset>
@@ -44,25 +45,27 @@
   </fieldset>
   <fieldset class="wizard-step" data-rfq-step="2" hidden>
    <legend>聯絡與補充資訊</legend>
-   <p class="wizard-lead">此表單不會自動寄出，因此聯絡資料只會出現在最後複製的文字中。</p>
+   <p class="wizard-lead">填寫的聯絡資料會預填至 Gmail 草稿，由你確認寄出後才會寄達 SIGNWELL。</p>
    <div class="wizard-fields-two">
     <div class="wizard-field"><label for="rfq-company">公司／單位</label><input id="rfq-company" name="詢價公司" autocomplete="organization" placeholder="公司或組織名稱"></div>
     <div class="wizard-field"><label for="rfq-name">聯絡人</label><input id="rfq-name" name="聯絡人" autocomplete="name" placeholder="您的姓名"></div>
    </div>
-   <div class="wizard-field"><label for="rfq-contact">偏好的聯絡方式</label><input id="rfq-contact" name="聯絡方式" placeholder="電子郵件或其他既有聯絡方式"><small>填寫後不會自動傳送，請自行選擇合適管道聯繫。</small></div>
+   <div class="wizard-field"><label for="rfq-contact">偏好的聯絡方式</label><input id="rfq-contact" name="聯絡方式" placeholder="電子郵件或其他既有聯絡方式"><small>請填寫方便收到回覆的電子郵件或電話。</small></div>
    <div class="wizard-field"><label for="rfq-notes">其他說明</label><textarea id="rfq-notes" name="其他需求" placeholder="其他限制、備註或希望確認的內容"></textarea></div>
   </fieldset>
   <fieldset class="wizard-step" data-rfq-step="3" hidden>
-   <legend>確認你的詢價內容</legend>
-   <p class="wizard-lead">檢查下方整理結果，確認後複製。尚未填寫的欄位會以「未提供」顯示。</p>
-   <dl class="wizard-review" data-rfq-review aria-live="polite"></dl>
-   <div class="wizard-disclaimer">按下「整理並複製」只會複製文字，不代表已向 SIGNWELL 送出詢價。</div>
+   <legend>確認信件預覽</legend>
+   <p class="wizard-lead">下方為參考欣緯生醫 Sky Glass 郵件風格改編的 SIGNWELL HTML 排版，信件資料可在 Gmail 草稿中再次編輯。</p>
+   <div class="rfq-mail-preview" data-rfq-mail-preview aria-label="SIGNWELL HTML 詢價郵件預覽"></div>
+   <div class="rfq-mail-meta"><span>收件人</span><strong>signwell.com.tw@gmail.com</strong></div>
+   <div class="wizard-disclaimer">「傳送」會開啟 Gmail，並預填收件人、主旨及純文字內容，<strong>不會直接寄信</strong>。Gmail 撰寫連結無法自動帶入 HTML 樣式；如需使用上方排版，請先按「複製 HTML 排版」，再到 Gmail 將內文選取後貼上。</div>
    <textarea class="copy-fallback" data-rfq-copy-text aria-label="可手動複製的詢價內容" readonly hidden></textarea>
   </fieldset>
   <div class="wizard-actions">
    <button class="btn" type="button" data-rfq-prev hidden>上一步</button>
    <button class="btn btn-black" type="button" data-rfq-next>下一步</button>
-   <button class="btn btn-black" type="submit" data-rfq-submit hidden>整理並複製</button>
+   <button class="btn" type="button" data-rfq-copy-html hidden>複製 HTML 排版</button>
+   <button class="btn btn-black" type="submit" data-rfq-submit hidden>傳送</button>
   </div>
   <p class="status-message" data-form-status aria-live="polite"></p>
  </form>
