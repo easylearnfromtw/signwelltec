@@ -62,9 +62,13 @@
   }
 
   function floorCopy() {
+    const amountElement = document.querySelector('[data-donation-total]');
+    const asOfElement = document.querySelector('[data-donation-asof]');
     return {
-      amount: document.querySelector('[data-donation-total]').textContent.trim(),
-      asOf: document.querySelector('[data-donation-asof]').textContent.trim()
+      amount: amountElement
+        ? (amountElement.dataset.final || amountElement.textContent).trim()
+        : '138,400',
+      asOf: asOfElement ? asOfElement.textContent.trim() : '2026.10.07'
     };
   }
 
