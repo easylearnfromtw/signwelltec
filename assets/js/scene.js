@@ -4880,6 +4880,7 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
   // The floor is drawn only by pointer input. Each stroke retains its stickers.
   const raycaster = new vr(), pointer = new dt();
   const head = new C(), direction = new C(1, 0, 0);
+  const grabOffset = new C();
   const basis = new ce(), up = new C(0, -1, 0);
   const axle = new C(), radial = new C(), rolling = new C();
   const stickers = new Map();
@@ -5094,12 +5095,26 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
 
   function start(event) {
     if (activePointer !== null || !event.isPrimary || event.button !== 0) return;
+
+    // Aim first, then raycast only against the physical roll group.
+    // Touches on the floor / laid tape must remain native page-scroll gestures.
     const point = aim(event);
     if (!point) return;
+    o.updateMatrixWorld(true);
+    const rollHit = raycaster.intersectObject(m, true);
+    if (!rollHit.length) return;
+
     event.preventDefault();
     activePointer = event.pointerId;
-    head.copy(point);
-    stroke = { distance: 0, points: [{ position: point, tangent: direction.clone(), distance: 0 }], stickers: new Map() };
+
+    // Keep the exact grab point under the finger instead of snapping the roll centre.
+    grabOffset.copy(head).sub(point);
+    stroke = {
+      distance: 0,
+      points: [{ position: head.clone(), tangent: direction.clone(), distance: 0 }],
+      stickers: new Map()
+    };
+
     r.setPointerCapture(activePointer);
     hovered = -1;
     if (n) n(-1);
@@ -5113,7 +5128,12 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
       if (event.pointerId !== activePointer) return;
       event.preventDefault();
       const point = aim(event);
-      if (point) lay(point);
+      if (point) {
+        point.add(grabOffset);
+        point.x = Math.max(-bounds.x, Math.min(bounds.x, point.x));
+        point.z = Math.max(bounds.minZ, Math.min(bounds.z, point.z));
+        lay(point);
+      }
       return;
     }
     if (!stickers.size) return;
