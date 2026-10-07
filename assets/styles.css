@@ -1071,18 +1071,42 @@ body::before,body::after{content:none!important;display:none!important}
     line-height:1;
     letter-spacing:-.04em;
   }
+  /* CJK text may wrap naturally: keep-all was clipping long headings on iPhones. */
+  .section-head h2,.team-carousel-head h2,
+  .split-head h2,.editorial-body h2,.company-copy h2,
+  .rfq-grid h2,.form-note h2,.page-hero h1{
+    word-break:normal;
+    overflow-wrap:anywhere;
+    text-wrap:wrap;
+  }
+  #business .section-head h2{
+    max-width:100%;
+    font-size:clamp(30px,8.8vw,40px);
+    line-height:1.13;
+    letter-spacing:-.035em;
+  }
+  #business .section-head .title-en{
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
   .title-en{
     margin-top:12px;
     font-size:8px!important;
     letter-spacing:.07em!important;
   }
-  .service-grid{grid-template-columns:1fr}
+  /* Mobile service cards: compact, content-driven height rather than a large empty spacer. */
+  .service-grid{grid-template-columns:minmax(0,1fr)}
   .service-card,.service-card:last-child{
     grid-column:auto;
-    min-height:320px;
-    padding:22px;
+    min-height:0;
+    padding:20px 22px 24px;
+    grid-template-rows:auto auto auto;
+    align-content:start;
+    gap:16px;
   }
-  .service-title h3{font-size:38px}
+  .service-title{align-self:start;margin:0}
+  .service-title h3{font-size:clamp(32px,9vw,38px)}
+  .service-card p{margin-top:0}
   .portfolio-row{
     grid-template-columns:40px minmax(0,1fr);
     gap:12px;
