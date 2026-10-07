@@ -44,6 +44,49 @@
 
 @media(max-width:760px){.csr-hero .tape-hud{bottom:244px}.csr-hero .tape-instructions{bottom:194px}.csr-hero .tape-controls{bottom:136px}.csr-hero .csr-scroll-link{bottom:78px;font-size:11px}}
 
+/* Home intro: lock the welcome SIGNWELL to the exact hero wordmark geometry. */
+body[data-page="home"] .intro.intro--home{
+  background:#000;
+}
+body[data-page="home"] .intro--home .intro-home-lock{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+}
+body[data-page="home"] .intro--home .intro-wordmark-clone{
+  position:absolute;
+  left:50%;
+  top:37%;
+  width:min(86%,210svh);
+  height:auto;
+  transform:translate(-50%,-50%);
+  color:#f4f4f1;
+  opacity:1;
+  animation:introHeroWordmarkIn .78s var(--ease-out) both;
+}
+body[data-page="home"] .intro--home .intro-wordmark-clone path{
+  fill:currentColor;
+}
+@keyframes introHeroWordmarkIn{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.94);
+    filter:blur(8px);
+  }
+  100%{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+    filter:blur(0);
+  }
+}
+@media(max-width:860px){
+  body[data-page="home"] .intro--home .intro-wordmark-clone{
+    top:37%;
+    width:92%;
+  }
+}
+
 /* Home: a still black stage with a centered company introduction. */
 body[data-page="home"] .hero{background:#000}
 body[data-page="home"] .hero-bottom{grid-template-columns:1fr;justify-items:center;text-align:center;gap:22px}
