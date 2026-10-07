@@ -1255,18 +1255,18 @@ html.transition-instant .page-transition-layer{
   margin-top:16px;
 }
 .person-phone-reveal{
-  display:flex;
-  justify-content:center;
+  display:inline-flex;
   align-items:center;
+  justify-content:center;
   width:100%;
   min-height:44px;
-  padding:12px 14px;
-  border:1px solid rgba(10,10,10,.52);
+  padding:0;
+  border:1px solid rgba(10,10,10,.48);
   border-radius:0;
   background:transparent;
   color:var(--black);
   font-family:var(--font-round);
-  font-size:11px;
+  font-size:10px;
   font-weight:800;
   letter-spacing:.04em;
   cursor:pointer;
