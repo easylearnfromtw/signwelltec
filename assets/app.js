@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(teamCarousel){
     const prev=document.querySelector('[data-carousel-prev]');
     const next=document.querySelector('[data-carousel-next]');
+    const status=document.querySelector('[data-carousel-status]');
     const cards=[...teamCarousel.querySelectorAll('.team-card')];
 
     const step=()=>{
@@ -59,6 +60,16 @@ document.addEventListener('DOMContentLoaded',()=>{
       const max=Math.max(0,teamCarousel.scrollWidth-teamCarousel.clientWidth-2);
       if(prev) prev.disabled=teamCarousel.scrollLeft<=2;
       if(next) next.disabled=teamCarousel.scrollLeft>=max;
+      if(status && cards.length){
+        const center=teamCarousel.scrollLeft+teamCarousel.clientWidth*.35;
+        let current=0;
+        let best=Infinity;
+        cards.forEach((card,i)=>{
+          const d=Math.abs(card.offsetLeft-center);
+          if(d<best){best=d;current=i}
+        });
+        status.textContent=`${String(current+1).padStart(2,'0')} / ${String(cards.length).padStart(2,'0')}`;
+      }
     };
 
     prev?.addEventListener('click',()=>teamCarousel.scrollBy({left:-step(),behavior:'smooth'}));
@@ -70,6 +81,55 @@ document.addEventListener('DOMContentLoaded',()=>{
       if(e.key==='ArrowRight'){e.preventDefault();teamCarousel.scrollBy({left:step(),behavior:'smooth'})}
     });
     updateControls();
+  }
+
+
+  const personModal=document.querySelector('[data-person-modal]');
+  if(personModal){
+    const nameEl=personModal.querySelector('[data-person-modal-name]');
+    const roleEl=personModal.querySelector('[data-person-modal-role]');
+    const linesEl=personModal.querySelector('[data-person-modal-lines]');
+    let lastTrigger=null;
+
+    const closePersonModal=()=>{
+      personModal.classList.remove('open');
+      personModal.setAttribute('aria-hidden','true');
+      document.body.classList.remove('person-modal-open');
+      lastTrigger?.focus?.();
+    };
+
+    const openPersonModal=trigger=>{
+      const card=trigger.closest('.person-card');
+      if(!card) return;
+      const details=(card.dataset.personDetails||'').split('|').filter(Boolean);
+      if(!details.length) return;
+      lastTrigger=trigger;
+      if(nameEl) nameEl.textContent=card.dataset.personName||'';
+      if(roleEl) roleEl.textContent=card.dataset.personRole||'';
+      if(linesEl){
+        linesEl.innerHTML='';
+        details.forEach((detail,i)=>{
+          const row=document.createElement('div');
+          row.className='person-modal-line';
+          const label=document.createElement('span');
+          label.textContent=String(i+1).padStart(2,'0');
+          const value=document.createElement('strong');
+          value.textContent=detail;
+          row.append(label,value);
+          linesEl.append(row);
+        });
+      }
+      personModal.classList.add('open');
+      personModal.setAttribute('aria-hidden','false');
+      document.body.classList.add('person-modal-open');
+      personModal.querySelector('[data-person-close]')?.focus();
+    };
+
+    document.querySelectorAll('[data-person-trigger]').forEach(btn=>{
+      btn.addEventListener('click',()=>openPersonModal(btn));
+    });
+    personModal.querySelectorAll('[data-person-close]').forEach(el=>el.addEventListener('click',closePersonModal));
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&personModal.classList.contains('open')) closePersonModal()});
   }
 
   const photoGroups=new Map();
