@@ -101,7 +101,7 @@
         await Promise.race([
           Promise.all([document.fonts.load('900 64px "Noto Sans TC"', '慈濟基金會'),
             document.fonts.load('600 40px "Plex Mono"'), document.fonts.load('700 20px Archivo')]).catch(() => {}),
-          new Promise(resolve => setTimeout(resolve, 2500))
+          new Promise(resolve => setTimeout(resolve, 220))
         ]);
       }
       const module = await import(sceneURL.href);
@@ -151,10 +151,5 @@
     button.addEventListener('blur', clear);
     button.addEventListener('click', highlight);
   });
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting)) { observer.disconnect(); initialize(); }
-    }, { rootMargin: '400px 0px', threshold: 0 });
-    observer.observe(stage);
-  } else initialize();
+  initialize();
 })();
