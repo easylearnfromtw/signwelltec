@@ -42,6 +42,62 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(page && href.startsWith(page==='home'?'index':page)) a.classList.add('active');
   });
 
+  // Global UI: page progress, compact header state and quick-action dock.
+  const progress=document.createElement('div');
+  progress.className='scroll-progress';
+  progress.setAttribute('aria-hidden','true');
+  progress.innerHTML='<span></span>';
+  document.body.appendChild(progress);
+  const progressBar=progress.firstElementChild;
+  const header=document.querySelector('.site-header');
+
+  const dock=document.createElement('nav');
+  dock.className='site-tool-dock';
+  dock.setAttribute('aria-label','快速操作');
+  const contextLink=page==='products'
+    ?'<a href="sourcing.html">尋料</a>'
+    :'<a href="products.html">產品</a>';
+  const primaryLink=page==='rfq'
+    ?'<a class="dock-rfq" href="contact.html">聯絡</a>'
+    :'<a class="dock-rfq" href="rfq.html">詢價</a>';
+  dock.innerHTML=contextLink+primaryLink+'<button class="dock-top" type="button" aria-label="回到頁首"></button>';
+  document.body.appendChild(dock);
+  dock.querySelector('.dock-top')?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+  let uiTick=false;
+  const updateGlobalUI=()=>{
+    uiTick=false;
+    const y=Math.max(0,window.scrollY||0);
+    const max=Math.max(1,document.documentElement.scrollHeight-window.innerHeight);
+    if(progressBar) progressBar.style.transform='scaleX('+Math.min(1,y/max)+')';
+    header?.classList.toggle('is-scrolled',y>18);
+    dock.classList.toggle('is-visible',y>Math.min(360,window.innerHeight*.45));
+  };
+  const scheduleGlobalUI=()=>{
+    if(uiTick) return;
+    uiTick=true;
+    requestAnimationFrame(updateGlobalUI);
+  };
+  window.addEventListener('scroll',scheduleGlobalUI,{passive:true});
+  window.addEventListener('resize',scheduleGlobalUI,{passive:true});
+  updateGlobalUI();
+
+  // Homepage section rail: highlights the section currently in view.
+  const sectionLinks=[...document.querySelectorAll('[data-section-link]')];
+  if(sectionLinks.length&&'IntersectionObserver' in window){
+    const sectionObserver=new IntersectionObserver(entries=>{
+      const visible=entries
+        .filter(entry=>entry.isIntersecting)
+        .sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+      if(!visible) return;
+      sectionLinks.forEach(link=>link.classList.toggle('is-active',link.dataset.sectionLink===visible.target.id));
+    },{rootMargin:'-28% 0px -52% 0px',threshold:[0,.15,.35,.6]});
+    sectionLinks.forEach(link=>{
+      const target=document.getElementById(link.dataset.sectionLink);
+      if(target) sectionObserver.observe(target);
+    });
+  }
+
   const toggle=document.querySelector('.menu-toggle');
   const menu=document.querySelector('.mobile-menu');
   if(toggle&&menu){
