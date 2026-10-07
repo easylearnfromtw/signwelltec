@@ -214,26 +214,26 @@ html[data-nav-enter=backward]::after{
   gap:4px;
   margin:2px 0 4px;
   padding:13px 15px;
-  border:1px solid rgba(10,10,11,.12);
+  border:1px solid rgba(255,216,77,.34);
   border-left:3px solid var(--yellow);
   border-radius:12px;
-  background:#fff;
-  color:var(--ink);
+  background:rgba(255,216,77,.07);
+  color:#fff;
   font-family:var(--f-cn);
   font-size:12.5px;
   line-height:1.65;
-  box-shadow:0 10px 28px rgba(10,10,11,.06);
 }
 .aud-volume-note .mono{
-  color:rgba(10,10,11,.52);
+  color:var(--yellow);
   font-size:10px;
   letter-spacing:.08em;
 }
 .aud-volume-note strong{
+  color:#fff;
   font-weight:800;
 }
 .aud-volume-note span:last-child{
-  color:rgba(10,10,11,.58);
+  color:#fff;
 }
 
 
