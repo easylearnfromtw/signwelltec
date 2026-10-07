@@ -1052,3 +1052,181 @@ body.person-modal-open{overflow:hidden!important}
     gap:12px;
   }
 }
+
+
+/* =========================================================
+   SIGNWELL TEC & MED — team cards, loading, transitions, press UI
+   ========================================================= */
+
+/* Automatic first-load veil */
+body::before{
+  content:"SIGNWELL TEC & MED";
+  position:fixed;
+  inset:0;
+  z-index:9998;
+  display:grid;
+  place-items:center;
+  background:var(--black);
+  color:#fff;
+  font-size:clamp(18px,3vw,34px);
+  font-weight:800;
+  letter-spacing:.12em;
+  pointer-events:none;
+  animation:sw-loader-out .9s cubic-bezier(.22,.61,.36,1) .05s forwards;
+}
+@keyframes sw-loader-out{
+  0%,42%{opacity:1;visibility:visible}
+  100%{opacity:0;visibility:hidden}
+}
+
+/* Internal page transition */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:9997;
+  background:var(--black);
+  transform:scaleY(0);
+  transform-origin:bottom;
+  transition:transform .32s cubic-bezier(.76,0,.24,1);
+  pointer-events:none;
+}
+body.page-leaving::after{
+  transform:scaleY(1);
+  transform-origin:bottom;
+}
+
+/* Press / click feedback */
+a,button,.service-card,.portfolio-row{
+  -webkit-tap-highlight-color:transparent;
+}
+.btn,.header-cta,.mobile-rfq,.text-link,.service-card,.portfolio-row,.team-carousel-btn,button{
+  transition:
+    transform .14s cubic-bezier(.2,.8,.2,1),
+    box-shadow .14s ease,
+    filter .14s ease,
+    background-color .2s ease,
+    color .2s ease;
+}
+.ui-pressed,
+.btn:active,
+.header-cta:active,
+.mobile-rfq:active,
+.text-link:active,
+.service-card:active,
+.portfolio-row:active,
+.team-carousel-btn:active,
+button:active{
+  transform:translateY(2px) scale(.985)!important;
+  filter:contrast(1.06);
+  box-shadow:inset 0 0 0 2px rgba(10,10,10,.28);
+}
+.ui-ripple{
+  position:absolute;
+  width:12px;
+  height:12px;
+  margin:-6px 0 0 -6px;
+  border-radius:50%;
+  background:currentColor;
+  opacity:.16;
+  pointer-events:none;
+  animation:sw-ripple .46s ease-out forwards;
+}
+@keyframes sw-ripple{
+  from{transform:scale(1);opacity:.16}
+  to{transform:scale(18);opacity:0}
+}
+.btn,.header-cta,.mobile-rfq,.service-card,.team-carousel-btn{
+  position:relative;
+  overflow:hidden;
+}
+
+/* Text-only people system */
+.home-people{
+  background:var(--paper);
+  overflow:hidden;
+}
+.people-carousel{
+  margin-top:0;
+}
+.team-grid.team-carousel .people-card{
+  min-height:410px;
+  padding:28px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  color:var(--black);
+}
+.dept-management{background:var(--yellow)!important}
+.dept-business{background:var(--blue)!important}
+.dept-specialist{background:var(--pink)!important}
+.people-card-head{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:52px;
+}
+.people-card-head h3{
+  margin:0;
+  font-size:clamp(34px,4vw,54px);
+  line-height:.9;
+  letter-spacing:-.055em;
+}
+.people-card-head span{
+  font-size:11px;
+  font-weight:700;
+  line-height:1.4;
+}
+.people-experience{
+  margin-top:38px;
+  border-top:1px solid rgba(10,10,10,.28);
+}
+.people-experience p{
+  margin:0;
+  padding:12px 0;
+  border-bottom:1px solid rgba(10,10,10,.2);
+  font-size:12px;
+  line-height:1.55;
+  color:rgba(10,10,10,.8);
+}
+.people-card .person-card-index{
+  color:rgba(10,10,10,.62);
+  font-weight:700;
+}
+.team-grid.team-carousel .people-card:first-child{
+  flex-basis:clamp(360px,48%,540px);
+}
+
+/* Remove all photo-specific visual layers from the live UI */
+.team-card-photo,.team-photo,.photo-hint,.person-modal,.support-card:after{
+  display:none!important;
+}
+
+@media(max-width:640px){
+  body::before{
+    font-size:17px;
+    letter-spacing:.09em;
+  }
+  .team-grid.team-carousel .people-card,
+  .team-grid.team-carousel .people-card:first-child{
+    flex:0 0 82%;
+    min-height:390px;
+    padding:22px;
+  }
+  .people-card-head{
+    margin-top:42px;
+  }
+  .people-card-head h3{
+    font-size:38px;
+  }
+  .people-experience{
+    margin-top:30px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  body::before{animation-duration:.01ms;animation-delay:0s}
+  body::after{transition-duration:.01ms}
+  .ui-ripple{display:none}
+}
