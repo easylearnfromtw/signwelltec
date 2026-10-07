@@ -107,7 +107,13 @@
         return '<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SIGNWELL 詢價</title></head><body style="margin:0;background:#F3F3F0">' + markup + '</body></html>';
       };
       const gmailUrl = function () {
-        const params = new URLSearchParams({view: 'cm', fs: '1', to: recipient, su: options.subject()});
+        const params = new URLSearchParams({
+          view: 'cm',
+          fs: '1',
+          to: recipient,
+          su: options.subject(),
+          body: options.text()
+        });
         return 'https://mail.google.com/mail/u/0/?' + params.toString();
       };
       const copy = async function () {
@@ -162,29 +168,27 @@
         download(message, 'message/rfc822', 'SIGNWELL-詢價.eml');
         setStatus('已下載含完整 HTML 排版的 .eml 信件，可用支援此格式的郵件 App 開啟；Gmail 請使用複製排版方式。');
       });
-      form.addEventListener('submit', async function (event) {
+      form.addEventListener('submit', function (event) {
         event.preventDefault();
         if (!options.isFinal()) { options.showFinal(); return; }
-        // Start writing while this page still has focus, then reserve the tab
-        // in the same click so permission awaits do not trigger popup blocking.
-        // Gmail receives no plain-text body.
+
+        const url = gmailUrl();
         if (submit) submit.disabled = true;
-        const pendingCopy = copy();
-        let draft = window.open('about:blank', '_blank');
-        if (draft) {
-          draft.opener = null;
-          try { draft.document.title = '準備 SIGNWELL 詢價信'; } catch (_) {}
-        }
-        const copied = await pendingCopy;
-        if (copied) {
-          if (draft) draft.location.replace(gmailUrl());
-          else {
-            const manual = form.querySelector('[data-rfq-open-gmail]');
-            if (manual) { manual.href = gmailUrl(); manual.hidden = false; }
-            setStatus('完整排版已複製。瀏覽器封鎖了新分頁，請按「開啟 Gmail」，在內文貼上後寄出。');
+        setStatus('正在開啟 Gmail 草稿；收件人、主旨與純文字內容會自動帶入。');
+
+        const draft = window.open(url, '_blank', 'noopener');
+        if (!draft) {
+          const manual = form.querySelector('[data-rfq-open-gmail]');
+          if (manual) {
+            manual.href = url;
+            manual.hidden = false;
           }
-        } else if (draft) draft.close();
-        if (submit) submit.disabled = false;
+          setStatus('瀏覽器封鎖了新分頁，請按「開啟 Gmail」；內容仍會自動帶入，不需要複製貼上。');
+        }
+
+        setTimeout(function () {
+          if (submit) submit.disabled = false;
+        }, 450);
       });
     }
   };
