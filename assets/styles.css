@@ -121,10 +121,6 @@ h1,h2,h3,p,li,dd,dt,a,span,strong,em{
     padding-right:max(var(--pad),env(safe-area-inset-right));
     padding-bottom:max(40px,env(safe-area-inset-bottom));
   }
-  .hero-grid,.section-head,.split-head,.company-teaser,.rfq-grid,
-  .page-hero,.editorial-grid,.form-shell{
-    minmax:0;
-  }
   .hero-copy,.hero-visual,.software-copy,.software-meta,.company-copy,
   .editorial-body,.editorial-label,.form-note,.rfq-form{
     min-width:0;
@@ -520,3 +516,19 @@ h1,h2,h3,p,li,dd,dt,a,span,strong,em{
   .mobile-menu a{font-size:clamp(27px,9vw,36px)}
   .company-number{font-size:clamp(48px,17vw,66px)}
 }
+
+@media(max-width:640px){
+  a,button{min-height:44px}
+  .menu-toggle{min-width:44px;min-height:44px}
+  .menu-toggle span{transform-origin:center}
+  body.menu-open .menu-toggle span:first-child{transform:translateY(3.5px) rotate(45deg)}
+  body.menu-open .menu-toggle span:last-child{transform:translateY(-3.5px) rotate(-45deg)}
+  .hero h1{font-size:clamp(48px,15.8vw,72px)}
+  body[data-page="software"] .page-hero h1{font-size:clamp(36px,11vw,50px);line-height:.94}
+  .mobile-menu a,.btn,.map-link{-webkit-tap-highlight-color:transparent}
+}
+@media(hover:none) and (pointer:coarse){
+  .btn:hover{transform:none}
+  .portfolio-row:hover{padding-left:0;background:transparent}
+}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
