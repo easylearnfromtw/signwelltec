@@ -25,11 +25,12 @@ if(t.opts.mode==="nav"&&window.SignwellWarmPage){
   const html = document.documentElement;
   const warmed = new Set();
   const routeOrder = [
-    'index.html','company.html','people.html','products.html',
+    'index.html','software.html','company.html','people.html','products.html',
     'sourcing.html','social-responsibility.html','contact.html','rfq.html'
   ];
   const routeColor = {
     'index.html':'#0a0a0b',
+    'software.html':'#f6f3ed',
     'company.html':'#3d6bff',
     'people.html':'#ffffff',
     'personnel.html':'#ffffff',
