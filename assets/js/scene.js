@@ -4921,7 +4921,9 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
     floorText.scale.set(portrait ? 9.6 : 10, portrait ? 8.44 : 7.32, 1);
     floorText.position.z = portrait ? -2.5 : -1.8;
     a.shadowMap.needsUpdate = true;
-    bounds = portrait ? { x: 4.8, z: 4.9, minZ: -7 } : { x: 5.4, z: 3.4, minZ: -5.6 };
+    bounds = portrait
+      ? { x: 5.8, z: 6.0, minZ: -8.4 }
+      : { x: 6.6, z: 4.3, minZ: -7.0 };
     // Preserve the whole laid path when the device changes orientation.
     let fitX = Math.max(portrait ? 2.35 : bounds.x, Math.abs(head.x));
     let fitZ = Math.max(bounds.z, Math.abs(head.z));
