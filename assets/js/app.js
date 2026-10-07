@@ -47,3 +47,45 @@
     },{timeout:1600});
   }
 })();
+
+
+/* SIGNWELL cross-page top reset — every page change starts from the first screen. */
+(function(){
+  'use strict';
+
+  try { history.scrollRestoration = 'manual'; } catch {}
+
+  function isInternalCrossPage(anchor){
+    if(!anchor || !anchor.href || anchor.target==='_blank' || anchor.hasAttribute('download')) return false;
+    let url;
+    try { url = new URL(anchor.href, location.href); } catch { return false; }
+    return url.origin === location.origin &&
+      (url.pathname !== location.pathname || url.search !== location.search);
+  }
+
+  // Cross-page links always enter the destination at its first screen.
+  document.addEventListener('click', event => {
+    if(event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const anchor = event.target.closest && event.target.closest('a[href]');
+    if(!isInternalCrossPage(anchor)) return;
+
+    const url = new URL(anchor.href, location.href);
+    if(url.hash) {
+      event.preventDefault();
+      url.hash = '';
+      location.href = url.href;
+    }
+  }, true);
+
+  function resetToTop(){
+    // Two frames covers normal navigation and BFCache restoration without a visible jump.
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+      requestAnimationFrame(() => window.scrollTo(0, 0));
+    });
+  }
+
+  resetToTop();
+  window.addEventListener('pageshow', resetToTop);
+})();
