@@ -515,9 +515,7 @@
    Social Responsibility
    ========================================================= */
 .csr-hero{
-  background:
-    radial-gradient(circle at 82% 18%,rgba(255,216,77,.34),transparent 26%),
-    linear-gradient(135deg,#0a0a0a 0%,#141414 58%,#202020 100%);
+  background:linear-gradient(135deg,#0a0a0a 0%,#141414 58%,#202020 100%);
   color:#fff;
 }
 .csr-hero::after{
