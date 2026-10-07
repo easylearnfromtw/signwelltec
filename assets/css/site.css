@@ -287,3 +287,19 @@ html[data-nav-enter=backward]::after{
 @media(max-width:760px){
   .hero-software-entry{min-height:58px}
 }
+
+
+/* Simplified homepage Software entry */
+.hero-software-entry{
+  min-height:58px;
+  padding:0 14px 0 18px;
+  border-radius:12px;
+}
+.hero-software-entry>strong{
+  font-family:var(--f-cn);
+  font-size:15px;
+  line-height:1;
+  letter-spacing:.035em;
+  font-weight:800;
+}
+.hero-software-copy{display:none!important}
