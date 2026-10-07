@@ -537,3 +537,141 @@ h1,h2,h3,p,li,dd,dt,a,span,strong,em{
 @media(max-width:640px){
   .team-photo img[data-photo="lin-che-kai"]{object-position:50% 31%}
 }
+
+/* Education & Experience */
+.profile-section{margin-top:110px}
+.profile-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1px;
+  margin-top:48px;
+  border:1px solid var(--line);
+  background:var(--line);
+  width:100%;
+  max-width:100%;
+  overflow:hidden;
+}
+.profile-card{
+  min-width:0;
+  background:#fff;
+  padding:28px;
+  display:flex;
+  flex-direction:column;
+  gap:46px;
+}
+.profile-card.profile-blue{background:var(--blue)}
+.profile-card.profile-pink{background:var(--pink)}
+.profile-card.profile-yellow{background:var(--yellow)}
+.profile-head{
+  display:grid;
+  grid-template-columns:70px minmax(0,1fr);
+  gap:18px;
+  align-items:start;
+}
+.profile-code{
+  font-size:8px;
+  line-height:1.4;
+  letter-spacing:.14em;
+  color:rgba(10,10,10,.55);
+  white-space:nowrap;
+}
+.profile-head small{
+  display:block;
+  margin-bottom:8px;
+  font-size:8px;
+  line-height:1.4;
+  letter-spacing:.12em;
+  color:rgba(10,10,10,.56);
+}
+.profile-head h3{
+  margin:0;
+  font-size:clamp(30px,3vw,44px);
+  line-height:.95;
+  letter-spacing:-.045em;
+}
+.profile-lines{
+  border-top:1px solid rgba(10,10,10,.22);
+}
+.profile-lines>div{
+  display:grid;
+  grid-template-columns:92px minmax(0,1fr);
+  gap:14px;
+  padding:14px 0;
+  border-bottom:1px solid rgba(10,10,10,.18);
+  min-width:0;
+}
+.profile-lines span{
+  font-size:8px;
+  letter-spacing:.12em;
+  color:rgba(10,10,10,.55);
+}
+.profile-lines strong{
+  min-width:0;
+  font-size:13px;
+  line-height:1.55;
+  font-weight:550;
+  overflow-wrap:anywhere;
+}
+.software-backgrounds{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1px;
+  margin-top:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-top:0;
+  width:100%;
+  max-width:100%;
+  overflow:hidden;
+}
+.software-background{
+  min-width:0;
+  padding:24px 26px 26px;
+  background:#fff;
+}
+.software-background h3{
+  margin:24px 0 18px;
+  font-size:30px;
+  letter-spacing:-.04em;
+}
+.compact-lines{
+  display:flex;
+  flex-direction:column;
+  border-top:1px solid var(--line);
+}
+.compact-lines span{
+  min-width:0;
+  padding:11px 0;
+  border-bottom:1px solid var(--line);
+  font-size:12px;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+@media(max-width:640px){
+  .profile-section{margin-top:76px}
+  .profile-grid,.software-backgrounds{
+    grid-template-columns:1fr;
+  }
+  .profile-card{
+    padding:22px;
+    gap:34px;
+  }
+  .profile-head{
+    grid-template-columns:52px minmax(0,1fr);
+    gap:12px;
+  }
+  .profile-head h3{
+    font-size:34px;
+  }
+  .profile-lines>div{
+    grid-template-columns:74px minmax(0,1fr);
+    gap:10px;
+    padding:13px 0;
+  }
+  .profile-lines strong{
+    font-size:13px;
+  }
+  .software-background{
+    padding:22px;
+  }
+}
