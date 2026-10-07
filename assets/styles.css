@@ -1466,3 +1466,35 @@ button:active{
     font-size:9px!important;
   }
 }
+
+/* Product/service title structure: one Chinese title + one English subtitle */
+.service-title{
+  margin:auto 0 26px;
+}
+.service-title h3{
+  margin:0!important;
+}
+.product-title{
+  min-width:0;
+}
+.product-title h3{
+  margin:0!important;
+}
+.service-title .card-en,
+.product-title .card-en{
+  display:block;
+  margin-top:10px;
+  font-size:10px!important;
+  line-height:1.3!important;
+  font-weight:600!important;
+  letter-spacing:.13em!important;
+  text-transform:uppercase;
+  opacity:.46;
+}
+@media(max-width:640px){
+  .service-title .card-en,
+  .product-title .card-en{
+    margin-top:8px;
+    font-size:8px!important;
+  }
+}
