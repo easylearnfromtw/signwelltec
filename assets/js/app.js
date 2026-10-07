@@ -158,6 +158,7 @@ if(t.opts.mode==="nav"&&window.SignwellWarmPage){
     setTimeout(function(){
       delete html.dataset.navEnter;
       html.style.removeProperty('--sw-nav-color');
+      html.style.removeProperty('background');
     }, 220);
   });
 })();
