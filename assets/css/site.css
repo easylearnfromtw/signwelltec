@@ -146,6 +146,7 @@ main > .csr-page-content > .section,
 html{
   --sw-nav-color: var(--paper);
 }
+html:not(.is-page-leaving):not([data-nav-enter])::after{content:none}
 html::after{
   content:"";
   position:fixed;
