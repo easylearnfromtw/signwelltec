@@ -17,9 +17,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap">
 <link rel="preload" href="assets/fonts/archivo-var.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20261007-refine">
+<link rel="stylesheet" href="assets/css/site.css?v=20261007-audience-tape">
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <script defer src="assets/js/app.js?v=20261007-refine"></script>
+<script defer src="assets/js/people-guide.js?v=20261007-audience"></script>
 <script defer src="assets/js/gpu-lifecycle.js?v=20261007-refine"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "欣緯科技有限公司", "alternateName": "SIGNWELL", "email": "luca.sinwell@gmail.com", "taxID": "24389585", "sameAs": ["https://findbiz.nat.gov.tw/fts/company/24389585"]}</script>
 </head>
@@ -277,71 +278,103 @@
     <header class="sec-head">
       <div class="sec-index"><span class="mono">03</span><span class="label">Who it's for</span></div>
       <div class="sec-body">
-        <h2 class="t-h2 lines" data-lines>三種合作者，<br>三個起點。<span class="t-en">Buyers · Suppliers · Everyone</span></h2>
+        <h2 class="t-h2 lines" data-lines>三種合作者，<br>三個起點。<span class="t-en">People · Upstream · Downstream</span></h2>
       </div>
     </header>
 
     <div class="aud-head">
       <div class="seg lg seg--content" role="tablist" aria-label="選擇你的身分" data-seg="audience">
-        <button class="seg-item" type="button" role="tab" id="aud-tab-a" aria-controls="aud-a" aria-selected="true" data-seg-item data-value="a">下游客戶</button>
-        <button class="seg-item" type="button" role="tab" id="aud-tab-b" aria-controls="aud-b" aria-selected="false" data-seg-item data-value="b">供應廠商</button>
-        <button class="seg-item" type="button" role="tab" id="aud-tab-c" aria-controls="aud-c" aria-selected="false" data-seg-item data-value="c">一般民眾</button>
+        <button class="seg-item" type="button" role="tab" id="aud-tab-a" aria-controls="aud-a" aria-selected="true" data-seg-item data-value="a">民眾</button>
+        <button class="seg-item" type="button" role="tab" id="aud-tab-b" aria-controls="aud-b" aria-selected="false" data-seg-item data-value="b">上游</button>
+        <button class="seg-item" type="button" role="tab" id="aud-tab-c" aria-controls="aud-c" aria-selected="false" data-seg-item data-value="c">下游</button>
       </div>
-      <span class="t-small">選擇最接近你的身分</span>
+      <span class="t-small">不用先懂全部，從你現在的狀態開始</span>
     </div>
 
     <div class="aud-stage">
-      <article class="aud-panel" id="aud-a" role="tabpanel" aria-labelledby="aud-tab-a" data-color="blue" data-aud="a">
+      <article class="aud-panel aud-panel--people" id="aud-a" role="tabpanel" aria-labelledby="aud-tab-a" data-color="pink" data-aud="a">
         <div class="aud-block">
           <span class="aud-letter" aria-hidden="true">A</span>
-          <div class="aud-role"><strong>下游客戶</strong><span>採購・製造・研發</span></div>
+          <div class="aud-role"><strong>民眾</strong><span>維修・學習・第一次找料</span></div>
         </div>
-        <div class="aud-body">
-          <h3>已有料號或 BOM，<br>從一份詢價單開始。</h3>
-          <ul class="aud-list">
-            <li><span class="mono">01</span>提供完整料號（含前後綴）、製造商與需求數量</li>
-            <li><span class="mono">02</span>標註不可變動的規格，以及可接受的替代條件</li>
-            <li><span class="mono">03</span>多項料件可直接貼上清單，一次整理成需求明細</li>
-          </ul>
-          <div class="aud-actions">
-            <a class="btn btn--yellow" href="rfq.html">開始詢價<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-            <a class="btn btn--line" href="products.html#part-records">查看料號紀錄</a>
+        <div class="aud-body aud-body--guide">
+          <div class="people-guide" data-people-guide>
+            <div class="people-guide-intro">
+              <span class="micro">START FROM WHAT YOU KNOW</span>
+              <h3>不用先懂規格。<br>先告訴我們你手上有什麼。</h3>
+              <p>選兩題就好。我們會依你目前掌握的資訊與想完成的事情，整理下一步；不確定時，選最接近的狀況即可。</p>
+            </div>
+
+            <div class="guide-step">
+              <span class="micro">STEP 01 · CURRENT SITUATION</span>
+              <p class="guide-question">你目前最接近哪一種狀況？</p>
+              <div class="guide-options" role="group" aria-label="目前狀況">
+                <button class="guide-choice" type="button" data-guide-state="photo" aria-pressed="false">我只有零件照片或外觀</button>
+                <button class="guide-choice" type="button" data-guide-state="mark" aria-pressed="false">看得到字樣或部分料號</button>
+                <button class="guide-choice" type="button" data-guide-state="function" aria-pressed="false">知道它做什麼，但不懂規格</button>
+                <button class="guide-choice" type="button" data-guide-state="exact" aria-pressed="false">我已經有完整料號</button>
+              </div>
+            </div>
+
+            <div class="guide-step" data-guide-need-step hidden>
+              <span class="micro">STEP 02 · WHAT YOU NEED</span>
+              <p class="guide-question">你現在最想完成什麼？</p>
+              <div class="guide-options" role="group" aria-label="目前需求">
+                <button class="guide-choice" type="button" data-guide-need="same" aria-pressed="false">找到同一顆零件</button>
+                <button class="guide-choice" type="button" data-guide-need="substitute" aria-pressed="false">找可以替代的零件</button>
+                <button class="guide-choice" type="button" data-guide-need="learn" aria-pressed="false">先看懂代碼與規格</button>
+                <button class="guide-choice" type="button" data-guide-need="quote" aria-pressed="false">整理資料準備詢價</button>
+              </div>
+            </div>
+
+            <div class="guide-result" data-guide-result hidden aria-live="polite">
+              <span class="micro">YOUR NEXT STEP</span>
+              <h4 data-guide-title></h4>
+              <p data-guide-description></p>
+              <ol class="guide-result-list" data-guide-list></ol>
+              <div class="guide-result-actions">
+                <a class="btn btn--yellow btn--sm" href="sourcing.html#advisor" data-guide-primary><span>開啟尋料指引</span><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+                <a class="btn btn--line btn--sm" href="products.html" data-guide-secondary>查看零件工具</a>
+              </div>
+            </div>
           </div>
         </div>
       </article>
+
       <article class="aud-panel" id="aud-b" role="tabpanel" aria-labelledby="aud-tab-b" data-color="yellow" data-aud="b" hidden>
         <div class="aud-block">
           <span class="aud-letter" aria-hidden="true">B</span>
-          <div class="aud-role"><strong>供應廠商</strong><span>原廠・代理・貿易夥伴</span></div>
+          <div class="aud-role"><strong>上游</strong><span>原廠・代理・供應夥伴</span></div>
         </div>
         <div class="aud-body">
-          <h3>供應端與商務合作，<br>經由正式商務信箱洽談。</h3>
+          <h3>把供應能力說清楚，<br>從可核對的資料開始合作。</h3>
           <ul class="aud-list">
-            <li><span class="mono">01</span>合作方向與相關產品領域</li>
-            <li><span class="mono">02</span>合作形式，以及可提供的產品資料</li>
-            <li><span class="mono">03</span>聯絡窗口與方便的聯繫方式</li>
+            <li><span class="mono">01</span>提供品牌、產品領域、料號範圍與可驗證的產品資料</li>
+            <li><span class="mono">02</span>說明合作形式、供應條件，以及可配合的市場與交付方式</li>
+            <li><span class="mono">03</span>留下固定商務窗口，方便後續規格、報價與文件確認</li>
           </ul>
           <div class="aud-actions">
-            <a class="btn btn--yellow" href="mailto:luca.sinwell@gmail.com"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg>luca.sinwell@gmail.com</a>
+            <a class="btn btn--yellow" href="mailto:luca.sinwell@gmail.com"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg>商務合作</a>
             <a class="btn btn--line" href="company.html#collaboration">合作原則</a>
           </div>
         </div>
       </article>
-      <article class="aud-panel" id="aud-c" role="tabpanel" aria-labelledby="aud-tab-c" data-color="pink" data-aud="c" hidden>
+
+      <article class="aud-panel" id="aud-c" role="tabpanel" aria-labelledby="aud-tab-c" data-color="blue" data-aud="c" hidden>
         <div class="aud-block">
           <span class="aud-letter" aria-hidden="true">C</span>
-          <div class="aud-role"><strong>一般民眾</strong><span>維修・學習・找零件</span></div>
+          <div class="aud-role"><strong>下游</strong><span>採購・製造・研發</span></div>
         </div>
         <div class="aud-body">
-          <h3>先看懂規格，<br>再決定怎麼找。</h3>
+          <h3>已有料號或 BOM，<br>從一份可核對的需求開始。</h3>
           <ul class="aud-list">
-            <li><span class="mono">01</span>電阻色碼與 SMD 代碼換算，快速判讀阻值</li>
-            <li><span class="mono">02</span>依手邊資料選擇尋料情境，取得準備清單</li>
-            <li><span class="mono">03</span>了解 Datasheet 與規格核對的基本觀念</li>
+            <li><span class="mono">01</span>提供完整料號（含前後綴）、製造商與需求數量</li>
+            <li><span class="mono">02</span>標註不可變動的規格，以及可接受的替代條件</li>
+            <li><span class="mono">03</span>多項料件可直接整理成清單，集中確認數量、包裝與時程</li>
           </ul>
           <div class="aud-actions">
-            <a class="btn btn--yellow" href="products.html#resistor-tools">電阻代碼工具<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-            <a class="btn btn--line" href="sourcing.html#advisor">尋料情境指引</a>
+            <a class="btn btn--yellow" href="rfq.html">開始詢價<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--line" href="sourcing.html#advisor">尋料準備指引</a>
           </div>
         </div>
       </article>
