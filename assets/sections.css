@@ -661,14 +661,12 @@
   gap:12px;
 }
 .donation-kicker,
-.donation-live,
 .donation-personal{
   font-family:var(--font-round);
   font-size:9px;
   font-weight:800;
   letter-spacing:.06em;
 }
-.donation-live,
 .donation-personal{
   display:inline-flex;
   align-items:center;
@@ -676,14 +674,6 @@
   padding:0 9px;
   border:1px solid rgba(10,10,10,.2);
   border-radius:999px;
-}
-.donation-live i{
-  width:6px;
-  height:6px;
-  margin-right:6px;
-  border-radius:50%;
-  background:#16833c;
-  box-shadow:0 0 0 4px rgba(22,131,60,.1);
 }
 .donation-card h3{
   margin:54px 0 0;
