@@ -179,6 +179,28 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
   });
 
+  // Filter public part references in the browser. No data leaves this page.
+  const partSearch=document.querySelector('[data-part-search]');
+  if(partSearch){
+    const records=[...document.querySelectorAll('[data-part-list] .part-reference-item')];
+    const count=document.querySelector('[data-part-count]');
+    const empty=document.querySelector('[data-part-empty]');
+    const normalize=value=>String(value).normalize('NFKC').toLocaleLowerCase().replace(/\s+/g,'');
+    const applySearch=()=>{
+      const keyword=normalize(partSearch.value);
+      let shown=0;
+      records.forEach(item=>{
+        const matches=!keyword||normalize(item.textContent).includes(keyword);
+        item.hidden=!matches;
+        if(matches) shown++;
+      });
+      if(count) count.textContent='顯示 '+shown+' / '+records.length+' 項料號';
+      if(empty) empty.hidden=shown>0;
+    };
+    partSearch.addEventListener('input',applySearch);
+    applySearch();
+  }
+
   // RFQ wizard: client-side formatting only. No backend and no send action.
   const form=document.querySelector('[data-rfq-form]');
   if(form){
@@ -193,6 +215,24 @@ document.addEventListener('DOMContentLoaded',()=>{
     const copyFallback=form.querySelector('[data-rfq-copy-text]');
     const status=form.querySelector('[data-form-status]');
     let current=0;
+    // Product links prefill publicly listed part specifications, never customer data.
+    const params=new URLSearchParams(window.location.search);
+    const queryPart=(params.get('part')||'').trim().slice(0,120);
+    const querySpec=(params.get('spec')||'').trim().slice(0,240);
+    if(queryPart){
+      const partInput=form.querySelector('[name="料號"]');
+      const specInput=form.querySelector('[name="規格與限制條件"]');
+      const otherType=form.querySelector('[name="需求類型"][value="其他料件／專案"]');
+      if(partInput) partInput.value=queryPart;
+      if(specInput && querySpec) specInput.value=querySpec;
+      if(otherType) otherType.checked=true;
+      const notice=form.querySelector('[data-rfq-prefill]');
+      if(notice){
+        notice.textContent='已代入料號 '+queryPart+'；可繼續補充數量、製造商與需求條件。';
+        notice.hidden=false;
+      }
+    }
+
 
     const readEntries=()=>Array.from(new FormData(form).entries());
     const makeText=()=>{
