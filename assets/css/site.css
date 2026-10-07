@@ -825,3 +825,57 @@ body[data-page="home"] .site-footer{
     box-shadow:0 -22px 58px rgba(10,10,11,.16);
   }
 }
+
+
+/* Homepage tape/capital cover reliability fix */
+body[data-page="home"] .home-cover-stack{
+  position:relative;
+  z-index:0;
+  isolation:isolate;
+}
+
+body[data-page="home"] .home-cover-stack #identity.home-identity-tape{
+  position:sticky;
+  top:0;
+  z-index:0;
+  height:100svh;
+  min-height:620px;
+}
+
+body[data-page="home"] .home-cover-stack #capital.capital-band{
+  position:relative;
+  z-index:6;
+  transform:translateZ(0);
+  will-change:transform;
+  background:#fff;
+}
+
+/* The next panel must own pointer events while it covers the 3D scene. */
+body[data-page="home"] .home-cover-stack #capital,
+body[data-page="home"] .home-cover-stack #capital *{
+  pointer-events:auto;
+}
+
+/* Mobile/touch: vertical swipe should scroll the page unless the tape roll itself is being drawn. */
+body[data-page="home"] #identity .home-identity-stage.supports-touch canvas,
+body[data-page="home"] #identity .home-identity-stage canvas{
+  touch-action:pan-y!important;
+  overscroll-behavior-y:auto;
+}
+body[data-page="home"] #identity .home-identity-stage.is-drawing canvas{
+  touch-action:none!important;
+}
+
+/* Prevent the sticky 3D surface from intercepting the panel once the panel is visually above it. */
+body[data-page="home"] #capital.capital-band{
+  min-height:clamp(430px,48vw,690px);
+}
+
+@media(max-width:760px){
+  body[data-page="home"] .home-cover-stack #identity.home-identity-tape{
+    min-height:560px;
+  }
+  body[data-page="home"] .home-cover-stack #capital.capital-band{
+    min-height:520px;
+  }
+}
