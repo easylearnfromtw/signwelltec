@@ -98,7 +98,7 @@
     const mobile=window.innerWidth<760;
     const x=mix(a.x,b.x,t)*(mobile?1.12:1);
     const y=mix(a.y,b.y,t)*(mobile?1.08:1);
-    const s=mix(a.s,b.s,t)*(mobile?1.08:1);
+    const s=mix(a.s,b.s,t)*(mobile?1.02:1);
     return {x,y,s,b:mix(a.b,b.b,t)};
   }
 
