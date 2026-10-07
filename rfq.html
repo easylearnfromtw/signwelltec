@@ -1,16 +1,73 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="SIGNWELL 詢價需求表。"><meta name="theme-color" content="#0a0a0a"><title>詢價 | SIGNWELL</title><link rel="icon" href="assets/favicon.svg"><link rel="stylesheet" href="assets/styles.css"><script defer src="assets/app.js"></script></head><body data-page="rfq"><header class="site-header"><a class="brand" href="index.html" aria-label="SIGNWELL 首頁"><span class="brand-mark"></span><span>SIGNWELL</span></a><nav class="desktop-nav" aria-label="主要導覽"><a href="company.html">公司</a><a href="products.html">產品與服務</a><a href="sourcing.html">尋料服務</a><a href="contact.html">聯絡</a></nav><a class="header-cta" href="rfq.html">詢價 </a><button class="menu-toggle" aria-label="開啟選單" aria-expanded="false"><span class="menu-label">選單</span><span class="menu-lines" aria-hidden="true"><i></i><i></i></span></button></header><div class="mobile-menu" aria-hidden="true"><div class="mobile-menu-inner"><a href="company.html"><small>01</small> 公司</a><a href="products.html"><small>02</small> 產品與服務</a><a href="sourcing.html"><small>03</small> 尋料服務</a><a href="contact.html"><small>04</small> 聯絡</a><a class="mobile-rfq" href="rfq.html">詢價 </a></div></div><main>
-<section class="page-hero yellow"><div class="page-kicker reveal">05 <small>ENQUIRY</small></div><div><h1 class="reveal">建立清楚的<br>詢價需求。<small class="title-en">Request for Quotation</small></h1><p class="reveal">先把料號、規格、數量與時程整理清楚。此版本不會把資料送往未設定的第三方服務；按下按鈕後會將內容整理並複製，方便貼入後續聯絡工具。</p></div></section>
-<section class="section"><div class="content-wrap form-shell">
-  <aside class="form-note reveal"><div class="eyebrow">詢價資料 <small>REQUEST DETAILS</small></div><h2>從已知資訊<br>開始填寫。<small class="title-en">Start with What You Know</small></h2><p>不需要每個欄位都有答案。若有完整料號、製造商與需求數量，建議優先填寫。</p><div class="notice">正式收件信箱或後端尚未設定，因此目前採「整理並複製」模式，不會假裝表單已成功寄出。</div></aside>
-  <form class="rfq-form reveal" data-rfq-form>
-    <div class="field"><label for="part">料號</label><input id="part" name="料號" placeholder="例如：完整料號與後綴"></div>
-    <div class="field"><label for="maker">製造商</label><input id="maker" name="製造商" placeholder="若有指定品牌請填寫"></div>
-    <div class="field"><label for="qty">數量</label><input id="qty" name="數量" placeholder="需求數量或預估採購量"></div>
-    <div class="field"><label for="schedule">時程</label><input id="schedule" name="時程" placeholder="期望交期或專案節點"></div>
-    <div class="field"><label for="company">公司</label><input id="company" name="詢價公司" placeholder="公司或組織名稱"></div>
-    <div class="field"><label for="contact">聯絡人</label><input id="contact" name="聯絡人" placeholder="姓名"></div>
-    <div class="field"><label for="note">其他需求</label><textarea id="note" name="其他需求" placeholder="規格、包裝、替代料、用途或其他限制條件"></textarea></div>
-    <div class="form-actions"><button class="btn btn-black" type="submit">整理並複製 </button><button class="btn" type="reset">清除</button></div>
-    <div class="status-message" data-form-status aria-live="polite"></div>
-  </form>
-</div></section></main><footer class="site-footer"><div class="footer-brand"><span class="brand-mark"></span>SIGNWELL</div><div class="footer-grid"><div><small>公司</small><p>欣緯科技有限公司<br>統一編號 24389585</p></div><div><small>地址</small><p>新北市中和區<br>南山路 256 號</p></div><div><small>導覽</small><p><a href="company.html">公司</a><br><a href="products.html">產品與服務</a><br><a href="rfq.html">詢價</a></p></div></div><div class="footer-bottom"><span>© <span data-year></span> SIGNWELL</span><span>科技零件・貿易服務</span></div></footer></body></html>
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="分四步整理料號、規格、數量與聯絡資訊，複製成可直接使用的詢價文字。"><meta name="theme-color" content="#0a0a0a"><title>詢價 | SIGNWELL</title><link rel="icon" href="assets/favicon.svg"><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/sections.css"><script defer src="assets/app.js"></script></head>
+<body data-page="rfq">
+<header class="site-header">
+  <a class="brand" href="index.html" aria-label="SIGNWELL 首頁"><span class="brand-mark"></span><span>SIGNWELL</span></a>
+  <nav class="desktop-nav" aria-label="主要導覽">
+    <a href="company.html">公司</a><a href="products.html">產品與服務</a><a href="sourcing.html">尋料服務</a><a href="contact.html">聯絡</a>
+  </nav>
+  <a class="header-cta" href="rfq.html">詢價</a>
+  <button class="menu-toggle" aria-label="開啟選單" aria-expanded="false"><span class="menu-label">選單</span><span class="menu-lines" aria-hidden="true"><i></i><i></i></span></button>
+</header>
+<div class="mobile-menu" aria-hidden="true"><div class="mobile-menu-inner">
+  <a href="company.html"><small>01</small> 公司</a>
+  <a href="products.html"><small>02</small> 產品與服務</a>
+  <a href="sourcing.html"><small>03</small> 尋料服務</a>
+  <a href="contact.html"><small>04</small> 聯絡</a>
+  <a class="mobile-rfq" href="rfq.html">詢價</a>
+</div></div><main>
+<section class="page-hero yellow"><div class="page-kicker reveal">04 <small>REQUEST BUILDER</small></div><div><h1 class="reveal">讓需求，<br>變成一份清單。<small class="title-en">Build a Clear Request</small></h1><p class="reveal">依照自己的進度填寫，最後會產生一段可複製的詢價文字。目前沒有啟用線上寄送或正式收件後端。</p></div></section>
+<section class="section inner-content"><div class="content-wrap">
+ <div class="inner-heading reveal"><div class="eyebrow">01 <small>FORM TOOL</small></div><h2>四個步驟，<br>不用一次填完。</h2><p>未知的欄位可以留空；已有完整料號時，建議優先填寫。所有內容只在這個頁面整理，不會自動寄給公司。</p></div>
+ <form class="rfq-wizard reveal" data-rfq-form>
+  <div class="wizard-head"><strong data-wizard-label>STEP 01 / 04　需求類型</strong><div class="wizard-progress-track" aria-hidden="true"><span class="wizard-progress-fill" data-wizard-progress></span></div></div>
+  <fieldset class="wizard-step" data-rfq-step="0">
+   <legend>你需要什麼？</legend>
+   <p class="wizard-lead">先選擇需求類型，之後再補上細節即可。</p>
+   <div class="wizard-choice-grid">
+    <label class="wizard-choice"><input type="radio" name="需求類型" value="電阻" checked><span>電阻</span></label>
+    <label class="wizard-choice"><input type="radio" name="需求類型" value="焊接相關零件"><span>焊接相關零件</span></label>
+    <label class="wizard-choice"><input type="radio" name="需求類型" value="其他料件／專案"><span>其他料件／專案</span></label>
+   </div>
+  </fieldset>
+  <fieldset class="wizard-step" data-rfq-step="1" hidden>
+   <legend>零件與採購條件</legend>
+   <p class="wizard-lead">資料越完整，後續核對越有效率。</p>
+   <div class="wizard-fields-two">
+    <div class="wizard-field"><label for="rfq-part">完整料號</label><input id="rfq-part" name="料號" autocomplete="off" placeholder="含前後綴或版本"></div>
+    <div class="wizard-field"><label for="rfq-maker">製造商</label><input id="rfq-maker" name="製造商" placeholder="若有指定請填寫"></div>
+    <div class="wizard-field"><label for="rfq-qty">需求數量</label><input id="rfq-qty" name="數量" placeholder="件數或預估採購量"></div>
+    <div class="wizard-field"><label for="rfq-schedule">期望時程</label><input id="rfq-schedule" name="時程" placeholder="如：預計使用月份"></div>
+   </div>
+   <div class="wizard-field"><label for="rfq-spec">規格、替代料與限制</label><textarea id="rfq-spec" name="規格與限制條件" placeholder="功率、公差、尺寸、包裝、是否接受替代料等"></textarea></div>
+  </fieldset>
+  <fieldset class="wizard-step" data-rfq-step="2" hidden>
+   <legend>聯絡與補充資訊</legend>
+   <p class="wizard-lead">此表單不會自動寄出，因此聯絡資料只會出現在最後複製的文字中。</p>
+   <div class="wizard-fields-two">
+    <div class="wizard-field"><label for="rfq-company">公司／單位</label><input id="rfq-company" name="詢價公司" autocomplete="organization" placeholder="公司或組織名稱"></div>
+    <div class="wizard-field"><label for="rfq-name">聯絡人</label><input id="rfq-name" name="聯絡人" autocomplete="name" placeholder="您的姓名"></div>
+   </div>
+   <div class="wizard-field"><label for="rfq-contact">偏好的聯絡方式</label><input id="rfq-contact" name="聯絡方式" placeholder="電子郵件或其他既有聯絡方式"><small>填寫後不會自動傳送，請自行選擇合適管道聯繫。</small></div>
+   <div class="wizard-field"><label for="rfq-notes">其他說明</label><textarea id="rfq-notes" name="其他需求" placeholder="其他限制、備註或希望確認的內容"></textarea></div>
+  </fieldset>
+  <fieldset class="wizard-step" data-rfq-step="3" hidden>
+   <legend>確認你的詢價內容</legend>
+   <p class="wizard-lead">檢查下方整理結果，確認後複製。尚未填寫的欄位會以「未提供」顯示。</p>
+   <dl class="wizard-review" data-rfq-review aria-live="polite"></dl>
+   <div class="wizard-disclaimer">按下「整理並複製」只會複製文字，不代表已向 SIGNWELL 送出詢價。</div>
+   <textarea class="copy-fallback" data-rfq-copy-text aria-label="可手動複製的詢價內容" readonly hidden></textarea>
+  </fieldset>
+  <div class="wizard-actions">
+   <button class="btn" type="button" data-rfq-prev hidden>上一步</button>
+   <button class="btn btn-black" type="button" data-rfq-next>下一步</button>
+   <button class="btn btn-black" type="submit" data-rfq-submit hidden>整理並複製</button>
+  </div>
+  <p class="status-message" data-form-status aria-live="polite"></p>
+ </form>
+</div></section></main><footer class="site-footer site-footer-minimal">
+  <div class="footer-upper"><div class="footer-brand"><span class="brand-mark"></span>SIGNWELL</div><nav class="footer-links" aria-label="頁尾導覽">
+    <a href="company.html">公司</a><a href="products.html">產品與服務</a><a href="sourcing.html">尋料</a><a href="rfq.html">詢價</a><a href="contact.html">聯絡</a>
+  </nav></div>
+  <div class="footer-bottom"><span>© <span data-year></span> SIGNWELL</span><span>欣緯科技有限公司</span></div>
+</footer></body></html>
