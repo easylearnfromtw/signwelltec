@@ -5078,6 +5078,10 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
     requestRender();
   }
 
+  function blockScrollWhileDrawing(event) {
+    if (activePointer !== null && event.cancelable) event.preventDefault();
+  }
+
   function finish(event) {
     if (activePointer === null || event && event.pointerId !== undefined && event.pointerId !== activePointer) return;
     const pointerId = activePointer;
@@ -5152,6 +5156,7 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
 
   r.addEventListener("pointerdown", start);
   r.addEventListener("pointermove", move);
+  r.addEventListener("touchmove", blockScrollWhileDrawing, { passive: false });
   r.addEventListener("pointerup", finish);
   r.addEventListener("pointercancel", finish);
   r.addEventListener("lostpointercapture", finish);
@@ -5202,6 +5207,7 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
       intersection.disconnect(); observer.disconnect();
       document.removeEventListener("visibilitychange", visibility);
       window.removeEventListener("blur", finish);
+      r.removeEventListener("touchmove", blockScrollWhileDrawing);
       o.traverse(object => { if (object.geometry) object.geometry.dispose(); });
       [...g, ...v, b.material, x.material, I, O, h.material, B.material, floorText.material].forEach(material => material.dispose());
       [...f, y, R, A, B.material.map, letteringTexture, o.environment].forEach(texture => texture && texture.dispose());
