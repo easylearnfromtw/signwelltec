@@ -13,13 +13,14 @@
   const draw = stage.querySelector('[data-tape-draw]');
   const hero = stage.closest('.csr-hero');
   const content = document.querySelector('.csr-page-content');
+  const tabbar = document.querySelector('[data-tabbar]');
   const touchDevice = window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
   let scene = null, loading = false;
   stage.classList.toggle('supports-touch', touchDevice);
 
   function idleMessage() {
-    return touchDevice && draw && !stage.classList.contains('is-touch-drawing')
-      ? '向上滑動閱讀，或開啟「手指貼膠帶」'
+    return touchDevice
+      ? '在膠帶上拖曳可以貼下；向上滑動繼續閱讀'
       : '按住並拖曳，在地板上貼膠帶';
   }
 
@@ -33,9 +34,24 @@
     status.textContent = idleMessage();
   }
 
+  function syncTabbar(panelTop) {
+    if (!tabbar) return;
+    const vh = Math.max(window.innerHeight || 0, document.documentElement.clientHeight || 0);
+    if (!vh) return;
+    const revealStart = vh * 0.96;
+    const revealEnd = vh * 0.72;
+    const progress = Math.max(0, Math.min(1, (revealStart - panelTop) / (revealStart - revealEnd)));
+    tabbar.classList.add('csr-tape-aware');
+    tabbar.style.setProperty('--csr-tabbar-opacity', progress.toFixed(3));
+    tabbar.style.setProperty('--csr-tabbar-y', ((1 - progress) * 118).toFixed(1) + '%');
+    const inner = tabbar.querySelector('.tabbar-inner');
+    if (inner) inner.inert = progress < 0.18;
+  }
+
   function syncCover() {
     if (!hero || !content) return;
     const panelTop = content.getBoundingClientRect().top;
+    syncTabbar(panelTop);
     const covered = panelTop <= 0;
     [stage.querySelector('.tape-controls'), hero.querySelector('.csr-scroll-link')].forEach(element => {
       if (element) element.inert = panelTop < element.getBoundingClientRect().bottom;
@@ -99,7 +115,7 @@
       });
       if (!scene) stage.classList.add('is-static');
       else {
-        reset.disabled = false;
+        if (reset) reset.disabled = false;
         if (draw) draw.disabled = false;
         status.textContent = idleMessage();
         syncCover();
@@ -113,7 +129,7 @@
     if (scene) { scene.updateCards(cards()); scene.updateFloor(floorCopy()); }
     tip.classList.remove('is-on');
   });
-  reset.addEventListener('click', () => {
+  if (reset) reset.addEventListener('click', () => {
     if (scene) { scene.restart(); status.textContent = '地板已清空，' + idleMessage(); }
   });
   if (draw) draw.addEventListener('click', () => setTouchDrawing(!stage.classList.contains('is-touch-drawing')));
