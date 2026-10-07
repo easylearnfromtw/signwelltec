@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded',()=>{
+  const pageTransition=document.createElement('div');
+  pageTransition.className='page-transition-layer';
+  pageTransition.setAttribute('aria-hidden','true');
+  document.body.appendChild(pageTransition);
   // Hard invariant: the site may scroll vertically, never horizontally.
   const lockHorizontalViewport=()=>{
     document.documentElement.style.overflowX='clip';
@@ -83,7 +87,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 
   // Internal page transition
-  window.addEventListener('pageshow',()=>document.body.classList.remove('page-leaving'));
+  window.addEventListener('pageshow',()=>{document.body.classList.remove('page-leaving');document.documentElement.classList.remove('page-transition-active')});
   document.querySelectorAll('a[href]').forEach(a=>{
     a.addEventListener('click',e=>{
       if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
@@ -95,7 +99,8 @@ document.addEventListener('DOMContentLoaded',()=>{
       if(url.pathname===location.pathname&&url.hash) return;
       e.preventDefault();
       document.body.classList.add('page-leaving');
-      setTimeout(()=>{location.href=url.href},300);
+      document.documentElement.classList.add('page-transition-active');
+      setTimeout(()=>{location.href=url.href},400);
     });
   });
 
