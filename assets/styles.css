@@ -1539,3 +1539,99 @@ button:active{
     margin:0!important;
   }
 }
+
+
+/* Header action visibility and Chinese button typography */
+.header-cta{
+  min-height:42px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 16px;
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",Arial,sans-serif;
+  font-size:12px;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:.08em;
+  white-space:nowrap;
+}
+
+.menu-toggle{
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",Arial,sans-serif;
+}
+.menu-toggle .menu-label{
+  display:inline-block;
+  width:auto;
+  height:auto;
+  margin:0;
+  background:none;
+  font-size:12px;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:.08em;
+  white-space:nowrap;
+}
+.menu-toggle .menu-lines{
+  display:flex;
+  width:18px;
+  height:14px;
+  margin:0;
+  background:none;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+}
+.menu-toggle .menu-lines i{
+  display:block;
+  width:18px;
+  height:1.5px;
+  background:currentColor;
+  transition:transform .28s var(--ease),opacity .2s ease;
+  transform-origin:center;
+}
+body.menu-open .menu-toggle .menu-lines i:first-child{
+  transform:translateY(3.25px) rotate(45deg);
+}
+body.menu-open .menu-toggle .menu-lines i:last-child{
+  transform:translateY(-3.25px) rotate(-45deg);
+}
+
+@media(max-width:980px){
+  .site-header{
+    grid-template-columns:minmax(0,1fr) auto;
+  }
+  .menu-toggle{
+    display:inline-flex!important;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    min-width:92px;
+    height:42px;
+    padding:0 13px;
+    border:1px solid var(--yellow);
+    background:var(--yellow);
+    color:var(--black);
+    border-radius:0;
+    justify-self:end;
+    box-shadow:0 0 0 1px rgba(0,0,0,.08);
+  }
+  .menu-toggle:hover{
+    background:#ffe16c;
+  }
+}
+
+@media(max-width:380px){
+  .menu-toggle{
+    min-width:84px;
+    height:40px;
+    padding:0 11px;
+    gap:8px;
+  }
+  .menu-toggle .menu-label{
+    font-size:11px;
+  }
+  .menu-toggle .menu-lines,
+  .menu-toggle .menu-lines i{
+    width:16px;
+  }
+}
