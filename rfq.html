@@ -21,7 +21,7 @@
 <link rel="preload" href="assets/fonts/archivo-var.woff" as="font" type="font/woff" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css?v=20261007-plain-gmail1">
 <script>document.documentElement.classList.replace('no-js','js')</script>
-<script defer src="assets/js/rfq-mail.js?v=20261007-plain-gmail1"></script>
+<script defer src="assets/js/rfq-mail.js?v=20261008-manual-send1"></script>
 <script defer src="assets/js/app.js?v=20261007-displayfix1"></script>
 <script defer src="assets/js/belowfold.js?v=20261007-countup1"></script>
 <script defer src="assets/js/gpu-lifecycle.js?v=20261007-displayfix1"></script>
@@ -69,7 +69,7 @@
         <div class="page-kicker rv"><span class="mono">06</span><span class="bar"></span><span class="label">Request builder</span></div>
         <h1 class="t-h1 lines" data-lines>讓需求，<br>變成一份清單。<span class="t-en">Build a clear request</span></h1>
       </div>
-      <p class="t-lead rv" style="--d:1">分步填寫需求，系統會整理成純文字詢價內容並直接帶入 Gmail 草稿；收件人預設為 luca.sinwell@gmail.com，確認內容後即可寄出。</p>
+      <p class="t-lead rv" style="--d:1">分步填寫需求，系統會整理成純文字詢價內容並開啟 Gmail 撰寫視窗；收件人預設為 luca.sinwell@gmail.com。網站不會自動寄信，請在 Gmail 內確認後自行按「傳送」。</p>
     </div>
   </div>
 </section>
@@ -140,11 +140,11 @@
 
           <fieldset class="wizard-step" data-rfq-step="3" hidden>
             <legend>確認信件預覽</legend>
-            <p class="wizard-lead">以下為詢價內容預覽；按下「開啟 Gmail 草稿」後，系統會以純文字自動帶入收件人、主旨與信件內容。</p>
+            <p class="wizard-lead">以下為詢價內容預覽；按下「開啟 Gmail 寄件視窗」後，系統會以純文字自動帶入收件人、主旨與信件內容。</p>
             <div class="mail-preview rfq-mail-preview" data-rfq-mail-preview aria-label="SIGNWELL 詢價信件預覽"></div>
             <div class="mail-meta rfq-mail-meta"><span>收件人</span><strong>luca.sinwell@gmail.com</strong></div>
-            <p class="wizard-note">按下「開啟 Gmail 草稿」後，收件人、主旨與詢價內容會直接以純文字帶入 Gmail；不需要再複製或貼上。請在 Gmail 內確認內容後自行按「傳送」。</p>
-            <a class="btn btn--yellow" data-rfq-open-gmail href="https://mail.google.com/mail/u/0/?view=cm&amp;fs=1&amp;to=luca.sinwell%40gmail.com" target="_blank" rel="noopener" hidden>開啟 Gmail</a>
+            <p class="wizard-note">按下「開啟 Gmail 寄件視窗」後，收件人、主旨與詢價內容會直接以純文字帶入 Gmail；網站不會自動寄出。請在 Gmail 內確認內容後自行按「傳送」。</p>
+            <a class="btn btn--yellow" data-rfq-open-gmail href="https://mail.google.com/mail/u/0/?view=cm&amp;fs=1&amp;to=luca.sinwell%40gmail.com" target="_blank" rel="noopener" hidden>開啟 Gmail 寄件視窗</a>
             <textarea class="copy-fallback" data-rfq-copy-text aria-label="可手動複製的詢價內容" readonly hidden></textarea>
           </fieldset>
         </div>
@@ -153,7 +153,7 @@
           <button class="btn btn--line" type="button" data-rfq-prev hidden>上一步</button>
           <span class="spacer"></span>
           <button class="btn btn--ink" type="button" data-rfq-next>下一步<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-          <button class="btn btn--yellow" type="submit" data-rfq-submit hidden><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg><span data-submit-label>開啟 Gmail 草稿</span></button>
+          <button class="btn btn--yellow" type="submit" data-rfq-submit hidden><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg><span data-submit-label>開啟 Gmail 寄件視窗</span></button>
         </div>
         <p class="form-status status-message" data-form-status aria-live="polite"></p>
       </form>
@@ -168,7 +168,7 @@
           </dl>
           <ol data-sum-lines><li class="empty">尚未加入料件</li></ol>
           <div class="receipt-total"><span class="mono">ITEMS</span><strong class="mono" data-sum="count">00</strong></div>
-          <p class="receipt-foot">資料只會留在你的瀏覽器；按下「傳送」後才會開啟郵件草稿。</p>
+          <p class="receipt-foot">資料只會留在你的瀏覽器；網站只會開啟 Gmail 撰寫視窗，不會自動寄出。</p>
         </div>
       </aside>
     </div>
