@@ -123,3 +123,23 @@
     width:1320px!important;
   }
 }
+
+
+/* Desktop photo-stage refinement */
+@media(min-width:1024px){
+  .sw-camera::before{
+    width:min(1882px,108vw)!important;
+    max-width:none!important;
+    background-position:center 46%!important;
+  }
+  .sw-camera::after{
+    background:
+      radial-gradient(80% 55% at 50% 12%,rgba(255,255,255,.20),transparent 62%),
+      linear-gradient(180deg,rgba(5,12,18,.02),rgba(5,12,18,.015) 58%,rgba(5,12,18,.10));
+  }
+}
+@media(min-width:1800px){
+  .sw-camera::before{
+    width:min(1882px,100vw)!important;
+  }
+}
