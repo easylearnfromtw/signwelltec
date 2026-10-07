@@ -143,6 +143,18 @@ document.addEventListener('DOMContentLoaded',()=>{
     el.addEventListener('pointerleave',release,{passive:true});
   });
 
+  // Business contact disclosure: no phone number is shown until requested.
+  document.querySelectorAll('[data-phone-reveal]').forEach(button=>{
+    const panel=document.getElementById(button.getAttribute('aria-controls'));
+    if(!panel) return;
+    button.addEventListener('click',()=>{
+      const reveal=panel.hidden;
+      panel.hidden=!reveal;
+      button.setAttribute('aria-expanded',String(reveal));
+      button.textContent=reveal?'隱藏聯絡電話':'顯示聯絡電話';
+    });
+  });
+
   // Sourcing guide: choose a scenario without leaving the page.
   const sourcingScenarios={
     part:{
