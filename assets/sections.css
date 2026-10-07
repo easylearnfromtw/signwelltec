@@ -789,3 +789,17 @@
     justify-content:flex-start;
   }
 }
+
+
+/* CSR donation cards: public-facing view hides calculation mechanics. */
+.donation-card{
+  min-height:360px;
+}
+.donation-next{
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid rgba(10,10,10,.22);
+}
+@media(max-width:640px){
+  .donation-card{min-height:330px}
+}
