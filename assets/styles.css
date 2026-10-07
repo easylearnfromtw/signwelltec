@@ -532,3 +532,8 @@ h1,h2,h3,p,li,dd,dt,a,span,strong,em{
   .portfolio-row:hover{padding-left:0;background:transparent}
 }
 :focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
+
+.team-photo img[data-photo="lin-che-kai"]{object-position:50% 34%}
+@media(max-width:640px){
+  .team-photo img[data-photo="lin-che-kai"]{object-position:50% 31%}
+}
