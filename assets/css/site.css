@@ -447,3 +447,10 @@ body[data-page="social-responsibility"] .csr-page-content{
     --tab:40px;
   }
 }
+
+
+/* Stable donation counter geometry */
+[data-donation-total]{min-width:7ch;text-align:right}
+[data-donation-amount]{min-width:6ch;text-align:right}
+.giving-total strong [data-donation-total]{display:inline-block}
+.donation-overview [data-donation-total]{display:inline-block}
