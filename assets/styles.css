@@ -1727,3 +1727,22 @@ body.menu-open .site-tool-dock{opacity:0!important;visibility:hidden!important}
 @media(prefers-reduced-motion:reduce){
   .site-tool-dock,.service-card,.home-section-nav a{transition:none}
 }
+
+
+/* Homepage portfolio arrow: pin the chevron to the far right on all breakpoints. */
+.portfolio-row{
+  position:relative;
+  padding-right:46px;
+}
+.portfolio-row::after{
+  position:absolute;
+  right:10px;
+  top:50%;
+  margin:0;
+  transform:translateY(-50%) rotate(45deg);
+}
+@media(max-width:640px){
+  .portfolio-row{
+    padding-right:46px;
+  }
+}
