@@ -5,7 +5,8 @@
   const page = document.body && document.body.dataset.page || '';
   const jobs = {
     home: [
-      { selector:'#audience', src:'assets/js/people-guide.js?v=20261007-lazy' }
+      { selector:'#audience', src:'assets/js/people-guide.js?v=20261007-lazy' },
+      { selector:'#identity', src:'assets/js/donations.js?v=20261007-home-identity-capital5' }
     ],
     products: [
       { selector:'#part-records', src:'assets/js/products-filter.js?v=20261007-lazy' }
