@@ -1229,3 +1229,17 @@ html.transition-instant .page-transition-layer{
   .page-transition-layer{transition:none!important}
   .ui-ripple{display:none}
 }
+
+/* Keep the homepage "產品與服務" heading on one horizontal line. */
+.product-intro .split-head h2{
+  white-space:nowrap;
+}
+@media(max-width:640px){
+  .product-intro .split-head h2{
+    font-size:clamp(30px,8.9vw,44px);
+    letter-spacing:-.045em;
+  }
+  .product-intro .split-head h2 .title-en{
+    white-space:normal;
+  }
+}
