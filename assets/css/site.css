@@ -625,3 +625,56 @@ body[data-page="social-responsibility"] .csr-page-content{
   .capital-number.is-counting,
   .capital-number.is-complete{animation:none!important}
 }
+
+
+/* Homepage corporate identity interactive tape */
+#identity.home-identity-tape{
+  padding:clamp(86px,8vw,124px) 0 0;
+  background:#e4e4e0;
+  color:var(--ink);
+  overflow:hidden;
+  content-visibility:visible;
+}
+#identity.home-identity-tape .home-identity-head .sec-head{
+  margin-bottom:clamp(36px,4.5vw,64px);
+}
+#identity.home-identity-tape .home-identity-stage{
+  width:100%;
+  height:clamp(660px,63vw,920px);
+  margin:0;
+  border-top:1px solid rgba(10,10,11,.12);
+  border-bottom:1px solid rgba(10,10,11,.12);
+  background:radial-gradient(120% 90% at 50% 40%,rgba(255,255,255,.55),rgba(255,255,255,0) 62%),#e4e4e0;
+}
+#identity.home-identity-tape .home-identity-stage .tape-hud{
+  top:24px;
+}
+#identity.home-identity-tape .home-identity-foot{
+  padding-top:28px;
+  padding-bottom:clamp(76px,8vw,112px);
+}
+#identity.home-identity-tape .home-identity-foot .next-row{
+  margin-top:0;
+}
+#identity.home-identity-tape .home-identity-stage.is-static{
+  display:block;
+  min-height:560px;
+}
+@media(max-width:760px){
+  #identity.home-identity-tape{
+    padding-top:70px;
+  }
+  #identity.home-identity-tape .home-identity-head .sec-head{
+    margin-bottom:30px;
+  }
+  #identity.home-identity-tape .home-identity-stage{
+    height:680px;
+  }
+  #identity.home-identity-tape .home-identity-stage .tape-hud{
+    top:18px;
+  }
+  #identity.home-identity-tape .home-identity-foot{
+    padding-top:20px;
+    padding-bottom:66px;
+  }
+}
