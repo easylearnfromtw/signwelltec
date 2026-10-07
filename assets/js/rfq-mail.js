@@ -174,7 +174,7 @@
 
         const url = gmailUrl();
         if (submit) submit.disabled = true;
-        setStatus('正在開啟 Gmail 草稿；收件人、主旨與純文字內容會自動帶入。');
+        setStatus('正在開啟 Gmail 寄件視窗；收件人、主旨與純文字內容會自動帶入。網站不會自動寄出。');
 
         const draft = window.open(url, '_blank', 'noopener');
         if (!draft) {
@@ -183,7 +183,7 @@
             manual.href = url;
             manual.hidden = false;
           }
-          setStatus('瀏覽器封鎖了新分頁，請按「開啟 Gmail」；內容仍會自動帶入，不需要複製貼上。');
+          setStatus('瀏覽器封鎖了新分頁，請按「開啟 Gmail 寄件視窗」；內容仍會自動帶入。最後請在 Gmail 內自行按「傳送」。');
         }
 
         setTimeout(function () {
