@@ -144,3 +144,329 @@ body[data-page=software]{color:var(--sw-ink);overflow-x:hidden}
   .sw-service-grid,.sw-project-grid{grid-template-columns:1fr}.sw-lead-card{padding:22px}.sw-project-visual{height:220px}
 }
 @media(prefers-reduced-motion:reduce){.sw-world,.sw-world-note{transition:none!important;animation:none!important}}
+
+
+/* Mobile interface refinement — 2026-10-07 */
+@media(max-width:760px){
+  body[data-page=software]{
+    overscroll-behavior-y:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  .sw-camera{
+    height:100dvh;
+    min-height:100svh;
+    contain:paint;
+    touch-action:pan-y;
+  }
+
+  /* Compact top bar: preserve the brand, turn return into an icon control. */
+  .sw-topbar{
+    height:58px;
+    padding:
+      env(safe-area-inset-top)
+      14px
+      0;
+    align-items:flex-end;
+    padding-bottom:8px;
+    background:linear-gradient(to bottom,rgba(232,236,233,.94),rgba(232,236,233,.72) 70%,rgba(232,236,233,0));
+  }
+  .sw-brand{
+    gap:8px;
+    font-size:11px;
+    line-height:1;
+    letter-spacing:.04em;
+  }
+  .sw-mark{
+    width:15px;
+    height:15px;
+    flex:0 0 auto;
+  }
+  .sw-top-actions .sw-chip{display:none}
+  .sw-top-actions .sw-return{
+    width:38px;
+    height:38px;
+    min-width:38px;
+    padding:0;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    background:rgba(255,255,255,.9);
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
+  }
+  .sw-top-actions .sw-return span{display:none}
+  .sw-top-actions .sw-return svg{
+    width:15px;
+    height:15px;
+    transform:rotate(180deg);
+  }
+
+  /* Scene selector becomes a horizontally scrollable mobile rail. */
+  .sw-pills{
+    top:calc(env(safe-area-inset-top) + 64px);
+    left:12px;
+    right:12px;
+    max-width:none;
+    padding:2px 1px 8px;
+    display:flex;
+    flex-wrap:nowrap;
+    justify-content:flex-start;
+    overflow-x:auto;
+    overscroll-behavior-x:contain;
+    scroll-snap-type:x proximity;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 10px,#000 calc(100% - 16px),transparent 100%);
+    mask-image:linear-gradient(90deg,transparent 0,#000 10px,#000 calc(100% - 16px),transparent 100%);
+  }
+  .sw-pills::-webkit-scrollbar{display:none}
+  .sw-pills button{
+    flex:0 0 auto;
+    min-height:36px;
+    padding:0 12px;
+    scroll-snap-align:start;
+    font-size:8.5px;
+    border-radius:999px;
+    background:rgba(255,255,255,.92);
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
+    box-shadow:0 5px 14px rgba(18,18,20,.06);
+  }
+
+  /* Large SVG filters cost a lot on iPhone; remove them without changing geometry. */
+  .sw-world svg{
+    filter:none;
+  }
+  .sw-world svg [filter]{
+    filter:none!important;
+  }
+
+  /* Keep the model dominant; labels are smaller and tap targets remain >=44px. */
+  .sw-world-note{
+    min-width:150px;
+    max-width:184px;
+    padding:9px 10px;
+    border-radius:10px;
+    box-shadow:0 10px 24px rgba(18,18,20,.10);
+  }
+  .sw-world-note small{font-size:7.5px}
+  .sw-world-note strong{
+    margin:3px 0 2px;
+    font-size:13px;
+  }
+  .sw-world-note span{
+    font-size:8px;
+    line-height:1.35;
+  }
+  .sw-world-note.project-city{
+    min-width:86px;
+    min-height:44px;
+    padding:8px 9px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .sw-world-note.project-city strong{font-size:10.5px}
+  .sw-world-note.project-city span{display:none}
+
+  /* Mobile information card: short bottom card, not a large modal covering the model. */
+  .sw-hud{
+    left:12px;
+    right:12px;
+    bottom:calc(env(safe-area-inset-bottom) + 35px);
+    width:auto;
+    max-width:none;
+    padding:13px 14px 12px;
+    border-radius:14px;
+    box-shadow:0 14px 36px rgba(18,18,20,.15);
+  }
+  .sw-hud-kicker{
+    font-size:7.5px;
+    letter-spacing:.07em;
+  }
+  .sw-hud-kicker:before{width:16px}
+  .sw-hud h1,.sw-hud h2{
+    margin:7px 0 5px;
+  }
+  .sw-hud h1{
+    font-size:34px;
+    line-height:.98;
+  }
+  .sw-hud h2{
+    font-size:25px;
+    line-height:1.02;
+  }
+  .sw-hud p{
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+    overflow:hidden;
+    font-size:10.5px;
+    line-height:1.5;
+  }
+  .sw-hud-actions{display:none}
+
+  .sw-story-progress{
+    left:12px;
+    right:12px;
+    bottom:max(10px,env(safe-area-inset-bottom));
+    gap:8px;
+  }
+  .sw-story-progress-label{
+    min-width:65px;
+    font-size:8px;
+  }
+
+  /* Slightly shorten the mobile scroll journey; the camera still keeps its pauses. */
+  .sw-story{height:500vh}
+
+  /* Content below the camera gets more native mobile spacing and larger tap targets. */
+  .sw-content-wrap{
+    width:calc(100% - 28px);
+  }
+  .sw-section{
+    padding:72px 0;
+    contain-intrinsic-size:auto 760px;
+  }
+  .sw-section-head{
+    grid-template-columns:1fr;
+    gap:12px;
+    margin-bottom:32px;
+  }
+  .sw-section-copy h2{
+    font-size:36px;
+    line-height:1.06;
+  }
+  .sw-section-copy p{
+    margin-top:14px;
+    font-size:14px;
+    line-height:1.75;
+  }
+  .sw-service-grid,
+  .sw-leads,
+  .sw-project-grid{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+  .sw-service-card{
+    min-height:150px;
+    padding:18px;
+    border-radius:17px;
+  }
+  .sw-service-card h3{font-size:20px}
+  .sw-lead-card{
+    padding:20px;
+    border-radius:18px;
+  }
+  .sw-lead-top{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+  .sw-lead-card h3{
+    margin:7px 0 2px;
+    font-size:34px;
+  }
+  .sw-award{
+    justify-self:start;
+    margin:0;
+  }
+  .sw-lead-resume{
+    margin-top:20px;
+  }
+  .sw-lead-resume li{
+    padding:8px 0;
+    font-size:12px;
+  }
+  .sw-project{
+    border-radius:18px;
+  }
+  .sw-project-visual{
+    height:190px;
+  }
+  .sw-project-body{
+    padding:18px;
+  }
+  .sw-project h3{
+    font-size:24px;
+  }
+  .sw-project-actions a,
+  .sw-project-actions button{
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 14px;
+  }
+
+  .sw-closing{
+    padding:76px 0 calc(76px + env(safe-area-inset-bottom));
+  }
+  .sw-closing h2{
+    font-size:43px;
+  }
+  .sw-closing .sw-return{
+    min-height:44px;
+    padding:0 15px;
+  }
+
+  /* Project detail becomes a proper bottom sheet on phones. */
+  .sw-dialog{
+    width:100%;
+    max-width:none;
+    margin:auto 0 0;
+    padding:0;
+  }
+  .sw-dialog::backdrop{
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
+    background:rgba(18,18,20,.38);
+  }
+  .sw-dialog-card{
+    width:100%;
+    max-height:min(78dvh,720px);
+    border-radius:24px 24px 0 0;
+    padding:22px 18px calc(22px + env(safe-area-inset-bottom));
+    box-shadow:0 -18px 50px rgba(18,18,20,.18);
+  }
+  .sw-dialog h3{
+    font-size:28px;
+    line-height:1.08;
+  }
+  .sw-dialog-close{
+    width:44px;
+    height:44px;
+    flex:0 0 auto;
+  }
+  .sw-dialog-body{
+    font-size:14px;
+    line-height:1.75;
+  }
+  .sw-dialog-links a{
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+  }
+}
+
+@media(max-width:390px){
+  .sw-brand span:last-child{max-width:142px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sw-hud h1{font-size:31px}
+  .sw-hud h2{font-size:23px}
+  .sw-world-note.chekai{left:23%;top:18%}
+  .sw-world-note.lcw{left:48%;top:23%}
+}
+
+@media(max-width:760px) and (orientation:landscape){
+  .sw-topbar{height:50px}
+  .sw-pills{top:54px}
+  .sw-hud{
+    width:min(340px,46vw);
+    right:auto;
+    bottom:30px;
+  }
+  .sw-hud p{-webkit-line-clamp:1}
+  .sw-story-progress{left:calc(46vw + 34px)}
+}
