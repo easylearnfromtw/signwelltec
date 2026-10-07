@@ -675,3 +675,108 @@ h1,h2,h3,p,li,dd,dt,a,span,strong,em{
     padding:22px;
   }
 }
+
+/* Leadership horizontal carousel — internal scroll only; page stays x-locked */
+.team-carousel-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  margin-bottom:38px;
+}
+.team-carousel-head h2{margin-bottom:0}
+.team-carousel-controls{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.team-carousel-controls>span{
+  margin-right:8px;
+  font-size:8px;
+  letter-spacing:.14em;
+  color:#777;
+  white-space:nowrap;
+}
+.team-carousel-btn{
+  width:44px;
+  height:44px;
+  min-width:44px;
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--black);
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  transition:background .2s var(--ease),color .2s var(--ease),opacity .2s var(--ease);
+}
+.team-carousel-btn:hover{background:var(--black);color:#fff}
+.team-carousel-btn:disabled{opacity:.28;cursor:default;background:transparent;color:var(--black)}
+.team-grid.team-carousel{
+  display:flex;
+  grid-template-columns:none;
+  gap:1px;
+  width:100%;
+  max-width:100%;
+  margin-top:0;
+  overflow-x:auto;
+  overflow-y:hidden;
+  overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-x pan-y;
+  scrollbar-width:none;
+  background:var(--line);
+  border:1px solid var(--line);
+  scroll-padding-inline:0;
+}
+.team-grid.team-carousel::-webkit-scrollbar{display:none}
+.team-grid.team-carousel .team-card{
+  flex:0 0 clamp(280px,39%,430px);
+  width:auto;
+  min-width:0;
+  min-height:360px;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+  border:0;
+}
+.team-grid.team-carousel .representative-card{
+  grid-column:auto;
+  flex-basis:clamp(380px,58%,620px);
+  min-height:360px;
+}
+.team-grid.team-carousel:focus-visible{
+  outline:2px solid var(--blue);
+  outline-offset:4px;
+}
+@media(max-width:640px){
+  .team-carousel-head{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:22px;
+    margin-bottom:26px;
+  }
+  .team-carousel-controls{
+    width:100%;
+  }
+  .team-carousel-controls>span{
+    margin-right:auto;
+  }
+  .team-grid.team-carousel{
+    width:100%;
+    max-width:100%;
+    scroll-padding-inline:0;
+  }
+  .team-grid.team-carousel .team-card,
+  .team-grid.team-carousel .representative-card{
+    flex:0 0 86%;
+    min-height:360px;
+  }
+}
+@media(max-width:380px){
+  .team-grid.team-carousel .team-card,
+  .team-grid.team-carousel .representative-card{
+    flex-basis:88%;
+  }
+}
