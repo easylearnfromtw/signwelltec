@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded',()=>{
       document.body.classList.toggle('menu-open',open);
       toggle.setAttribute('aria-expanded',String(open));
       toggle.setAttribute('aria-label',open?'關閉選單':'開啟選單');
+      const menuLabel=toggle.querySelector('.menu-label');
+      if(menuLabel) menuLabel.textContent=open?'關閉':'選單';
       menu.setAttribute('aria-hidden',String(!open));
     };
     toggle.addEventListener('click',()=>setMenu(!menu.classList.contains('open')));
