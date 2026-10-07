@@ -777,3 +777,17 @@
   .donation-amount strong{font-size:clamp(58px,17vw,82px)}
   .donation-note{grid-template-columns:1fr;gap:8px}
 }
+
+
+.donation-card-badges{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:7px;
+}
+@media(max-width:640px){
+  .donation-card-badges{
+    justify-content:flex-start;
+  }
+}
