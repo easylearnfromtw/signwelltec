@@ -1299,3 +1299,37 @@ html.transition-instant .page-transition-layer{
   font-size:10px;
   opacity:.68;
 }
+
+
+/* Homepage wordmark: white Chinese name above yellow SIGNWELL. */
+.hero-brand-title{
+  color:#fff;
+  text-wrap:nowrap;
+  white-space:nowrap;
+}
+.hero-brand-title .hero-brand-en{
+  display:inline-block;
+  color:var(--yellow);
+  font-family:Inter,Arial,sans-serif;
+  font-size:.92em;
+  font-weight:800;
+  letter-spacing:-.065em;
+  line-height:1.06;
+  white-space:nowrap;
+}
+@media(max-width:640px){
+  .hero-brand-title{
+    font-size:clamp(48px,14.8vw,76px);
+    line-height:1.06;
+    letter-spacing:-.045em;
+  }
+  .hero-brand-title .hero-brand-en{
+    font-size:.93em;
+    letter-spacing:-.06em;
+  }
+}
+@media(max-width:380px){
+  .hero-brand-title{
+    font-size:13.7vw;
+  }
+}
