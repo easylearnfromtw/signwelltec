@@ -522,4 +522,77 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
     showStep(0);
   }
+
+  // Social responsibility donation counters.
+  // Baseline amounts are the figures supplied on 2026-10-07. Future display
+  // increments follow the stated monthly schedules using Asia/Taipei time.
+  const donationCards=[...document.querySelectorAll('[data-donation-card]')];
+  if(donationCards.length){
+    const formatter=new Intl.NumberFormat('zh-TW');
+    const taipeiParts=()=>{
+      const parts=new Intl.DateTimeFormat('en-US',{
+        timeZone:'Asia/Taipei',
+        year:'numeric',
+        month:'2-digit',
+        day:'2-digit'
+      }).formatToParts(new Date());
+      const map={};
+      parts.forEach(part=>{if(part.type!=='literal') map[part.type]=Number(part.value)});
+      return {year:map.year,month:map.month,day:map.day};
+    };
+    const formatDate=({year,month,day})=>
+      String(year).padStart(4,'0')+'.'+String(month).padStart(2,'0')+'.'+String(day).padStart(2,'0');
+    const parseDate=value=>{
+      const [year,month,day]=String(value).split('-').map(Number);
+      return {year,month,day};
+    };
+    const monthIndex=(year,month)=>year*12+(month-1);
+    const fromMonthIndex=index=>({
+      year:Math.floor(index/12),
+      month:(index%12)+1
+    });
+    const today=taipeiParts();
+    let total=0;
+
+    donationCards.forEach(card=>{
+      const base=Number(card.dataset.baseAmount)||0;
+      const increment=Number(card.dataset.increment)||0;
+      const cycleDay=Number(card.dataset.cycleDay)||1;
+      const first=parseDate(card.dataset.firstDate);
+      const firstMonth=monthIndex(first.year,first.month);
+      const currentMonth=monthIndex(today.year,today.month);
+
+      let cycles=0;
+      if(currentMonth>=firstMonth){
+        cycles=currentMonth-firstMonth;
+        if(today.day>=cycleDay) cycles+=1;
+      }
+      cycles=Math.max(0,cycles);
+
+      const amount=base+(cycles*increment);
+      total+=amount;
+      const amountNode=card.querySelector('[data-donation-amount]');
+      if(amountNode) amountNode.textContent=formatter.format(amount);
+
+      let next;
+      if(currentMonth<firstMonth){
+        next=first;
+      }else if(today.day<cycleDay){
+        next={year:today.year,month:today.month,day:cycleDay};
+      }else{
+        const nextMonth=fromMonthIndex(currentMonth+1);
+        next={year:nextMonth.year,month:nextMonth.month,day:cycleDay};
+      }
+      const nextNode=card.querySelector('[data-donation-next]');
+      if(nextNode) nextNode.textContent=formatDate(next);
+    });
+
+    document.querySelectorAll('[data-donation-total]').forEach(node=>{
+      node.textContent=formatter.format(total);
+    });
+    document.querySelectorAll('[data-donation-asof]').forEach(node=>{
+      node.textContent=formatDate(today);
+    });
+  }
+
 });
