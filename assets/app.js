@@ -574,17 +574,18 @@ document.addEventListener('DOMContentLoaded',()=>{
       const amountNode=card.querySelector('[data-donation-amount]');
       if(amountNode) amountNode.textContent=formatter.format(amount);
 
-      let next;
+      let lastDonation;
       if(currentMonth<firstMonth){
-        next=first;
-      }else if(today.day<cycleDay){
-        next={year:today.year,month:today.month,day:cycleDay};
+        const previousMonth=fromMonthIndex(firstMonth-1);
+        lastDonation={year:previousMonth.year,month:previousMonth.month,day:cycleDay};
+      }else if(today.day>=cycleDay){
+        lastDonation={year:today.year,month:today.month,day:cycleDay};
       }else{
-        const nextMonth=fromMonthIndex(currentMonth+1);
-        next={year:nextMonth.year,month:nextMonth.month,day:cycleDay};
+        const previousMonth=fromMonthIndex(currentMonth-1);
+        lastDonation={year:previousMonth.year,month:previousMonth.month,day:cycleDay};
       }
-      const nextNode=card.querySelector('[data-donation-next]');
-      if(nextNode) nextNode.textContent=formatDate(next);
+      const lastNode=card.querySelector('[data-donation-last]');
+      if(lastNode) lastNode.textContent=formatDate(lastDonation);
     });
 
     document.querySelectorAll('[data-donation-total]').forEach(node=>{
