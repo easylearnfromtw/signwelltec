@@ -1635,3 +1635,78 @@ body.menu-open .menu-toggle .menu-lines i:last-child{
     width:16px;
   }
 }
+
+
+/* Mobile header geometry reset — keep layout positions stable */
+@media(max-width:980px){
+  .site-header{
+    display:flex!important;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    width:100%;
+    max-width:100%;
+    height:72px;
+    padding-left:max(var(--pad),env(safe-area-inset-left));
+    padding-right:max(var(--pad),env(safe-area-inset-right));
+  }
+  .site-header .brand{
+    flex:0 1 auto;
+    min-width:0;
+    margin:0;
+  }
+  .site-header .menu-toggle{
+    position:relative;
+    inset:auto;
+    flex:0 0 auto;
+    justify-self:auto;
+    margin:0;
+    min-width:78px;
+    width:auto;
+    height:40px;
+    min-height:40px;
+    padding:0 11px;
+    gap:8px;
+  }
+
+  /* Cancel obsolete hamburger rules that were moving the text label itself */
+  body.menu-open .menu-toggle>span:first-child,
+  body.menu-open .menu-toggle>span:last-child{
+    transform:none!important;
+  }
+  body.menu-open .menu-toggle .menu-label{
+    transform:none!important;
+  }
+  body.menu-open .menu-toggle .menu-lines{
+    transform:none!important;
+  }
+  body.menu-open .menu-toggle .menu-lines i:first-child{
+    transform:translateY(3.25px) rotate(45deg)!important;
+  }
+  body.menu-open .menu-toggle .menu-lines i:last-child{
+    transform:translateY(-3.25px) rotate(-45deg)!important;
+  }
+
+  .menu-toggle .menu-label{
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",Arial,sans-serif;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.06em;
+    line-height:1;
+  }
+}
+@media(max-width:640px){
+  .site-header{
+    height:68px;
+    padding-top:0;
+  }
+  .site-header .menu-toggle{
+    min-width:74px;
+    height:38px;
+    min-height:38px;
+    padding:0 10px;
+  }
+  .brand{
+    font-size:15px;
+  }
+}
