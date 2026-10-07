@@ -157,7 +157,7 @@ body[data-page=people] #people{padding-top:clamp(64px,8vw,110px)}
   backface-visibility:hidden;
 }
 .tabbar-inner{
-  contain:layout style;
+  contain:style;
   will-change:transform;
   backface-visibility:hidden;
 }
