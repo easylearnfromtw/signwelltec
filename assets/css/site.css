@@ -130,49 +130,76 @@ body[data-page=people] #people{padding-top:clamp(64px,8vw,110px)}
 
 
 
-/* Lightweight directional navigation.
-   Only MAIN moves; the fixed glass tabbar stays independent and responsive. */
+
+
+/* Render below-the-fold sections only when they approach the viewport. */
+main > .section,
+main > .csr-page-content > .section,
+.site-footer{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 980px;
+}
+
+/* Color-continuous route bridge.
+   A solid destination-color panel moves over the old page and then off the new one.
+   No white/black intermediary frame is introduced. */
+html{
+  --sw-nav-color: var(--paper);
+}
+html::after{
+  content:"";
+  position:fixed;
+  z-index:870;
+  inset:0;
+  background:var(--sw-nav-color);
+  pointer-events:none;
+  transform:translate3d(110%,0,0);
+  will-change:transform;
+}
+html[data-nav-dir=backward]::after{
+  transform:translate3d(-110%,0,0);
+}
+html.is-page-leaving::after{
+  animation:sw-cover-forward .15s var(--ease-out) both;
+}
+html.is-page-leaving[data-nav-dir=backward]::after{
+  animation-name:sw-cover-backward;
+}
+html[data-nav-enter]::after{
+  transform:translate3d(0,0,0);
+}
+html[data-nav-enter=forward]::after{
+  animation:sw-reveal-forward .18s var(--ease-out) both;
+}
+html[data-nav-enter=backward]::after{
+  animation:sw-reveal-backward .18s var(--ease-out) both;
+}
+@keyframes sw-cover-forward{
+  from{transform:translate3d(110%,0,0)}
+  to{transform:translate3d(0,0,0)}
+}
+@keyframes sw-cover-backward{
+  from{transform:translate3d(-110%,0,0)}
+  to{transform:translate3d(0,0,0)}
+}
+@keyframes sw-reveal-forward{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(-110%,0,0)}
+}
+@keyframes sw-reveal-backward{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(110%,0,0)}
+}
 .tabbar{
   isolation:isolate;
   backface-visibility:hidden;
 }
-.tabbar-inner{
-  contain:style;
+.tabbar-inner,
+.tabbar .lg-capsule,
+.tabbar .lg-lens-row{
   backface-visibility:hidden;
-}
-.tabbar .lg-capsule,.tabbar .lg-lens-row{
-  backface-visibility:hidden;
-}
-html.is-page-leaving main{
-  pointer-events:none;
-  will-change:transform,opacity;
-}
-html.is-page-leaving[data-nav-dir=forward] main{
-  animation:sw-leave-left .16s cubic-bezier(.4,0,1,1) both;
-}
-html.is-page-leaving[data-nav-dir=backward] main{
-  animation:sw-leave-right .16s cubic-bezier(.4,0,1,1) both;
-}
-html[data-nav-enter=forward] main{
-  animation:sw-enter-right .18s var(--ease-out) both;
-}
-html[data-nav-enter=backward] main{
-  animation:sw-enter-left .18s var(--ease-out) both;
-}
-@keyframes sw-leave-left{
-  to{opacity:.90;transform:translate3d(-24px,0,0)}
-}
-@keyframes sw-leave-right{
-  to{opacity:.90;transform:translate3d(24px,0,0)}
-}
-@keyframes sw-enter-right{
-  from{opacity:.92;transform:translate3d(20px,0,0)}
-  to{opacity:1;transform:none}
-}
-@keyframes sw-enter-left{
-  from{opacity:.92;transform:translate3d(-20px,0,0)}
-  to{opacity:1;transform:none}
 }
 @media(prefers-reduced-motion:reduce){
-  html.is-page-leaving main,html[data-nav-enter] main{animation:none!important}
+  html.is-page-leaving::after,
+  html[data-nav-enter]::after{animation-duration:.001ms!important}
 }
