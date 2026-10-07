@@ -1060,7 +1060,7 @@ body.person-modal-open{overflow:hidden!important}
 
 /* Automatic first-load veil */
 body::before{
-  content:"SIGNWELL｜科技與生醫";
+  content:"SIGNWELL欣緯科技";
   position:fixed;
   inset:0;
   z-index:9998;
@@ -1937,5 +1937,64 @@ html.page-transition-active .page-transition-layer{
 @media(prefers-reduced-motion:reduce){
   .page-transition-layer{
     transition-duration:.01ms!important;
+  }
+}
+
+
+/* Unified SIGNWELL welcome / transfer branding */
+.page-transition-layer{
+  display:grid!important;
+  place-items:center!important;
+}
+.page-transition-brand{
+  position:relative;
+  z-index:1;
+  display:block;
+  color:#fff;
+  font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;
+  font-size:clamp(18px,3vw,34px);
+  font-weight:800;
+  line-height:1;
+  letter-spacing:.08em;
+  white-space:nowrap;
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity .18s ease .08s,transform .28s var(--ease) .08s;
+}
+html.page-transition-active .page-transition-brand{
+  opacity:1;
+  transform:translateY(0);
+}
+.person-site-link{
+  align-self:end;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:44px;
+  margin-top:18px;
+  padding:11px 14px;
+  border:1px solid rgba(10,10,10,.55);
+  background:rgba(255,255,255,.18);
+  color:var(--black);
+  font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;
+  font-size:11px;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:.06em;
+  text-align:center;
+}
+.person-site-link:hover{
+  background:var(--black);
+  color:#fff;
+}
+@media(max-width:640px){
+  .page-transition-brand{
+    font-size:18px;
+    letter-spacing:.06em;
+  }
+  .person-site-link{
+    min-height:46px;
+    margin-top:14px;
   }
 }
