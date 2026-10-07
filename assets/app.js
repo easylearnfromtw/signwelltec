@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded',()=>{
   const pageTransition=document.createElement('div');
   pageTransition.className='page-transition-layer';
+  pageTransition.innerHTML='<span class="page-transition-brand">SIGNWELL欣緯科技</span>';
   pageTransition.setAttribute('aria-hidden','true');
   document.body.appendChild(pageTransition);
   // Hard invariant: the site may scroll vertically, never horizontally.
