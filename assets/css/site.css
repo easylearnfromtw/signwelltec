@@ -615,6 +615,23 @@ body[data-page="social-responsibility"] .csr-page-content{
   0%{transform:scale(1.012)}
   100%{transform:none}
 }
+
+.capital-number.is-jumping{
+  animation:capital-number-jump .10s cubic-bezier(.2,.85,.3,1);
+}
+.capital-number.is-final-pop{
+  animation:capital-number-final-pop .38s cubic-bezier(.2,.9,.25,1.2);
+}
+@keyframes capital-number-jump{
+  0%{transform:translateY(0) scale(1)}
+  45%{transform:translateY(-7px) scale(1.012)}
+  100%{transform:translateY(0) scale(1)}
+}
+@keyframes capital-number-final-pop{
+  0%{transform:scale(1)}
+  45%{transform:scale(1.055)}
+  100%{transform:scale(1)}
+}
 @media(max-width:900px){
   .capital-band::before{background:radial-gradient(100% 90% at 80% 70%,rgba(255,216,77,.14),transparent 68%)}
   .capital-band-grid{
