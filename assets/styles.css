@@ -1893,3 +1893,49 @@ body.menu-open .menu-toggle .menu-lines i:last-child{
     font-size:11px!important;
   }
 }
+
+
+/* =========================================================
+   PAGE TRANSITION FINAL AUTHORITY
+   Dedicated oversized fixed curtain prevents any exposed edge
+   on iOS dynamic viewport / safe-area changes.
+   ========================================================= */
+body::after{
+  display:none!important;
+}
+
+.page-transition-layer{
+  position:fixed!important;
+  top:-20vh!important;
+  right:-12vw!important;
+  bottom:-20vh!important;
+  left:-12vw!important;
+  width:auto!important;
+  height:auto!important;
+  min-width:124vw!important;
+  min-height:140vh!important;
+  min-height:140dvh!important;
+  z-index:2147483647!important;
+  margin:0!important;
+  padding:0!important;
+  background:#0a0a0a!important;
+  border:0!important;
+  pointer-events:none!important;
+  transform:translate3d(0,120%,0)!important;
+  transition:transform .38s cubic-bezier(.76,0,.24,1)!important;
+  will-change:transform;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  contain:paint;
+}
+
+html.page-transition-active .page-transition-layer{
+  transform:translate3d(0,0,0)!important;
+  pointer-events:auto!important;
+}
+
+@media(prefers-reduced-motion:reduce){
+  .page-transition-layer{
+    transition-duration:.01ms!important;
+  }
+}
