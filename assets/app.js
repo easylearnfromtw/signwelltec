@@ -263,8 +263,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   // copied as rich clipboard content, then manually pasted into Gmail.
   const form=document.querySelector('[data-rfq-form]');
   if(form){
-    const gmailRecipient='signwell.com.tw@gmail.com';
-    const gmailRecipientLabel='signwell.com.tw';
+    const gmailRecipient='luca.sinwell@gmail.com';
     const steps=[...form.querySelectorAll('[data-rfq-step]')];
     const stepNames=['需求類型','零件條件','聯絡資料','最終確認'];
     const prev=form.querySelector('[data-rfq-prev]');
@@ -361,7 +360,6 @@ document.addEventListener('DOMContentLoaded',()=>{
         '</td></tr>'+
       '</table>';
     };
-    const makeMailDocument=()=>'<html lang="zh-Hant"><head><meta charset="utf-8"></head><body style="margin:0;background:#EAF6FF">'+makeMailMarkup()+'</body></html>';
     const updatePreview=()=>{
       if(mailPreview) mailPreview.innerHTML=makeMailMarkup();
     };
@@ -381,144 +379,11 @@ document.addEventListener('DOMContentLoaded',()=>{
     };
     next?.addEventListener('click',()=>showStep(current+1));
     prev?.addEventListener('click',()=>showStep(current-1));
-    const copyRichMail=async()=>{
-      updatePreview();
-      const html=makeMailDocument();
-      const text=makeText();
-      try{
-        if(!navigator.clipboard?.write||typeof ClipboardItem==='undefined') throw new Error('Rich clipboard unavailable');
-        await navigator.clipboard.write([new ClipboardItem({
-          'text/html':new Blob([html],{type:'text/html'}),
-          'text/plain':new Blob([text],{type:'text/plain'})
-        })]);
-        return true;
-      }catch{
-        try{
-          const holder=document.createElement('div');
-          holder.contentEditable='true';
-          holder.setAttribute('aria-hidden','true');
-          holder.style.position='fixed';
-          holder.style.left='-99999px';
-          holder.style.top='0';
-          holder.innerHTML=html;
-          document.body.appendChild(holder);
-          const range=document.createRange();
-          range.selectNodeContents(holder);
-          const selection=window.getSelection();
-          selection.removeAllRanges();
-          selection.addRange(range);
-          const ok=document.execCommand('copy');
-          selection.removeAllRanges();
-          holder.remove();
-          return !!ok;
-        }catch{
-          return false;
-        }
-      }
-    };
-
-    const copyRichMailSync=()=>{
-      const html=makeMailDocument();
-      try{
-        const holder=document.createElement('div');
-        holder.contentEditable='true';
-        holder.setAttribute('aria-hidden','true');
-        holder.style.position='fixed';
-        holder.style.left='-100000px';
-        holder.style.top='0';
-        holder.style.width='650px';
-        holder.innerHTML=html;
-        document.body.appendChild(holder);
-
-        const range=document.createRange();
-        range.selectNodeContents(holder);
-        const selection=window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-
-        const copied=document.execCommand('copy');
-        selection.removeAllRanges();
-        holder.remove();
-        return !!copied;
-      }catch{
-        return false;
-      }
-    };
-
-    const openComposeDirectly=()=>{
-      const mailSubject=subject();
-      const mailBody=makeText();
-
-      // Keep the designed HTML mail ready on the clipboard when the browser allows it.
-      copyRichMailSync();
-
-      const params='to='+encodeURIComponent(gmailRecipient)+
-        '&subject='+encodeURIComponent(mailSubject)+
-        '&body='+encodeURIComponent(mailBody);
-
-      const gmailAppUrl='googlegmail:///co?'+params;
-      const mailtoUrl='mailto:'+encodeURIComponent(gmailRecipient)+
-        '?subject='+encodeURIComponent(mailSubject)+
-        '&body='+encodeURIComponent(mailBody);
-
-      const ua=navigator.userAgent||'';
-      const isiOS=/iPhone|iPad|iPod/i.test(ua);
-
-      if(submit){
-        submit.disabled=true;
-        submit.textContent='開啟寄件…';
-      }
-      if(status) status.textContent='正在開啟新郵件寄件畫面…';
-
-      if(isiOS){
-        let fallbackTimer=null;
-        let leftPage=false;
-
-        const cancelFallback=()=>{
-          leftPage=true;
-          if(fallbackTimer) clearTimeout(fallbackTimer);
-          document.removeEventListener('visibilitychange',onVisibilityChange);
-          window.removeEventListener('pagehide',cancelFallback);
-        };
-        const onVisibilityChange=()=>{
-          if(document.hidden) cancelFallback();
-        };
-
-        document.addEventListener('visibilitychange',onVisibilityChange);
-        window.addEventListener('pagehide',cancelFallback,{once:true});
-
-        // Attempt Gmail's iOS compose scheme inside the original user gesture.
-        window.location.href=gmailAppUrl;
-
-        // If Gmail is not installed or the scheme is blocked, open the system
-        // compose sheet instead. If Gmail is the default mail app, mailto opens Gmail.
-        fallbackTimer=setTimeout(()=>{
-          if(leftPage) return;
-          window.location.href=mailtoUrl;
-          setTimeout(()=>{
-            if(submit){
-              submit.disabled=false;
-              submit.textContent='傳送';
-            }
-          },1200);
-        },850);
-        return;
-      }
-
-      // Other mobile/desktop browsers: mailto opens the configured mail client.
-      window.location.href=mailtoUrl;
-      setTimeout(()=>{
-        if(submit){
-          submit.disabled=false;
-          submit.textContent='傳送';
-        }
-      },1200);
-    };
-
-    form.addEventListener('submit',e=>{
-      e.preventDefault();
-      if(current!==steps.length-1){showStep(steps.length-1);return;}
-      openComposeDirectly();
+    window.SignwellRichMail.bind({
+      form, preview:mailPreview, status, submit, recipient:gmailRecipient,
+      markup:makeMailMarkup, text:makeText, subject,
+      isFinal:()=>current===steps.length-1,
+      showFinal:()=>showStep(steps.length-1)
     });
     showStep(0);
   }

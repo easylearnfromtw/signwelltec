@@ -17,9 +17,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap">
 <link rel="preload" href="assets/fonts/archivo-var.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=c2564675">
+<link rel="stylesheet" href="assets/css/site.css?v=20261007-refine">
 <script>document.documentElement.classList.replace('no-js','js')</script>
-<script defer src="assets/js/app.js?v=57a48580"></script>
+<script defer src="assets/js/rfq-mail.js?v=20261007-rich-mail"></script>
+<script defer src="assets/js/app.js?v=20261007-refine"></script>
+<script defer src="assets/js/gpu-lifecycle.js?v=20261007-refine"></script>
 </head>
 <body data-page="rfq" id="top">
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
@@ -64,7 +66,7 @@
         <div class="page-kicker rv"><span class="mono">06</span><span class="bar"></span><span class="label">Request builder</span></div>
         <h1 class="t-h1 lines" data-lines>讓需求，<br>變成一份清單。<span class="t-en">Build a clear request</span></h1>
       </div>
-      <p class="t-lead rv" style="--d:1">分步填寫需求，系統會整理成一封格式清楚的詢價信；按下「傳送」後開啟郵件草稿，收件人預設為 signwell.com.tw@gmail.com，由你確認後寄出。</p>
+      <p class="t-lead rv" style="--d:1">分步填寫需求，系統會整理成一封格式清楚的詢價信；複製與預覽相同的完整排版，再開啟 Gmail；收件人預設為 luca.sinwell@gmail.com，在信件內文貼上後即可寄出。</p>
     </div>
   </div>
 </section>
@@ -135,10 +137,18 @@
 
           <fieldset class="wizard-step" data-rfq-step="3" hidden>
             <legend>確認信件預覽</legend>
-            <p class="wizard-lead">以下是將寄出的詢價信排版，內容仍可在郵件中再次編輯。</p>
+            <p class="wizard-lead">以下排版會完整複製到剪貼簿；在 Gmail 內文貼上後，仍可編輯內容。</p>
             <div class="mail-preview rfq-mail-preview" data-rfq-mail-preview aria-label="SIGNWELL 詢價信件預覽"></div>
-            <div class="mail-meta rfq-mail-meta"><span>收件人</span><strong>signwell.com.tw@gmail.com</strong></div>
-            <p class="wizard-note">按下「傳送」後會開啟新郵件，並帶入收件人、主旨與詢價內容。iPhone 若安裝 Gmail 會優先開啟 Gmail，否則使用系統預設郵件 App；排版好的詢價信也會同時複製，可直接貼上。</p>
+            <div class="mail-meta rfq-mail-meta"><span>收件人</span><strong>luca.sinwell@gmail.com</strong></div>
+            <div class="rfq-mail-tools" aria-label="完整排版信件工具">
+              <button class="btn btn--line" type="button" data-rfq-copy-html>複製完整排版</button>
+              <button class="btn btn--line" type="button" data-rfq-select-html>選取排版</button>
+              <button class="btn btn--line" type="button" data-rfq-download-html>下載 HTML 信件</button>
+              <button class="btn btn--line" type="button" data-rfq-download-eml>下載 .eml 信件</button>
+            </div>
+            <p class="wizard-note">按下「複製排版並開啟 Gmail」後，在 Gmail 信件內文貼上（電腦 Ctrl／⌘＋V；手機長按「貼上」），確認後按 Gmail 的「傳送」。保留表格、色彩與完整內容，請使用一般貼上，並關閉 Gmail「純文字模式」。</p>
+            <p class="wizard-note">Gmail 網頁不允許其他網站直接放入 HTML 草稿或代按傳送，因此需要你貼上與寄出。也可下載相同排版的 HTML，或用支援 .eml 的郵件 App 開啟信件檔。</p>
+            <a class="btn btn--yellow" data-rfq-open-gmail href="https://mail.google.com/mail/u/0/?view=cm&amp;fs=1&amp;to=luca.sinwell%40gmail.com" target="_blank" rel="noopener" hidden>開啟 Gmail</a>
             <textarea class="copy-fallback" data-rfq-copy-text aria-label="可手動複製的詢價內容" readonly hidden></textarea>
           </fieldset>
         </div>
@@ -147,7 +157,7 @@
           <button class="btn btn--line" type="button" data-rfq-prev hidden>上一步</button>
           <span class="spacer"></span>
           <button class="btn btn--ink" type="button" data-rfq-next>下一步<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-          <button class="btn btn--yellow" type="submit" data-rfq-submit hidden><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg><span data-submit-label>傳送</span></button>
+          <button class="btn btn--yellow" type="submit" data-rfq-submit hidden><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg><span data-submit-label>複製排版並開啟 Gmail</span></button>
         </div>
         <p class="form-status status-message" data-form-status aria-live="polite"></p>
       </form>
@@ -175,7 +185,7 @@
     <div class="footer-top">
       <div class="footer-cta">
         <p class="label">Business enquiry</p>
-        <a class="footer-mail" href="mailto:signwell.com.tw@gmail.com">signwell.com.tw@gmail.com</a>
+        <a class="footer-mail" href="mailto:luca.sinwell@gmail.com">luca.sinwell@gmail.com</a>
         <div><a class="btn btn--yellow" href="rfq.html">開始詢價<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
       </div>
       <div class="footer-col">
@@ -217,7 +227,7 @@
     <nav class="sheet-nav" aria-label="網站頁面"><a href="index.html"><span class="mono">00</span>首頁</a><a href="company.html"><span class="mono">01</span>公司</a><a href="products.html"><span class="mono">02</span>產品與服務</a><a href="sourcing.html"><span class="mono">03</span>尋料服務</a><a href="social-responsibility.html"><span class="mono">04</span>社會責任</a><a href="contact.html"><span class="mono">05</span>聯絡</a><a href="rfq.html" aria-current="page"><span class="mono">06</span>詢價</a></nav>
     <div class="sheet-foot">
       <span>欣緯科技有限公司・公司統編：24389585</span>
-      <a href="mailto:signwell.com.tw@gmail.com">signwell.com.tw@gmail.com</a>
+      <a href="mailto:luca.sinwell@gmail.com">luca.sinwell@gmail.com</a>
     </div>
   </div>
 </div>

@@ -4,7 +4,7 @@
   const stage = document.querySelector('[data-tape3d]');
   const items = Array.from(document.querySelectorAll('[data-tape-index] .tape-item'));
   if (!stage || !items.length) return;
-  const sceneURL = new URL('scene.js?v=20261007-pinned', document.currentScript.src);
+  const sceneURL = new URL('scene.js?v=20261007-refine', document.currentScript.src);
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const tip = stage.querySelector('[data-tape-tip]');
   const count = stage.querySelector('[data-tape-count]');
@@ -42,6 +42,14 @@
     });
     if (covered && !hero.inert) setTouchDrawing(false);
     hero.inert = covered;
+    if (scene) scene.setCovered(covered);
+  }
+
+  function floorCopy() {
+    return {
+      amount: document.querySelector('[data-donation-total]').textContent.trim(),
+      asOf: document.querySelector('[data-donation-asof]').textContent.trim()
+    };
   }
 
   function cards() {
@@ -82,7 +90,7 @@
       }
       const module = await import(sceneURL.href);
       scene = module.initTape(stage, {
-        cards: cards(), reducedMotion,
+        cards: cards(), reducedMotion, floorCopy: floorCopy(),
         onHover: showTip,
         onCount(value) { count.textContent = String(value).padStart(6, '0'); },
         onDrawing(drawing) {
@@ -102,7 +110,7 @@
   }
 
   document.addEventListener('signwell:donationsupdated', () => {
-    if (scene) scene.updateCards(cards());
+    if (scene) { scene.updateCards(cards()); scene.updateFloor(floorCopy()); }
     tip.classList.remove('is-on');
   });
   reset.addEventListener('click', () => {
@@ -110,7 +118,10 @@
   });
   if (draw) draw.addEventListener('click', () => setTouchDrawing(!stage.classList.contains('is-touch-drawing')));
   if (hero && content) {
-    window.addEventListener('scroll', syncCover, { passive: true });
+    let coverFrame = 0;
+    window.addEventListener('scroll', () => {
+      if (!coverFrame) coverFrame = requestAnimationFrame(() => { coverFrame = 0; syncCover(); });
+    }, { passive: true });
     window.addEventListener('resize', syncCover, { passive: true });
     syncCover();
   }

@@ -36,4 +36,42 @@
 @media(max-height:560px) and (min-width:761px){.csr-hero.page-hero{min-height:0}.csr-hero .t-h1{font-size:32px}.csr-hero .t-lead{display:none}.csr-hero .tape-hud{display:none}.csr-hero .tape-instructions{bottom:132px}}
 .csr-hero:has(.tape-stage.is-static){position:relative;height:auto;min-height:0;padding-bottom:96px}
 
+/* Keep semantic copy available while the same text is painted into the 3D floor. */
+.csr-hero:has(.tape-stage.is-live)>.wrap{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.csr-hero:has(.tape-stage.is-live) .tape-hud{display:none}
+
 @media(max-width:760px){.csr-hero .tape-hud{bottom:244px}.csr-hero .tape-instructions{bottom:194px}.csr-hero .tape-controls{bottom:136px}.csr-hero .csr-scroll-link{bottom:78px;font-size:11px}}
+
+/* Home: a still black stage with a centered company introduction. */
+body[data-page="home"] .hero{background:#000}
+body[data-page="home"] .hero-bottom{grid-template-columns:1fr;justify-items:center;text-align:center;gap:22px}
+body[data-page="home"] .hero-title{font-size:clamp(50px,5.8vw,90px)}
+body[data-page="home"] .hero-side{justify-items:center;max-width:none;gap:20px}
+body[data-page="home"] .hero-lead{text-align:center}
+body[data-page="home"] .hero-actions{justify-content:center}
+body[data-page="home"] .hero-foot{justify-content:center}
+body[data-page="home"] .hero-caps{justify-content:center}
+body[data-page="home"] .hero-stage.is-static .hero-wordmark{opacity:1}
+@media(max-width:760px){
+  body[data-page="home"] .hero-bottom{gap:18px}
+  body[data-page="home"] .hero-title{font-size:clamp(44px,12.5vw,72px)}
+  body[data-page="home"] .hero-side{width:100%;gap:22px}
+  body[data-page="home"] .hero-actions{width:100%;max-width:440px}
+}
+
+/* Rich quotation email controls; HTML exports share the preview's inline styles. */
+.rfq-mail-tools{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px}
+.rfq-mail-tools .btn{font-size:12px;min-height:42px;padding:10px 16px}
+@media(max-width:640px){.rfq-mail-tools{display:grid;grid-template-columns:1fr 1fr}.rfq-mail-tools .btn{width:100%;padding:10px 8px}}
+body[data-page="home"] .hero-wordmark{top:37%}
+body[data-page="home"] .hero-stage .hero-fallback{inset:auto;top:12%;left:0;width:100%;height:51%;object-fit:contain}
+
+/* Pause invisible decorative motion without changing its appearance. */
+.gpu-paused,.gpu-paused::before,.gpu-paused::after{animation-play-state:paused!important}
+
+@media(max-height:560px) and (min-width:761px){
+  .csr-hero .tape-instructions{left:auto;right:20px;bottom:148px;max-width:240px;text-align:right}
+  .csr-hero .tape-controls{left:auto;right:20px;bottom:90px;transform:none}
+  .csr-hero .csr-scroll-link{bottom:78px;left:20px;transform:none;max-width:50%;padding-left:0;font-size:11px}
+}
+body[data-page="home"] .hero-stage.is-static~.hero-ui .hero-hint{display:none}

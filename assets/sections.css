@@ -288,6 +288,9 @@
 }
 
 /* SIGNWELL Inbox-style quotation email preview — based on the user's reference card layout. */
+.rfq-mail-tools{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px}
+.rfq-mail-tools .btn{font-size:12px;min-height:42px;padding:10px 16px}
+@media(max-width:640px){.rfq-mail-tools{display:grid;grid-template-columns:1fr 1fr}.rfq-mail-tools .btn{width:100%;padding:10px 8px}}
 .rfq-mail-preview{
   display:block;
   width:100%;

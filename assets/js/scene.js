@@ -4286,9 +4286,435 @@ void main(){
   col += vec3(1.0, 0.55, 0.72) * band(y2, 0.05) * 0.05 * fade;
   gl_FragColor = vec4(col, 1.0);
 }
-`;function b_(i,{onReady:t,reducedMotion:e=!1,interactive:n=!0}={}){let s=document.createElement("canvas");s.className="hero3d-canvas",s.setAttribute("aria-hidden","true"),i.appendChild(s);let r;try{r=new ui({canvas:s,antialias:!0,powerPreference:"high-performance",alpha:!1})}catch{return s.remove(),null}let a=Math.min(window.innerWidth,window.innerHeight)<700,o=a?1.6:2,l=Math.min(window.devicePixelRatio||1,o);r.setPixelRatio(l),r.outputColorSpace=de,r.toneMapping=Wn,r.toneMappingExposure=1.05,r.setClearColor(657931,1);let c=new fn;c.background=new Lt("#0a0a0b"),c.environment=Cs(r),c.environmentIntensity=1;let h=new we(28,1,.1,100);h.position.set(0,0,11);let d={uTime:{value:0},uCenter:{value:new dt(.5,.5)},uAspect:{value:1},uGrid:{value:60},uMotion:{value:e?0:1}},u=new $t(new Oe(1,1),new We({uniforms:d,vertexShader:M_,fragmentShader:S_,toneMapped:!1,depthWrite:!1}));u.position.z=-7,u.renderOrder=-1,c.add(u);let f=y_(r.capabilities.getMaxAnisotropy()),g=new $t(new Oe(1,f.aspect),new Ue({map:f.texture,alphaTest:.5,toneMapped:!1}));f.texture.premultiplyAlpha=!1,c.add(g);let v=new _e,m=new _e;v.add(m),c.add(v);let p=Hu(),S=new Be({color:16777215,metalness:0,roughness:.035,transmission:1,thickness:.95,ior:1.5,dispersion:4.5,iridescence:.38,iridescenceIOR:1.32,iridescenceThicknessRange:[140,460],clearcoat:1,clearcoatRoughness:.02,attenuationColor:new Lt("#dfe8ff"),attenuationDistance:2.6,specularIntensity:1,envMapIntensity:1.25});wc(S,p);let E=new $t(new mr(Ps,Rs,a?72:112,a?200:320),S);m.add(E);let y=new Be({color:new Lt("#c87a4a"),metalness:1,roughness:.26,clearcoat:.8,clearcoatRoughness:.12,envMapIntensity:1.35});wc(y,p);let w=-Math.PI/2+Xu/2,b=Math.PI*1.5-Xu/2,R=Rs+Tc*1.15,x=new Ec(Wu,R,w,b),A=new $t(new _s(x,Wu*(a?40:64),Tc,10,!1),y);m.add(A);let I=(_,N)=>{let k=new C(_.x,_.y,_.z),Z=new C(_.x,_.y,0).normalize(),ht=k.clone().add(Z.clone().multiplyScalar(.12)),pt=new C(_.x*.9+N*.08,-(Ps+Rs)-.12,_.z*.3),L=new C(_.x*.9+N*.22,-(Ps+Rs)-.52,0);return new ni([k,ht,pt,L],!1,"centripetal")},O=x.getPoint(0),B=x.getPoint(1);[I(O,1),I(B,-1)].forEach(_=>{m.add(new $t(new _s(_,48,Tc,10,!1),y))});let z=new di(0,120,9),D=new di(.18,60,7),V=new di(0,90,6),J=new di(0,18,7),q=new di(0,18,7),it=new C(1,0,0),Y=1,Q=1,tt=1,bt=0,Tt=()=>{let _=i.getBoundingClientRect(),N=Math.max(1,_.width),k=Math.max(1,_.height);r.setSize(N,k,!1),h.aspect=N/k,h.updateProjectionMatrix();let Z=h.position.z;Q=2*Z*Math.tan(Mn.degToRad(h.fov/2)),Y=Q*h.aspect;let ht=h.aspect<.9,pt=ht?Y*.92:Math.min(Y*.86,Q*2.1),L=pt/f.inner;g.scale.set(L,L,1);let H=pt*((sn.y1-sn.y0)/(sn.x1-sn.x0));tt=ht?Math.max(H/((Ps-Rs)*1.25),Y*.17):Math.max(H/((Ps-Rs)*1.15),Q*.13),tt=Math.min(tt,ht?Y*.26:Q*.19),bt=ht?Q*.13:Q*.06;let lt=Z-u.position.z,ft=2*lt*Math.tan(Mn.degToRad(h.fov/2))*1.12,nt=ft*h.aspect;u.scale.set(nt,ft,1),d.uAspect.value=nt/ft,d.uGrid.value=ht?46:58,d.uCenter.value.set(.5,.5+bt*(lt/Z)/ft),v.scale.setScalar(tt),v.position.set(0,bt,0),g.position.set(0,bt,0)};Tt();let qt=new ResizeObserver(Tt);qt.observe(i);let kt={x:0,y:0,tx:0,ty:0},Yt=!1,K=0,G=0,ct=0,yt=0,_t=_=>{let N=i.getBoundingClientRect();if(kt.tx=(_.clientX-N.left)/N.width*2-1,kt.ty=(_.clientY-N.top)/N.height*2-1,!Yt)return;let k=_.clientX-G,Z=_.clientY-ct,ht=Math.max(8,performance.now()-yt);G=_.clientX,ct=_.clientY,yt=performance.now(),K+=Math.abs(k)+Math.abs(Z),J.v+=k*.012,q.v+=Z*.008;let pt=Math.min(1,Math.hypot(k,Z)/ht*.6);Math.hypot(k,Z)>.5&&it.set(k,-Z,0).normalize(),z.target=.16+pt*.32,D.target=.32},xt=_=>{n&&(_.target.closest&&_.target.closest("button, a, input")||(Yt=!0,K=0,G=_.clientX,ct=_.clientY,yt=performance.now(),i.classList.add("is-grabbing"),z.target=.12))},zt=()=>{Yt&&(Yt=!1,i.classList.remove("is-grabbing"),z.target=0,D.target=.18,K<6?(it.set(0,1,0),z.value=-.26,z.v=0,V.kick(5.5),D.kick(2.2)):(z.kick(-2.2),D.kick(1.2)))};i.addEventListener("pointermove",_t,{passive:!0}),i.addEventListener("pointerdown",xt,{passive:!0}),window.addEventListener("pointerup",zt,{passive:!0}),window.addEventListener("pointercancel",zt,{passive:!0});let j=!1,rt=0,ut=performance.now(),at=0,gt=!0,Bt=p.uDir.value,Ut=new dn,Rt=[],Xt=()=>{l<=.8||(l=Math.max(.8,l-.4),r.setPixelRatio(l),Tt())},P=_=>{let N=Math.min(.05,(_-ut)/1e3);ut=_,e||(at+=N),kt.x+=(kt.tx-kt.x)*Math.min(1,N*3),kt.y+=(kt.ty-kt.y)*Math.min(1,N*3),z.step(N),D.step(N),V.step(N),J.step(N),q.step(N),Bt.lerp(it,Math.min(1,N*6)).normalize(),p.uTime.value=at,d.uTime.value=at,p.uK.value=z.value,p.uWobble.value=D.value,p.uPulse.value=V.value,Ut.set(.1+Math.sin(at*.21)*.16+q.value+kt.y*.08,.78+Math.sin(at*.17)*.26+J.value+kt.x*.14,.14+Math.sin(at*.13)*.07,"YXZ"),m.rotation.copy(Ut),v.position.y=bt+Math.sin(at*.7)*.03*tt,h.position.x=kt.x*.22,h.position.y=-kt.y*.14,h.lookAt(0,0,0),c.environmentRotation.set(0,at*.12,0),r.render(c,h),gt&&(gt=!1,i.classList.add("is-live"),t&&t()),Rt.length<120&&(Rt.push(N),(Rt.length===60||Rt.length===120)&&Rt.slice(-60).reduce((Z,ht)=>Z+ht,0)/60>.03&&Xt()),j&&(rt=requestAnimationFrame(P))},ee=()=>{j||(j=!0,ut=performance.now(),rt=requestAnimationFrame(P))},Zt=()=>{j=!1,cancelAnimationFrame(rt)},T=new IntersectionObserver(_=>{_.forEach(N=>N.isIntersecting&&!document.hidden?ee():Zt())},{threshold:.01});return T.observe(i),document.addEventListener("visibilitychange",()=>{document.hidden?Zt():i.getBoundingClientRect().bottom>0&&ee()}),requestAnimationFrame(()=>{j||P(performance.now())}),{renderer:r,renderOnce:()=>P(performance.now()),setTime:_=>{at=_},destroy(){Zt(),T.disconnect(),qt.disconnect(),r.dispose(),s.remove()}}}var Ac={};function Ye(i){if(Ac[i])return Ac[i];let t={epoxy:()=>new Be({color:new Lt("#131315"),roughness:.62,metalness:0,clearcoat:.25,clearcoatRoughness:.5,sheen:.4,sheenRoughness:.6,sheenColor:new Lt("#3a3a40")}),epoxyGrey:()=>new Be({color:new Lt("#232428"),roughness:.7,metalness:0,clearcoat:.1,clearcoatRoughness:.6}),ferrite:()=>new Be({color:new Lt("#1e1f22"),roughness:.82,metalness:.05}),tin:()=>new Be({color:new Lt("#e2e4e4"),roughness:.22,metalness:1}),tinMatte:()=>new Be({color:new Lt("#cfd1d1"),roughness:.38,metalness:1}),copper:()=>new Be({color:new Lt("#c47a4b"),roughness:.3,metalness:1}),band:()=>new Be({color:new Lt("#c9c9c6"),roughness:.45,metalness:0}),mark:()=>new gn({color:new Lt("#3b3b3f"),roughness:.9}),resistorBody:()=>new Be({color:new Lt("#e6d3b3"),roughness:.5,clearcoat:.6,clearcoatRoughness:.25})}[i]();return Ac[i]=t,t}function w_(i,t,e){let n=new Si,s=-i/2,r=-t/2;return n.moveTo(s+e,r),n.lineTo(s+i-e,r),n.quadraticCurveTo(s+i,r,s+i,r+e),n.lineTo(s+i,r+t-e),n.quadraticCurveTo(s+i,r+t,s+i-e,r+t),n.lineTo(s+e,r+t),n.quadraticCurveTo(s,r+t,s,r+t-e),n.lineTo(s,r+e),n.quadraticCurveTo(s,r,s+e,r),n}function qn(i,t,e,n,{rad:s=.06,bevel:r=.05,y0:a=0}={}){let o=Math.min(r,e/3,i/4,t/4),l=new ms(w_(i-o*2,t-o*2,Math.max(.001,s)),{depth:e-o*2,bevelEnabled:!0,bevelThickness:o,bevelSize:o,bevelSegments:3,curveSegments:6});return l.rotateX(-Math.PI/2),l.translate(0,a+o,0),new $t(l,n)}function Yu(i,t,e,n=.13){let s=new $t(new ir(n,32),Ye("mark"));return s.rotation.x=-Math.PI/2,s.position.set(i,e+.002,t),s}function qu({reach:i,shoulderY:t,footY:e=0,thick:n=.13,width:s=.4}){let r=[[-.15,t],[i*.28,t],[i*.5,(t+e)/2],[i*.62,e+n/2],[i,e+n/2]],a=[],o=[];for(let h=0;h<r.length;h++){let[d,u]=r[h],f=r[Math.max(0,h-1)],g=r[Math.min(r.length-1,h+1)],v=g[0]-f[0],m=g[1]-f[1],p=Math.hypot(v,m)||1,S=-m/p,E=v/p;a.push(new dt(d+S*n/2,u+E*n/2)),o.push(new dt(d-S*n/2,u-E*n/2))}let l=new Si;l.moveTo(a[0].x,a[0].y);for(let h=1;h<a.length;h++)l.lineTo(a[h].x,a[h].y);for(let h=o.length-1;h>=0;h--)l.lineTo(o[h].x,o[h].y);l.closePath();let c=new ms(l,{depth:s,bevelEnabled:!0,bevelThickness:.015,bevelSize:.015,bevelSegments:1,curveSegments:4});return c.translate(0,0,-s/2),c.rotateY(-Math.PI/2),new $t(c,Ye("tin"))}function T_(){let i=new _e,t=2.9,e=1.6,n=1,s=.08;i.add(qn(t,e,n,Ye("epoxy"),{rad:.08,bevel:.06,y0:s}));let r=2.8/2,a=r-e/2,o=[-.95,0,.95],l=[-.95,.95];return o.forEach(c=>{let h=qu({reach:a,shoulderY:s+n*.42,width:.4});h.position.set(c,0,-e/2),h.rotation.y=Math.PI,i.add(h)}),l.forEach(c=>{let h=qu({reach:a,shoulderY:s+n*.42,width:.4});h.position.set(c,0,e/2),i.add(h)}),i.add(Yu(-t/2+.38,-e/2+.34,s+n,.12)),i.userData={dims:{x:t,z:e,y:s+n,labelX:"2.9",labelZ:"1.6"},footprint:{x:t,z:r*2}},i}function E_(){let i=new _e,t=3,e=.75;i.add(qn(t,t,e,Ye("epoxy"),{rad:.03,bevel:.025,y0:.02}));let n=.2,s=.4,r=.03,a=[-.8,-.4,0,.4,.8],o=Ye("tinMatte");for(let c=0;c<4;c++)a.forEach(h=>{let d=new $t(new mn(n,r,s),o),u=new $t(new mn(n,.2,.012),o),f=c*Math.PI/2,g=Math.cos(f),v=Math.sin(f),m=t/2-s/2+.001,p=h*g-m*v,S=h*v+m*g;d.position.set(p,r/2,S),d.rotation.y=-f;let E=h*g-(t/2+.003)*v,y=h*v+(t/2+.003)*g;u.position.set(E,.11,y),u.rotation.y=-f,i.add(d,u)});let l=new $t(new mn(1.65,r,1.65),o);return l.position.set(0,r/2,0),i.add(l),i.add(Yu(-t/2+.42,t/2-.42,.02+e,.14)),i.userData={dims:{x:t,z:t,y:e+.02,labelX:"3.0",labelZ:"3.0"}},i}function A_(i,t,e,n,{term:s=.5}={}){let r=new _e;r.add(qn(i-.06,t-.04,e-.04,n,{rad:.05,bevel:.05,y0:.02}));let a=Ye("tin");return[-1,1].forEach(o=>{let l=qn(s,t,e,a,{rad:.08,bevel:.07,y0:0});l.position.x=o*(i/2-s/2),r.add(l)}),r}function C_(){let i=A_(3.2,1.6,1.1,Ye("epoxyGrey"),{term:.55});return i.userData={dims:{x:3.2,z:1.6,y:1.1,labelX:"3.2",labelZ:"1.6"}},i}function R_(){let i=new _e,t=2.5,e=2,n=1.2;i.add(qn(t,e,n,Ye("ferrite"),{rad:.06,bevel:.06,y0:0}));let s=Ye("tinMatte");return[-1,1].forEach(r=>{let a=qn(.05,e*.9,n*.82,s,{rad:.03,bevel:.012,y0:0});a.position.set(r*(t/2+.018),0,0);let o=new $t(new mn(.62,.03,e*.9),s);o.position.set(r*(t/2-.29),-.012,0),i.add(a,o)}),i.userData={dims:{x:t,z:e,y:n,labelX:"2.5",labelZ:"2.0"}},i}function P_(){let i=new _e,t=3.6,e=1.8,n=1.05;i.add(qn(t,e,n,Ye("epoxy"),{rad:.12,bevel:.08,y0:0}));let s=qn(.42,e-.1,.02,Ye("band"),{rad:.02,bevel:.008,y0:n-.002});s.position.x=-t/2+.55,i.add(s);let r=Ye("tin");return[-1,1].forEach(a=>{let o=qn(.9,1.2,.12,r,{rad:.04,bevel:.03,y0:0});o.position.x=a*(t/2+.25),i.add(o)}),i.userData={dims:null},i}function I_(i=["#8a4b2a","#111111","#e0662c","#c9a227"]){let t=new _e,e=[],n=6.3,s=1.25,r=1.05,a=40;for(let d=0;d<=a;d++){let u=d/a,f=-n/2+u*n,g=Math.min(u,1-u),v;g<.03?v=s*Math.sin(g/.03*Math.PI/2)*.96+.04:g<.2?v=s:g<.27?v=s+(r-s)*((g-.2)/.07):v=r,e.push(new dt(Math.max(.05,v),f))}let o=new $t(new fr(e,48),Ye("resistorBody"));o.rotation.z=Math.PI/2,t.add(o);let l=[-1.85,-.95,-.05,1.6];i.forEach((d,u)=>{let f=u===0?s+.012:r+.012,g=new $t(new Gn(f,f,.42,48,1,!0),new Be({color:new Lt(d),roughness:.45,clearcoat:.6}));g.rotation.z=Math.PI/2,g.position.x=l[u],t.add(g)});let c=Ye("tin");[-1,1].forEach(d=>{let u=new $t(new Gn(.28,.28,4.2,16),c);u.rotation.z=Math.PI/2,u.position.x=d*(n/2+2),t.add(u)}),t.position.y=s;let h=new _e;return h.add(t),h.userData={dims:null},h}var Zu={"sot23-5":T_,"qfn3x3-20":E_,3216:C_,2520:R_,"smd-diode":P_,axial:I_};var Cc={iso:{theta:-.62,phi:.86},top:{theta:0,phi:.0012},bottom:{theta:0,phi:Math.PI-.0012},side:{theta:0,phi:Math.PI/2-.02}},Ju=i=>1-Math.pow(1-i,3);function L_(){let t=document.createElement("canvas");t.width=t.height=256;let e=t.getContext("2d"),n=e.createRadialGradient(256/2,256/2,0,256/2,256/2,256/2);return n.addColorStop(0,"rgba(0,0,0,0.42)"),n.addColorStop(.45,"rgba(0,0,0,0.16)"),n.addColorStop(1,"rgba(0,0,0,0)"),e.fillStyle=n,e.fillRect(0,0,256,256),new Fe(t)}function $u(i,t="#2f5bff"){let e=document.createElement("canvas"),n=64,s=e.getContext("2d"),r=`600 ${n}px "Plex Mono", "IBM Plex Mono", ui-monospace, monospace`;s.font=r;let a=Math.ceil(s.measureText(i).width)+36;e.width=a,e.height=n+30,s.font=r,s.fillStyle="#ffffff",s.fillRect(0,0,e.width,e.height),s.fillStyle=t,s.textBaseline="middle",s.fillText(i,18,e.height/2+2);let o=new Fe(e);o.colorSpace=de;let l=new js(new cs({map:o,depthTest:!1,toneMapped:!1}));return l.renderOrder=10,l.userData.aspect=e.width/e.height,l}function D_(i,t){let e=new _e;if(!t)return e;let n=.42,s=.12,r=.001,a=[],o=(S,E)=>a.push(S.x,S.y,S.z,E.x,E.y,E.z),l=i.max.z+n,c=i.min.x,h=i.max.x;o(new C(c,r,l),new C(h,r,l)),o(new C(c,r,l-s),new C(c,r,l+s)),o(new C(h,r,l-s),new C(h,r,l+s)),o(new C(c,r,i.max.z+.06),new C(c,r,l-s)),o(new C(h,r,i.max.z+.06),new C(h,r,l-s));let d=i.max.x+n,u=i.min.z,f=i.max.z;o(new C(d,r,u),new C(d,r,f)),o(new C(d-s,r,u),new C(d+s,r,u)),o(new C(d-s,r,f),new C(d+s,r,f)),o(new C(i.max.x+.06,r,u),new C(d-s,r,u)),o(new C(i.max.x+.06,r,f),new C(d-s,r,f));let g=new ve;g.setAttribute("position",new Kt(a,3));let v=new tr(g,new ds({color:3103743,transparent:!0,opacity:.9,depthTest:!0}));e.add(v);let m=$u(t.labelX+" mm");m.position.set((c+h)/2,.02,l+.26);let p=$u(t.labelZ+" mm");return p.position.set(d+.5,.02,(u+f)/2),[m,p].forEach(S=>{S.scale.set(.2*S.userData.aspect,.2,1),e.add(S)}),e}function N_(i,{initial:t,onReady:e,reducedMotion:n=!1,autoRotate:s=!0,distance:r=1}={}){let a=document.createElement("canvas");a.className="viewer3d-canvas",a.setAttribute("aria-hidden","true"),i.appendChild(a);let o;try{o=new ui({canvas:a,antialias:!0,alpha:!0,preserveDrawingBuffer:!1})}catch{return a.remove(),null}o.setPixelRatio(Math.min(window.devicePixelRatio||1,2)),o.outputColorSpace=de,o.toneMapping=Wn,o.toneMappingExposure=1.15,o.shadowMap.enabled=!0,o.shadowMap.type=Hn,o.setClearColor(0,0);let l=new fn;l.environment=Cs(o,{warm:.25,light:!0}),l.environmentIntensity=1.1,l.add(new Ti(16777215,14277076,.6));let c=new Ei(16777215,1.6);c.position.set(-3,7,4),c.castShadow=!0,c.shadow.mapSize.set(1024,1024),c.shadow.camera.left=-4,c.shadow.camera.right=4,c.shadow.camera.top=4,c.shadow.camera.bottom=-4,c.shadow.radius=6,c.shadow.bias=-6e-4,l.add(c);let h=new $t(new Oe(14,14),new wi({opacity:.16}));h.rotation.x=-Math.PI/2,h.receiveShadow=!0,l.add(h);let d=new $t(new Oe(1,1),new Ue({map:L_(),transparent:!0,depthWrite:!1,toneMapped:!1}));d.rotation.x=-Math.PI/2,d.position.y=.002,l.add(d);let u=new we(24,1,.05,100),f=new C(0,.25,0),g={theta:Cc.iso.theta,phi:Cc.iso.phi,radius:9.5},v=null,m=new _e;l.add(m);let p=null,S=null,E=!0,y=null,w=[],b=G=>{G.traverse(rt=>{rt.isMesh&&(rt.castShadow=!0,rt.receiveShadow=!0)});let ct=new en().setFromObject(G),yt=new C;ct.getSize(yt);let _t=2.6/Math.max(yt.x,yt.z,yt.y*1.4);G.scale.setScalar(_t);let xt=new en().setFromObject(G),zt=new C;xt.getCenter(zt),G.position.x-=zt.x,G.position.z-=zt.z,G.position.y-=xt.min.y;let j=new en().setFromObject(G);return G.userData.box=j,G},R=(G,ct)=>{let yt=Zu[ct];if(!yt||G===S)return;S=G,p&&w.push({obj:p,t:0,dims:y});let _t=b(yt()),xt=new _e;xt.add(_t),xt.userData={box:_t.userData.box,dims:_t.userData.dims,drop:1,v:0},m.add(xt),p=xt;let zt=_t.userData.box,j=new C;zt.getSize(j),d.scale.set(j.x*1.9,j.z*1.9,1),y=D_(zt,_t.userData.dims),y.visible=E,l.add(y),f.y=j.y*.45,n&&(xt.userData.drop=0)},x=G=>{let ct=Cc[G];if(!ct)return;let yt=(ct.theta-g.theta)%(Math.PI*2);yt>Math.PI&&(yt-=Math.PI*2),yt<-Math.PI&&(yt+=Math.PI*2),v={from:{theta:g.theta,phi:g.phi},to:{theta:g.theta+yt,phi:ct.phi},t:0,dur:.9},A=G,I=G==="iso"?.6:1/0},A="iso",I=0,O=G=>{E=G,y&&(y.visible=G)},B=()=>{let G=i.getBoundingClientRect(),ct=Math.max(1,G.width),yt=Math.max(1,G.height);o.setSize(ct,yt,!1),u.aspect=ct/yt,u.updateProjectionMatrix(),g.radius=(u.aspect<.85?12.5:9.6)*r};B();let z=new ResizeObserver(B);z.observe(i);let D=!1,V=0,J=0,q=0,it=0;i.addEventListener("pointerdown",G=>{G.target.closest&&G.target.closest("button, a, input, .seg, .lib-controls, .dims-toggle")||(D=!0,V=G.clientX,J=G.clientY,v=null,i.setPointerCapture?.(G.pointerId),i.classList.add("is-grabbing"))}),i.addEventListener("pointermove",G=>{if(!D)return;let ct=G.clientX-V,yt=G.clientY-J;V=G.clientX,J=G.clientY,q=-ct*.009,it=-yt*.007,g.theta+=q,g.phi=Mn.clamp(g.phi+it,.02,Math.PI-.02),I=2.5});let Y=()=>{D=!1,i.classList.remove("is-grabbing")};i.addEventListener("pointerup",Y),i.addEventListener("pointercancel",Y);let Q=!1,tt=0,bt=performance.now(),Tt=!0,qt=G=>{let ct=Math.min(.05,(G-bt)/1e3);if(bt=G,v){v.t+=ct/v.dur;let xt=Ju(Math.min(1,v.t));g.theta=v.from.theta+(v.to.theta-v.from.theta)*xt,g.phi=v.from.phi+(v.to.phi-v.from.phi)*xt,v.t>=1&&(v=null)}else D||(g.theta+=q,g.phi=Mn.clamp(g.phi+it,.02,Math.PI-.02),q*=.92,it*=.9,I>0?I-=ct:s&&!n&&A==="iso"&&(g.theta+=ct*.28));let yt=g.phi>Math.PI/2+.05;if(h.visible=d.visible=!yt,p){let xt=p.userData,zt=(0-xt.drop)*140-xt.v*13;xt.v+=zt*ct,xt.drop+=xt.v*ct,p.position.y=Math.max(-.02,xt.drop)*2.4;let j=1-Math.max(0,xt.drop)*.12;p.scale.setScalar(j)}for(let xt=w.length-1;xt>=0;xt--){let zt=w[xt];zt.t+=ct/.34;let j=Ju(Math.min(1,zt.t));zt.obj.position.y=j*2.2,zt.obj.scale.setScalar(1-j*.6),zt.obj.rotation.y=j*.6,zt.dims&&(zt.dims.visible=!1),zt.t>=1&&(m.remove(zt.obj),zt.dims&&l.remove(zt.dims),w.splice(xt,1))}let _t=Math.sin(g.phi);u.position.set(f.x+g.radius*_t*Math.sin(g.theta),f.y+g.radius*Math.cos(g.phi),f.z+g.radius*_t*Math.cos(g.theta)),u.up.set(0,1,0),(g.phi<.05||g.phi>Math.PI-.05)&&u.up.set(0,0,-1),u.lookAt(f),o.render(l,u),Tt&&(Tt=!1,i.classList.add("is-live"),e&&e()),Q&&(tt=requestAnimationFrame(qt))},kt=()=>{Q||(Q=!0,bt=performance.now(),tt=requestAnimationFrame(qt))},Yt=()=>{Q=!1,cancelAnimationFrame(tt)},K=new IntersectionObserver(G=>G.forEach(ct=>ct.isIntersecting&&!document.hidden?kt():Yt()),{threshold:.01});return K.observe(i),document.addEventListener("visibilitychange",()=>{document.hidden&&Yt()}),t&&R(t.id,t.pkg),requestAnimationFrame(()=>{Q||qt(performance.now())}),{select:R,setView:x,setDims:O,get view(){return A},renderer:o,scene:l,camera:u,renderNow:()=>qt(performance.now()),settle(){p&&(p.userData.drop=0,p.userData.v=0),w.forEach(G=>G.t=1)},destroy(){Yt(),K.disconnect(),z.disconnect(),o.dispose(),a.remove()}}}var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(Di/Ni)),Lr={ink:"#0a0a0b",paper:"#ffffff",mist:"#efefeb",yellow:"#ffd84d",blue:"#3d6bff",pink:"#f7c6d9",blueInk:"#2f5bff",mute:"rgba(10,10,11,.55)"};function U_(i,t,e,n,s,r){switch(i.save(),i.translate(e,n),i.scale(s/100,s/100),i.strokeStyle=r,i.fillStyle=r,i.lineWidth=5,i.lineJoin="round",i.lineCap="round",i.beginPath(),t){case"coin":i.arc(50,50,44,0,Math.PI*2),i.moveTo(80,50),i.arc(50,50,30,0,Math.PI*2),i.stroke(),i.beginPath(),i.moveTo(50,32),i.lineTo(50,68),i.moveTo(40,40),i.lineTo(60,40),i.stroke();break;case"school":i.moveTo(10,90),i.lineTo(90,90),i.moveTo(18,90),i.lineTo(18,46),i.lineTo(50,24),i.lineTo(82,46),i.lineTo(82,90),i.moveTo(42,90),i.lineTo(42,66),i.lineTo(58,66),i.lineTo(58,90),i.moveTo(50,24),i.lineTo(50,4),i.lineTo(66,10),i.lineTo(50,16),i.stroke();break;case"island":i.moveTo(14,64),i.quadraticCurveTo(44,24,76,64),i.stroke(),i.beginPath(),i.arc(74,22,10,0,Math.PI*2),i.stroke(),i.beginPath();for(let a=0;a<2;a++){let o=76+a*12;i.moveTo(6,o),i.bezierCurveTo(22,o-8,34,o+8,50,o),i.bezierCurveTo(66,o-8,78,o+8,94,o)}i.stroke();break;case"city":i.rect(8,40,26,50),i.rect(38,14,24,76),i.rect(66,30,26,60),i.stroke(),i.beginPath();for(let a=0;a<4;a++)i.moveTo(45,26+a*14),i.lineTo(55,26+a*14);i.stroke();break;case"mountain":i.moveTo(4,88),i.lineTo(38,30),i.lineTo(58,62),i.lineTo(72,42),i.lineTo(96,88),i.closePath(),i.stroke(),i.beginPath(),i.moveTo(30,44),i.lineTo(38,30),i.lineTo(46,44),i.stroke();break;case"wave":i.arc(70,26,14,0,Math.PI*2),i.stroke(),i.beginPath();for(let a=0;a<3;a++){let o=56+a*14;i.moveTo(4,o),i.bezierCurveTo(20,o-10,34,o+10,50,o),i.bezierCurveTo(66,o-10,80,o+10,96,o)}i.stroke();break;case"heart":i.moveTo(50,86),i.bezierCurveTo(10,60,4,38,18,24),i.bezierCurveTo(32,10,46,18,50,30),i.bezierCurveTo(54,18,68,10,82,24),i.bezierCurveTo(96,38,90,60,50,86),i.stroke();break;case"house":i.moveTo(16,62),i.lineTo(16,34),i.lineTo(50,10),i.lineTo(84,34),i.lineTo(84,62),i.stroke(),i.beginPath(),i.moveTo(40,62),i.lineTo(40,44),i.lineTo(60,44),i.lineTo(60,62),i.stroke(),i.beginPath();for(let a=0;a<2;a++){let o=74+a*13;i.moveTo(4,o),i.bezierCurveTo(20,o-8,34,o+8,50,o),i.bezierCurveTo(66,o-8,80,o+8,96,o)}i.stroke();break;case"hands":i.arc(50,50,44,0,Math.PI*2),i.stroke(),i.beginPath(),i.moveTo(50,72),i.bezierCurveTo(26,56,24,42,32,34),i.bezierCurveTo(40,26,48,32,50,38),i.bezierCurveTo(52,32,60,26,68,34),i.bezierCurveTo(76,42,74,56,50,72),i.fill();break;default:i.arc(50,50,40,0,Math.PI*2),i.stroke()}i.restore()}function F_(i,t,e,n,s,r){i.beginPath(),i.moveTo(t+r,e),i.arcTo(t+n,e,t+n,e+s,r),i.arcTo(t+n,e+s,t,e+s,r),i.arcTo(t,e+s,t,e,r),i.arcTo(t,e,t+n,e,r),i.closePath()}var Ku='"Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Noto Sans CJK TC", sans-serif',Rc='"Plex Mono", ui-monospace, Menlo, monospace',O_="Archivo, Arial, sans-serif";function B_(i){let t=document.createElement("canvas");t.width=Ui,t.height=Li;let e=t.getContext("2d"),n=Lr[i.bg]||i.bg,s=Lr[i.fg]||i.fg,r=Lr[i.accent]||i.accent;e.fillStyle=n,e.fillRect(0,0,Ui,Li);let a=34;e.fillStyle=s,e.globalAlpha=.72,e.font=`600 22px ${Rc}`,e.textBaseline="top",e.fillText(i.code,a,a),e.globalAlpha=1,e.font=`700 17px ${O_}`;let o=i.tag.toUpperCase(),l=e.measureText(o).width+26;F_(e,Ui-a-l,a-4,l,32,16),i.tagFill?(e.fillStyle=Lr[i.tagFill]||i.tagFill,e.fill(),e.fillStyle=Lr[i.tagText]||i.tagText):(e.lineWidth=2,e.strokeStyle=s,e.stroke(),e.fillStyle=s),e.textBaseline="middle",e.fillText(o,Ui-a-l+13,a+12.5),U_(e,i.icon,a,92,118,r),e.fillStyle=s,e.textBaseline="alphabetic";let c=i.lines,h=Math.max(...c.map(f=>[...f].length)),d=Math.min(76,Math.floor((Ui-a*2)/Math.max(4.4,h)));e.font=`900 ${d}px ${Ku}`;let u=Li-a-(i.amount?92:46)-(c.length-1)*d*1.12;return c.forEach(f=>{e.fillText(f,a-2,u),u+=d*1.12}),i.amount?(e.font=`600 20px ${Rc}`,e.globalAlpha=.8,e.fillText("NT$",a,Li-a-6),e.globalAlpha=1,e.font=`600 54px ${Rc}`,e.fillText(i.amount,a+52,Li-a-4)):(e.font=`500 18px ${Ku}`,e.globalAlpha=.66,e.fillText(i.foot||"",a,Li-a-6),e.globalAlpha=1),e.beginPath(),e.arc(Ui-a-6,Li-a-12,6,0,Math.PI*2),e.fillStyle=r,e.fill(),t}function z_(i,t,e,n,s){let r=document.createElement("canvas");r.width=i,r.height=t;let a=r.getContext("2d"),o=a.createImageData(i,t);for(let l=0;l<i*t;l++){let c=e+(Math.random()-.5)*n;o.data[l*4]=o.data[l*4+1]=o.data[l*4+2]=c,o.data[l*4+3]=255}if(a.putImageData(o,0,0),s){a.globalAlpha=.08;for(let l=0;l<s;l++){a.strokeStyle=Math.random()>.5?"#ffffff":"#000000",a.lineWidth=Math.random()*1.4+.3,a.beginPath();let c=Math.random()*i,h=Math.random()*t;a.moveTo(c,h),a.lineTo(c+(Math.random()-.5)*40,h+(Math.random()-.5)*40),a.stroke()}}return r}function V_(){let t=document.createElement("canvas");t.width=t.height=512;let e=t.getContext("2d");e.fillStyle="#e9e9e6",e.fillRect(0,0,512,512);for(let s=512*.31;s<512*.5;s+=1.6){let r=205+Math.random()*45;e.strokeStyle=`rgb(${r},${r},${r-2})`,e.lineWidth=1.2,e.beginPath(),e.arc(512/2,512/2,s,0,Math.PI*2),e.stroke()}let n=e.getImageData(0,0,512,512);for(let s=0;s<n.data.length;s+=4){let r=(Math.random()-.5)*22;n.data[s]+=r,n.data[s+1]+=r,n.data[s+2]+=r}return e.putImageData(n,0,0),t}function k_(){let t=document.createElement("canvas");t.width=t.height=128;let e=t.getContext("2d"),n=e.createRadialGradient(128/2,128/2,0,128/2,128/2,128/2);return n.addColorStop(0,"rgba(0,0,0,.34)"),n.addColorStop(1,"rgba(0,0,0,0)"),e.fillStyle=n,e.fillRect(0,0,128,128),new Fe(t)}function Qu(i){let t=[],e=i<.9,n=e?2.3:5.1,s=e?4.7:3.05,r=48;for(let u=0;u<r;u++){let f=u/r*Math.PI*2,g=1+.07*Math.sin(3*f+.6)+.04*Math.cos(2*f);t.push(new C(Math.cos(f)*n*g,0,Math.sin(f)*s*g))}let a=new ni(t,!0,"centripetal"),o=a.getLength(),l=1600,c=[],h=[];for(let u=0;u<=l;u++){let f=u/l;c.push(a.getPointAt(f%1)),h.push(a.getTangentAt(f%1).setY(0).normalize())}return{L:o,at:(u,f,g)=>{let v=(u%o+o)%o/o*l,m=Math.floor(v),p=v-m;return f.copy(c[m]).lerp(c[m+1],p),g&&g.copy(h[m]).lerp(h[m+1],p).normalize(),f},a:n,b:s}}function G_(
+`;function b_(i, { onReady: t, reducedMotion: e = false, interactive: n = true } = {}) {
+  const s = document.createElement("canvas");
+  s.className = "hero3d-canvas";
+  s.setAttribute("aria-hidden", "true");
+  i.appendChild(s);
+  let r;
+  try {
+    r = new ui({ canvas: s, antialias: true, powerPreference: "high-performance", alpha: false });
+  } catch {
+    s.remove();
+    return null;
+  }
+  // Keep native pixel density; idle and hidden scenes do not consume GPU frames.
+  const mobile = Math.min(window.innerWidth, window.innerHeight) < 700;
+  r.setPixelRatio(window.devicePixelRatio || 1);
+  r.outputColorSpace = de;
+  r.toneMapping = Wn;
+  r.toneMappingExposure = 1.05;
+  r.setClearColor(0x000000, 1);
+  const c = new fn();
+  c.background = new Lt("#000000");
+  c.environment = Cs(r);
+  c.environmentIntensity = 1;
+  const h = new we(28, 1, .1, 100);
+  h.position.set(0, 0, 11);
+  const f = y_(r.capabilities.getMaxAnisotropy());
+  const g = new $t(new Oe(1, f.aspect), new Ue({ map: f.texture, alphaTest: .5, toneMapped: false }));
+  f.texture.premultiplyAlpha = false;
+  c.add(g);
+  const v = new _e(), m = new _e();
+  v.add(m);
+  c.add(v);
+  // Only the winding is visible: no glass torus or animated background shader.
+  const wireRadius = Tc * 1.85;
+  const wireMaterial = new Be({
+    color: new Lt("#ffd84d"), metalness: .72, roughness: .24,
+    clearcoat: .8, clearcoatRoughness: .12, envMapIntensity: 1.35,
+    emissive: new Lt("#ffd84d"), emissiveIntensity: .12
+  });
+  const startAngle = -Math.PI / 2 + Xu / 2;
+  const endAngle = Math.PI * 1.5 - Xu / 2;
+  const winding = new Ec(Wu, Rs + Tc * 1.15, startAngle, endAngle);
+  m.add(new $t(new _s(winding, Wu * (mobile ? 40 : 64), wireRadius, 10, false), wireMaterial));
+  function lead(point, direction) {
+    const start = new C(point.x, point.y, point.z);
+    const radial = new C(point.x, point.y, 0).normalize();
+    const bend = start.clone().add(radial.multiplyScalar(.12));
+    const middle = new C(point.x * .9 + direction * .08, -(Ps + Rs) - .12, point.z * .3);
+    const end = new C(point.x * .9 + direction * .22, -(Ps + Rs) - .52, 0);
+    return new ni([start, bend, middle, end], false, "centripetal");
+  }
+  [lead(winding.getPoint(0), 1), lead(winding.getPoint(1), -1)].forEach(curve => {
+    m.add(new $t(new _s(curve, 48, wireRadius, 10, false), wireMaterial));
+  });
+  let modelRadius = 0;
+  m.traverse(mesh => {
+    const positions = mesh.geometry?.getAttribute("position");
+    if (!positions) return;
+    for (let j = 0; j < positions.count; j++) {
+      modelRadius = Math.max(modelRadius, Math.hypot(positions.getX(j), positions.getY(j), positions.getZ(j)));
+    }
+  });
+  const introduction = i.parentElement?.querySelector(".hero-bottom");
+  const rotationX = new di(.1, 110, 18), rotationY = new di(.78, 110, 18);
+  const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+  let sizeY = 1, scale = 1, centerY = 0;
+  let dragging = false, distance = 0, previousX = 0, previousY = 0;
+  let visible = true, destroyed = false, frame = 0;
+  let lastTime = performance.now(), ready = false;
+  function settled() {
+    return Math.abs(rotationX.value - rotationX.target) < .0001 && Math.abs(rotationX.v) < .0001 &&
+      Math.abs(rotationY.value - rotationY.target) < .0001 && Math.abs(rotationY.v) < .0001 &&
+      Math.abs(pointer.tx - pointer.x) < .0001 && Math.abs(pointer.ty - pointer.y) < .0001;
+  }
+  function wake() {
+    if (!frame && visible && !document.hidden && !destroyed) {
+      lastTime = performance.now();
+      frame = requestAnimationFrame(render);
+    }
+  }
+  function resize() {
+    const bounds = i.getBoundingClientRect();
+    const width = Math.max(1, bounds.width), height = Math.max(1, bounds.height);
+    r.setPixelRatio(window.devicePixelRatio || 1);
+    r.setSize(width, height, false);
+    h.aspect = width / height;
+    h.updateProjectionMatrix();
+    sizeY = 2 * h.position.z * Math.tan(Mn.degToRad(h.fov / 2));
+    const sizeX = sizeY * h.aspect, portrait = h.aspect < .9;
+    const wordWidth = portrait ? sizeX * .92 : Math.min(sizeX * .86, sizeY * 2.1);
+    g.scale.setScalar(wordWidth / f.inner);
+    const wordHeight = wordWidth * ((sn.y1 - sn.y0) / (sn.x1 - sn.x0));
+    scale = portrait ? Math.max(wordHeight / ((Ps - Rs) * 1.25), sizeX * .17) : Math.max(wordHeight / ((Ps - Rs) * 1.15), sizeY * .13);
+    scale = Math.min(scale, portrait ? sizeX * .26 : sizeY * .19);
+    centerY = sizeY * .13;
+    if (introduction) {
+      const top = (document.querySelector("[data-header]")?.offsetHeight || 76) + 24;
+      const bottom = introduction.getBoundingClientRect().top - bounds.top - 32;
+      const pixelRadius = Math.max(1, (bottom - top) / 2 - 8);
+      const focalPixels = height / (2 * Math.tan(Mn.degToRad(h.fov / 2)));
+      const worldRadius = pixelRadius * h.position.z / Math.hypot(focalPixels, pixelRadius);
+      scale = Math.min(scale, worldRadius / modelRadius * .96);
+      centerY = sizeY * (.5 - (top + bottom) / 2 / height);
+    }
+    v.scale.setScalar(scale);
+    v.position.set(0, centerY, 0);
+    g.position.set(0, centerY, 0);
+    wake();
+  }
+  function move(event) {
+    if (!n) return;
+    const bounds = i.getBoundingClientRect();
+    pointer.tx = (event.clientX - bounds.left) / bounds.width * 2 - 1;
+    pointer.ty = (event.clientY - bounds.top) / bounds.height * 2 - 1;
+    if (dragging) {
+      const dx = event.clientX - previousX, dy = event.clientY - previousY;
+      previousX = event.clientX;
+      previousY = event.clientY;
+      distance += Math.abs(dx) + Math.abs(dy);
+      rotationY.target += dx * .012;
+      rotationX.target += dy * .008;
+      if (e) { rotationX.value = rotationX.target; rotationY.value = rotationY.target; }
+    }
+    wake();
+  }
+  function start(event) {
+    if (!n || !event.isPrimary || event.button !== 0 || event.target.closest?.("button, a, input")) return;
+    dragging = true;
+    distance = 0;
+    previousX = event.clientX;
+    previousY = event.clientY;
+    i.classList.add("is-grabbing");
+    wake();
+  }
+  function finish() {
+    if (!dragging) return;
+    dragging = false;
+    i.classList.remove("is-grabbing");
+    if (distance < 6) rotationY.target += .35;
+    wake();
+  }
+  function leave() {
+    if (dragging) return;
+    pointer.tx = pointer.ty = 0;
+    wake();
+  }
+  function stepRotation(spring, dt) {
+    // Solve the damped spring over elapsed time, even when a frame takes longer.
+    const damping = spring.c / 2;
+    const frequency = Math.sqrt(spring.k - damping * damping);
+    const offset = spring.value - spring.target;
+    const velocity = spring.v;
+    const decay = Math.exp(-damping * dt);
+    const cosine = Math.cos(frequency * dt), sine = Math.sin(frequency * dt);
+    spring.value = spring.target + decay * (offset * cosine + (velocity + damping * offset) / frequency * sine);
+    spring.v = decay * (velocity * cosine - (damping * velocity + spring.k * offset) / frequency * sine);
+  }
+  function render(time) {
+    frame = 0;
+    if (destroyed || document.hidden || !visible) return;
+    const dt = Math.max(.001, (time - lastTime) / 1000);
+    lastTime = time;
+    stepRotation(rotationX, dt);
+    stepRotation(rotationY, dt);
+    const smoothing = e ? 1 : 1 - Math.exp(-dt * 8);
+    pointer.x += (pointer.tx - pointer.x) * smoothing;
+    pointer.y += (pointer.ty - pointer.y) * smoothing;
+    m.rotation.set(rotationX.value, rotationY.value, .14, "YXZ");
+    h.position.x = pointer.x * .22;
+    h.position.y = -pointer.y * .14;
+    h.lookAt(0, 0, 0);
+    r.render(c, h);
+    if (!ready) {
+      ready = true;
+      i.classList.add("is-live");
+      t?.();
+    }
+    if (!settled()) frame = requestAnimationFrame(render);
+  }
+  function pause() {
+    cancelAnimationFrame(frame);
+    frame = 0;
+  }
+  function visibilityChange() {
+    if (document.hidden) pause();
+    else if (visible) wake();
+  }
+  i.addEventListener("pointermove", move, { passive: true });
+  i.addEventListener("pointerdown", start, { passive: true });
+  i.addEventListener("pointerleave", leave, { passive: true });
+  window.addEventListener("pointerup", finish, { passive: true });
+  window.addEventListener("pointercancel", finish, { passive: true });
+  document.addEventListener("visibilitychange", visibilityChange);
+  const observer = new IntersectionObserver(entries => {
+    visible = entries.some(entry => entry.isIntersecting);
+    if (visible) wake(); else { finish(); pause(); }
+  }, { threshold: .01 });
+  observer.observe(i);
+  const resizeObserver = new ResizeObserver(resize);
+  resizeObserver.observe(i);
+  if (introduction) resizeObserver.observe(introduction);
+  resize();
+  return {
+    renderer: r,
+    renderOnce: wake,
+    setTime: () => wake(),
+    destroy() {
+      destroyed = true;
+      pause();
+      observer.disconnect();
+      resizeObserver.disconnect();
+      i.removeEventListener("pointermove", move);
+      i.removeEventListener("pointerdown", start);
+      i.removeEventListener("pointerleave", leave);
+      window.removeEventListener("pointerup", finish);
+      window.removeEventListener("pointercancel", finish);
+      document.removeEventListener("visibilitychange", visibilityChange);
+      c.traverse(object => object.geometry?.dispose());
+      wireMaterial.dispose();
+      g.material.dispose();
+      f.texture.dispose();
+      c.environment?.dispose();
+      r.dispose();
+      s.remove();
+    }
+  };
+}
+var Ac={};function Ye(i){if(Ac[i])return Ac[i];let t={epoxy:()=>new Be({color:new Lt("#131315"),roughness:.62,metalness:0,clearcoat:.25,clearcoatRoughness:.5,sheen:.4,sheenRoughness:.6,sheenColor:new Lt("#3a3a40")}),epoxyGrey:()=>new Be({color:new Lt("#232428"),roughness:.7,metalness:0,clearcoat:.1,clearcoatRoughness:.6}),ferrite:()=>new Be({color:new Lt("#1e1f22"),roughness:.82,metalness:.05}),tin:()=>new Be({color:new Lt("#e2e4e4"),roughness:.22,metalness:1}),tinMatte:()=>new Be({color:new Lt("#cfd1d1"),roughness:.38,metalness:1}),copper:()=>new Be({color:new Lt("#c47a4b"),roughness:.3,metalness:1}),band:()=>new Be({color:new Lt("#c9c9c6"),roughness:.45,metalness:0}),mark:()=>new gn({color:new Lt("#3b3b3f"),roughness:.9}),resistorBody:()=>new Be({color:new Lt("#e6d3b3"),roughness:.5,clearcoat:.6,clearcoatRoughness:.25})}[i]();return Ac[i]=t,t}function w_(i,t,e){let n=new Si,s=-i/2,r=-t/2;return n.moveTo(s+e,r),n.lineTo(s+i-e,r),n.quadraticCurveTo(s+i,r,s+i,r+e),n.lineTo(s+i,r+t-e),n.quadraticCurveTo(s+i,r+t,s+i-e,r+t),n.lineTo(s+e,r+t),n.quadraticCurveTo(s,r+t,s,r+t-e),n.lineTo(s,r+e),n.quadraticCurveTo(s,r,s+e,r),n}function qn(i,t,e,n,{rad:s=.06,bevel:r=.05,y0:a=0}={}){let o=Math.min(r,e/3,i/4,t/4),l=new ms(w_(i-o*2,t-o*2,Math.max(.001,s)),{depth:e-o*2,bevelEnabled:!0,bevelThickness:o,bevelSize:o,bevelSegments:3,curveSegments:6});return l.rotateX(-Math.PI/2),l.translate(0,a+o,0),new $t(l,n)}function Yu(i,t,e,n=.13){let s=new $t(new ir(n,32),Ye("mark"));return s.rotation.x=-Math.PI/2,s.position.set(i,e+.002,t),s}function qu({reach:i,shoulderY:t,footY:e=0,thick:n=.13,width:s=.4}){let r=[[-.15,t],[i*.28,t],[i*.5,(t+e)/2],[i*.62,e+n/2],[i,e+n/2]],a=[],o=[];for(let h=0;h<r.length;h++){let[d,u]=r[h],f=r[Math.max(0,h-1)],g=r[Math.min(r.length-1,h+1)],v=g[0]-f[0],m=g[1]-f[1],p=Math.hypot(v,m)||1,S=-m/p,E=v/p;a.push(new dt(d+S*n/2,u+E*n/2)),o.push(new dt(d-S*n/2,u-E*n/2))}let l=new Si;l.moveTo(a[0].x,a[0].y);for(let h=1;h<a.length;h++)l.lineTo(a[h].x,a[h].y);for(let h=o.length-1;h>=0;h--)l.lineTo(o[h].x,o[h].y);l.closePath();let c=new ms(l,{depth:s,bevelEnabled:!0,bevelThickness:.015,bevelSize:.015,bevelSegments:1,curveSegments:4});return c.translate(0,0,-s/2),c.rotateY(-Math.PI/2),new $t(c,Ye("tin"))}function T_(){let i=new _e,t=2.9,e=1.6,n=1,s=.08;i.add(qn(t,e,n,Ye("epoxy"),{rad:.08,bevel:.06,y0:s}));let r=2.8/2,a=r-e/2,o=[-.95,0,.95],l=[-.95,.95];return o.forEach(c=>{let h=qu({reach:a,shoulderY:s+n*.42,width:.4});h.position.set(c,0,-e/2),h.rotation.y=Math.PI,i.add(h)}),l.forEach(c=>{let h=qu({reach:a,shoulderY:s+n*.42,width:.4});h.position.set(c,0,e/2),i.add(h)}),i.add(Yu(-t/2+.38,-e/2+.34,s+n,.12)),i.userData={dims:{x:t,z:e,y:s+n,labelX:"2.9",labelZ:"1.6"},footprint:{x:t,z:r*2}},i}function E_(){let i=new _e,t=3,e=.75;i.add(qn(t,t,e,Ye("epoxy"),{rad:.03,bevel:.025,y0:.02}));let n=.2,s=.4,r=.03,a=[-.8,-.4,0,.4,.8],o=Ye("tinMatte");for(let c=0;c<4;c++)a.forEach(h=>{let d=new $t(new mn(n,r,s),o),u=new $t(new mn(n,.2,.012),o),f=c*Math.PI/2,g=Math.cos(f),v=Math.sin(f),m=t/2-s/2+.001,p=h*g-m*v,S=h*v+m*g;d.position.set(p,r/2,S),d.rotation.y=-f;let E=h*g-(t/2+.003)*v,y=h*v+(t/2+.003)*g;u.position.set(E,.11,y),u.rotation.y=-f,i.add(d,u)});let l=new $t(new mn(1.65,r,1.65),o);return l.position.set(0,r/2,0),i.add(l),i.add(Yu(-t/2+.42,t/2-.42,.02+e,.14)),i.userData={dims:{x:t,z:t,y:e+.02,labelX:"3.0",labelZ:"3.0"}},i}function A_(i,t,e,n,{term:s=.5}={}){let r=new _e;r.add(qn(i-.06,t-.04,e-.04,n,{rad:.05,bevel:.05,y0:.02}));let a=Ye("tin");return[-1,1].forEach(o=>{let l=qn(s,t,e,a,{rad:.08,bevel:.07,y0:0});l.position.x=o*(i/2-s/2),r.add(l)}),r}function C_(){let i=A_(3.2,1.6,1.1,Ye("epoxyGrey"),{term:.55});return i.userData={dims:{x:3.2,z:1.6,y:1.1,labelX:"3.2",labelZ:"1.6"}},i}function R_(){let i=new _e,t=2.5,e=2,n=1.2;i.add(qn(t,e,n,Ye("ferrite"),{rad:.06,bevel:.06,y0:0}));let s=Ye("tinMatte");return[-1,1].forEach(r=>{let a=qn(.05,e*.9,n*.82,s,{rad:.03,bevel:.012,y0:0});a.position.set(r*(t/2+.018),0,0);let o=new $t(new mn(.62,.03,e*.9),s);o.position.set(r*(t/2-.29),-.012,0),i.add(a,o)}),i.userData={dims:{x:t,z:e,y:n,labelX:"2.5",labelZ:"2.0"}},i}function P_(){let i=new _e,t=3.6,e=1.8,n=1.05;i.add(qn(t,e,n,Ye("epoxy"),{rad:.12,bevel:.08,y0:0}));let s=qn(.42,e-.1,.02,Ye("band"),{rad:.02,bevel:.008,y0:n-.002});s.position.x=-t/2+.55,i.add(s);let r=Ye("tin");return[-1,1].forEach(a=>{let o=qn(.9,1.2,.12,r,{rad:.04,bevel:.03,y0:0});o.position.x=a*(t/2+.25),i.add(o)}),i.userData={dims:null},i}function I_(i=["#8a4b2a","#111111","#e0662c","#c9a227"]){let t=new _e,e=[],n=6.3,s=1.25,r=1.05,a=40;for(let d=0;d<=a;d++){let u=d/a,f=-n/2+u*n,g=Math.min(u,1-u),v;g<.03?v=s*Math.sin(g/.03*Math.PI/2)*.96+.04:g<.2?v=s:g<.27?v=s+(r-s)*((g-.2)/.07):v=r,e.push(new dt(Math.max(.05,v),f))}let o=new $t(new fr(e,48),Ye("resistorBody"));o.rotation.z=Math.PI/2,t.add(o);let l=[-1.85,-.95,-.05,1.6];i.forEach((d,u)=>{let f=u===0?s+.012:r+.012,g=new $t(new Gn(f,f,.42,48,1,!0),new Be({color:new Lt(d),roughness:.45,clearcoat:.6}));g.rotation.z=Math.PI/2,g.position.x=l[u],t.add(g)});let c=Ye("tin");[-1,1].forEach(d=>{let u=new $t(new Gn(.28,.28,4.2,16),c);u.rotation.z=Math.PI/2,u.position.x=d*(n/2+2),t.add(u)}),t.position.y=s;let h=new _e;return h.add(t),h.userData={dims:null},h}var Zu={"sot23-5":T_,"qfn3x3-20":E_,3216:C_,2520:R_,"smd-diode":P_,axial:I_};var Cc={iso:{theta:-.62,phi:.86},top:{theta:0,phi:.0012},bottom:{theta:0,phi:Math.PI-.0012},side:{theta:0,phi:Math.PI/2-.02}},Ju=i=>1-Math.pow(1-i,3);function L_(){let t=document.createElement("canvas");t.width=t.height=256;let e=t.getContext("2d"),n=e.createRadialGradient(256/2,256/2,0,256/2,256/2,256/2);return n.addColorStop(0,"rgba(0,0,0,0.42)"),n.addColorStop(.45,"rgba(0,0,0,0.16)"),n.addColorStop(1,"rgba(0,0,0,0)"),e.fillStyle=n,e.fillRect(0,0,256,256),new Fe(t)}function $u(i,t="#2f5bff"){let e=document.createElement("canvas"),n=64,s=e.getContext("2d"),r=`600 ${n}px "Plex Mono", "IBM Plex Mono", ui-monospace, monospace`;s.font=r;let a=Math.ceil(s.measureText(i).width)+36;e.width=a,e.height=n+30,s.font=r,s.fillStyle="#ffffff",s.fillRect(0,0,e.width,e.height),s.fillStyle=t,s.textBaseline="middle",s.fillText(i,18,e.height/2+2);let o=new Fe(e);o.colorSpace=de;let l=new js(new cs({map:o,depthTest:!1,toneMapped:!1}));return l.renderOrder=10,l.userData.aspect=e.width/e.height,l}function D_(i,t){let e=new _e;if(!t)return e;let n=.42,s=.12,r=.001,a=[],o=(S,E)=>a.push(S.x,S.y,S.z,E.x,E.y,E.z),l=i.max.z+n,c=i.min.x,h=i.max.x;o(new C(c,r,l),new C(h,r,l)),o(new C(c,r,l-s),new C(c,r,l+s)),o(new C(h,r,l-s),new C(h,r,l+s)),o(new C(c,r,i.max.z+.06),new C(c,r,l-s)),o(new C(h,r,i.max.z+.06),new C(h,r,l-s));let d=i.max.x+n,u=i.min.z,f=i.max.z;o(new C(d,r,u),new C(d,r,f)),o(new C(d-s,r,u),new C(d+s,r,u)),o(new C(d-s,r,f),new C(d+s,r,f)),o(new C(i.max.x+.06,r,u),new C(d-s,r,u)),o(new C(i.max.x+.06,r,f),new C(d-s,r,f));let g=new ve;g.setAttribute("position",new Kt(a,3));let v=new tr(g,new ds({color:3103743,transparent:!0,opacity:.9,depthTest:!0}));e.add(v);let m=$u(t.labelX+" mm");m.position.set((c+h)/2,.02,l+.26);let p=$u(t.labelZ+" mm");return p.position.set(d+.5,.02,(u+f)/2),[m,p].forEach(S=>{S.scale.set(.2*S.userData.aspect,.2,1),e.add(S)}),e}function N_(i, { initial: t, onReady: e, reducedMotion: n = !1, autoRotate: s = !0, distance: r = 1 } = {}) {
+  const a = document.createElement("canvas");
+  a.className = "viewer3d-canvas";
+  a.setAttribute("aria-hidden", "true");
+  i.appendChild(a);
+  let o;
+  try { o = new ui({ canvas: a, antialias: !0, alpha: !0, preserveDrawingBuffer: !1 }); }
+  catch { a.remove(); return null; }
+  o.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  o.outputColorSpace = de;
+  o.toneMapping = Wn;
+  o.toneMappingExposure = 1.15;
+  o.shadowMap.enabled = !0;
+  o.shadowMap.type = Hn;
+  o.shadowMap.autoUpdate = !1;
+  o.shadowMap.needsUpdate = !0;
+  o.setClearColor(0, 0);
+  const l = new fn();
+  l.environment = Cs(o, { warm: .25, light: !0 });
+  l.environmentIntensity = 1.1;
+  l.add(new Ti(16777215, 14277076, .6));
+  const c = new Ei(16777215, 1.6);
+  c.position.set(-3, 7, 4);
+  c.castShadow = !0;
+  c.shadow.mapSize.set(1024, 1024);
+  c.shadow.camera.left = -4; c.shadow.camera.right = 4;
+  c.shadow.camera.top = 4; c.shadow.camera.bottom = -4;
+  c.shadow.radius = 6; c.shadow.bias = -6e-4;
+  l.add(c);
+  const h = new $t(new Oe(14, 14), new wi({ opacity: .16 }));
+  h.rotation.x = -Math.PI / 2; h.receiveShadow = !0; l.add(h);
+  const d = new $t(new Oe(1, 1), new Ue({ map: L_(), transparent: !0, depthWrite: !1, toneMapped: !1 }));
+  d.rotation.x = -Math.PI / 2; d.position.y = .002; l.add(d);
+  const u = new we(24, 1, .05, 100), f = new C(0, .25, 0);
+  const g = { theta: Cc.iso.theta, phi: Cc.iso.phi, radius: 9.5 };
+  const m = new _e(); l.add(m);
+  let p = null, S = null, E = !0, y = null, w = [];
+  let v = null, A = "iso", I = 0;
+  let D = !1, V = 0, J = 0, q = 0, it = 0;
+  let tt = 0, bt = performance.now(), Tt = !0, inView = !1, destroyed = !1;
+
+  function requestRender() {
+    if (destroyed || !inView || document.hidden || tt) return;
+    bt = performance.now();
+    tt = requestAnimationFrame(render);
+  }
+  function stop() { cancelAnimationFrame(tt); tt = 0; }
+  function fit(G) {
+    G.traverse(mesh => { if (mesh.isMesh) mesh.castShadow = mesh.receiveShadow = !0; });
+    const box = new en().setFromObject(G), size = new C(); box.getSize(size);
+    G.scale.setScalar(2.6 / Math.max(size.x, size.z, size.y * 1.4));
+    const scaled = new en().setFromObject(G), center = new C(); scaled.getCenter(center);
+    G.position.x -= center.x; G.position.z -= center.z; G.position.y -= scaled.min.y;
+    G.userData.box = new en().setFromObject(G);
+    return G;
+  }
+  function select(G, pkg) {
+    const build = Zu[pkg];
+    if (!build || G === S) return;
+    S = G;
+    if (p) w.push({ obj: p, t: 0, dims: y });
+    const model = fit(build()), group = new _e(); group.add(model);
+    group.userData = { box: model.userData.box, dims: model.userData.dims, drop: n ? 0 : 1, v: 0 };
+    m.add(group); p = group;
+    const box = model.userData.box, size = new C(); box.getSize(size);
+    d.scale.set(size.x * 1.9, size.z * 1.9, 1);
+    y = D_(box, model.userData.dims); y.visible = E; l.add(y); f.y = size.y * .45;
+    o.shadowMap.needsUpdate = !0;
+    requestRender();
+  }
+  function setView(G) {
+    const view = Cc[G]; if (!view) return;
+    let theta = (view.theta - g.theta) % (Math.PI * 2);
+    if (theta > Math.PI) theta -= Math.PI * 2;
+    if (theta < -Math.PI) theta += Math.PI * 2;
+    v = { from: { theta: g.theta, phi: g.phi }, to: { theta: g.theta + theta, phi: view.phi }, t: 0, dur: .9 };
+    A = G; I = G === "iso" ? .6 : Infinity;
+    requestRender();
+  }
+  function setDims(G) { E = G; if (y) y.visible = G; requestRender(); }
+  function resize() {
+    const rect = i.getBoundingClientRect(), width = Math.max(1, rect.width), height = Math.max(1, rect.height);
+    o.setSize(width, height, !1);
+    u.aspect = width / height; u.updateProjectionMatrix();
+    g.radius = (u.aspect < .85 ? 12.5 : 9.6) * r;
+    requestRender();
+  }
+  function pointerDown(G) {
+    if (G.target.closest && G.target.closest("button, a, input, .seg, .lib-controls, .dims-toggle")) return;
+    D = !0; V = G.clientX; J = G.clientY; v = null;
+    i.setPointerCapture?.(G.pointerId); i.classList.add("is-grabbing"); requestRender();
+  }
+  function pointerMove(G) {
+    if (!D) return;
+    const dx = G.clientX - V, dy = G.clientY - J; V = G.clientX; J = G.clientY;
+    q = -dx * .009; it = -dy * .007; g.theta += q;
+    g.phi = Mn.clamp(g.phi + it, .02, Math.PI - .02); I = 2.5;
+    requestRender();
+  }
+  function pointerEnd() { D = !1; i.classList.remove("is-grabbing"); requestRender(); }
+  function disposeExited(entry) {
+    m.remove(entry.obj);
+    const sharedMaterials = new Set(Object.values(Ac)), ownedMaterials = new Set();
+    entry.obj.traverse(mesh => {
+      if (mesh.geometry) mesh.geometry.dispose();
+      const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      materials.forEach(material => {
+        if (material && !sharedMaterials.has(material)) ownedMaterials.add(material);
+      });
+    });
+    ownedMaterials.forEach(material => material.dispose());
+    if (entry.dims) {
+      l.remove(entry.dims);
+      entry.dims.traverse(mesh => {
+        if (mesh.geometry) mesh.geometry.dispose();
+        if (mesh.material) {
+          if (mesh.material.map) mesh.material.map.dispose();
+          mesh.material.dispose();
+        }
+      });
+    }
+  }
+  function render(G, force = !1) {
+    tt = 0;
+    if (destroyed || document.hidden || !inView && !force) return;
+    const dt = Math.min(.05, (G - bt) / 1e3); bt = G;
+    if (v) {
+      v.t += dt / v.dur; const progress = Ju(Math.min(1, v.t));
+      g.theta = v.from.theta + (v.to.theta - v.from.theta) * progress;
+      g.phi = v.from.phi + (v.to.phi - v.from.phi) * progress;
+      if (v.t >= 1) v = null;
+    } else if (!D) {
+      g.theta += q; g.phi = Mn.clamp(g.phi + it, .02, Math.PI - .02);
+      q *= .92; it *= .9;
+      if (Math.abs(q) < 1e-5) q = 0;
+      if (Math.abs(it) < 1e-5) it = 0;
+      if (I > 0) I -= dt;
+      else if (s && !n && A === "iso") g.theta += dt * .28;
+    }
+    h.visible = d.visible = g.phi <= Math.PI / 2 + .05;
+    if (p) {
+      const state = p.userData;
+      if (state.drop || state.v) {
+        state.v += (-state.drop * 140 - state.v * 13) * dt;
+        state.drop += state.v * dt;
+        if (Math.abs(state.drop) < 1e-4 && Math.abs(state.v) < 1e-3) state.drop = state.v = 0;
+        o.shadowMap.needsUpdate = !0;
+      }
+      p.position.y = Math.max(-.02, state.drop) * 2.4;
+      p.scale.setScalar(1 - Math.max(0, state.drop) * .12);
+    }
+    for (let index = w.length - 1; index >= 0; index--) {
+      const entry = w[index]; entry.t += dt / .34;
+      const progress = Ju(Math.min(1, entry.t));
+      entry.obj.position.y = progress * 2.2; entry.obj.scale.setScalar(1 - progress * .6);
+      entry.obj.rotation.y = progress * .6;
+      if (entry.dims) entry.dims.visible = !1;
+      o.shadowMap.needsUpdate = !0;
+      if (entry.t >= 1) { disposeExited(entry); w.splice(index, 1); }
+    }
+    const sine = Math.sin(g.phi);
+    u.position.set(f.x + g.radius * sine * Math.sin(g.theta), f.y + g.radius * Math.cos(g.phi), f.z + g.radius * sine * Math.cos(g.theta));
+    u.up.set(0, 1, 0); if (g.phi < .05 || g.phi > Math.PI - .05) u.up.set(0, 0, -1);
+    u.lookAt(f); o.render(l, u);
+    if (Tt) { Tt = !1; i.classList.add("is-live"); if (e) e(); }
+    // Keep the original rotation and spring animation; settled views need no new GPU frames.
+    const animating = v || w.length || q || it || p && (p.userData.drop || p.userData.v) || s && !n && A === "iso";
+    if (animating && inView && !document.hidden) tt = requestAnimationFrame(render);
+  }
+  function visibility() {
+    if (document.hidden) { D = !1; i.classList.remove("is-grabbing"); stop(); }
+    else requestRender();
+  }
+  i.addEventListener("pointerdown", pointerDown); i.addEventListener("pointermove", pointerMove);
+  i.addEventListener("pointerup", pointerEnd); i.addEventListener("pointercancel", pointerEnd);
+  document.addEventListener("visibilitychange", visibility);
+  const z = new ResizeObserver(resize); z.observe(i);
+  const K = new IntersectionObserver(entries => {
+    inView = entries[0].isIntersecting;
+    if (inView) requestRender(); else { D = !1; i.classList.remove("is-grabbing"); stop(); }
+  }, { threshold: .01 });
+  K.observe(i); resize(); if (t) select(t.id, t.pkg);
+  return {
+    select, setView, setDims, get view() { return A; }, renderer: o, scene: l, camera: u,
+    renderNow() { stop(); render(performance.now(), !0); },
+    settle() {
+      if (p) p.userData.drop = p.userData.v = 0;
+      w.forEach(entry => { entry.t = 1; });
+      o.shadowMap.needsUpdate = !0; requestRender();
+    },
+    destroy() {
+      destroyed = !0; stop(); K.disconnect(); z.disconnect();
+      document.removeEventListener("visibilitychange", visibility);
+      i.removeEventListener("pointerdown", pointerDown); i.removeEventListener("pointermove", pointerMove);
+      i.removeEventListener("pointerup", pointerEnd); i.removeEventListener("pointercancel", pointerEnd);
+      o.dispose(); a.remove();
+    }
+  };
+}
+var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(Di/Ni)),Lr={ink:"#0a0a0b",paper:"#ffffff",mist:"#efefeb",yellow:"#ffd84d",blue:"#3d6bff",pink:"#f7c6d9",blueInk:"#2f5bff",mute:"rgba(10,10,11,.55)"};function U_(i,t,e,n,s,r){switch(i.save(),i.translate(e,n),i.scale(s/100,s/100),i.strokeStyle=r,i.fillStyle=r,i.lineWidth=5,i.lineJoin="round",i.lineCap="round",i.beginPath(),t){case"coin":i.arc(50,50,44,0,Math.PI*2),i.moveTo(80,50),i.arc(50,50,30,0,Math.PI*2),i.stroke(),i.beginPath(),i.moveTo(50,32),i.lineTo(50,68),i.moveTo(40,40),i.lineTo(60,40),i.stroke();break;case"school":i.moveTo(10,90),i.lineTo(90,90),i.moveTo(18,90),i.lineTo(18,46),i.lineTo(50,24),i.lineTo(82,46),i.lineTo(82,90),i.moveTo(42,90),i.lineTo(42,66),i.lineTo(58,66),i.lineTo(58,90),i.moveTo(50,24),i.lineTo(50,4),i.lineTo(66,10),i.lineTo(50,16),i.stroke();break;case"island":i.moveTo(14,64),i.quadraticCurveTo(44,24,76,64),i.stroke(),i.beginPath(),i.arc(74,22,10,0,Math.PI*2),i.stroke(),i.beginPath();for(let a=0;a<2;a++){let o=76+a*12;i.moveTo(6,o),i.bezierCurveTo(22,o-8,34,o+8,50,o),i.bezierCurveTo(66,o-8,78,o+8,94,o)}i.stroke();break;case"city":i.rect(8,40,26,50),i.rect(38,14,24,76),i.rect(66,30,26,60),i.stroke(),i.beginPath();for(let a=0;a<4;a++)i.moveTo(45,26+a*14),i.lineTo(55,26+a*14);i.stroke();break;case"mountain":i.moveTo(4,88),i.lineTo(38,30),i.lineTo(58,62),i.lineTo(72,42),i.lineTo(96,88),i.closePath(),i.stroke(),i.beginPath(),i.moveTo(30,44),i.lineTo(38,30),i.lineTo(46,44),i.stroke();break;case"wave":i.arc(70,26,14,0,Math.PI*2),i.stroke(),i.beginPath();for(let a=0;a<3;a++){let o=56+a*14;i.moveTo(4,o),i.bezierCurveTo(20,o-10,34,o+10,50,o),i.bezierCurveTo(66,o-10,80,o+10,96,o)}i.stroke();break;case"heart":i.moveTo(50,86),i.bezierCurveTo(10,60,4,38,18,24),i.bezierCurveTo(32,10,46,18,50,30),i.bezierCurveTo(54,18,68,10,82,24),i.bezierCurveTo(96,38,90,60,50,86),i.stroke();break;case"house":i.moveTo(16,62),i.lineTo(16,34),i.lineTo(50,10),i.lineTo(84,34),i.lineTo(84,62),i.stroke(),i.beginPath(),i.moveTo(40,62),i.lineTo(40,44),i.lineTo(60,44),i.lineTo(60,62),i.stroke(),i.beginPath();for(let a=0;a<2;a++){let o=74+a*13;i.moveTo(4,o),i.bezierCurveTo(20,o-8,34,o+8,50,o),i.bezierCurveTo(66,o-8,80,o+8,96,o)}i.stroke();break;case"hands":i.arc(50,50,44,0,Math.PI*2),i.stroke(),i.beginPath(),i.moveTo(50,72),i.bezierCurveTo(26,56,24,42,32,34),i.bezierCurveTo(40,26,48,32,50,38),i.bezierCurveTo(52,32,60,26,68,34),i.bezierCurveTo(76,42,74,56,50,72),i.fill();break;default:i.arc(50,50,40,0,Math.PI*2),i.stroke()}i.restore()}function F_(i,t,e,n,s,r){i.beginPath(),i.moveTo(t+r,e),i.arcTo(t+n,e,t+n,e+s,r),i.arcTo(t+n,e+s,t,e+s,r),i.arcTo(t,e+s,t,e,r),i.arcTo(t,e,t+n,e,r),i.closePath()}var Ku='"Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Noto Sans CJK TC", sans-serif',Rc='"Plex Mono", ui-monospace, Menlo, monospace',O_="Archivo, Arial, sans-serif";function B_(i){let t=document.createElement("canvas");t.width=Ui,t.height=Li;let e=t.getContext("2d"),n=Lr[i.bg]||i.bg,s=Lr[i.fg]||i.fg,r=Lr[i.accent]||i.accent;e.fillStyle=n,e.fillRect(0,0,Ui,Li);let a=34;e.fillStyle=s,e.globalAlpha=.72,e.font=`600 22px ${Rc}`,e.textBaseline="top",e.fillText(i.code,a,a),e.globalAlpha=1,e.font=`700 17px ${O_}`;let o=i.tag.toUpperCase(),l=e.measureText(o).width+26;F_(e,Ui-a-l,a-4,l,32,16),i.tagFill?(e.fillStyle=Lr[i.tagFill]||i.tagFill,e.fill(),e.fillStyle=Lr[i.tagText]||i.tagText):(e.lineWidth=2,e.strokeStyle=s,e.stroke(),e.fillStyle=s),e.textBaseline="middle",e.fillText(o,Ui-a-l+13,a+12.5),U_(e,i.icon,a,92,118,r),e.fillStyle=s,e.textBaseline="alphabetic";let c=i.lines,h=Math.max(...c.map(f=>[...f].length)),d=Math.min(76,Math.floor((Ui-a*2)/Math.max(4.4,h)));e.font=`900 ${d}px ${Ku}`;let u=Li-a-(i.amount?92:46)-(c.length-1)*d*1.12;return c.forEach(f=>{e.fillText(f,a-2,u),u+=d*1.12}),i.amount?(e.font=`600 20px ${Rc}`,e.globalAlpha=.8,e.fillText("NT$",a,Li-a-6),e.globalAlpha=1,e.font=`600 54px ${Rc}`,e.fillText(i.amount,a+52,Li-a-4)):(e.font=`500 18px ${Ku}`,e.globalAlpha=.66,e.fillText(i.foot||"",a,Li-a-6),e.globalAlpha=1),e.beginPath(),e.arc(Ui-a-6,Li-a-12,6,0,Math.PI*2),e.fillStyle=r,e.fill(),t}function z_(i,t,e,n,s){let r=document.createElement("canvas");r.width=i,r.height=t;let a=r.getContext("2d"),o=a.createImageData(i,t);for(let l=0;l<i*t;l++){let c=e+(Math.random()-.5)*n;o.data[l*4]=o.data[l*4+1]=o.data[l*4+2]=c,o.data[l*4+3]=255}if(a.putImageData(o,0,0),s){a.globalAlpha=.08;for(let l=0;l<s;l++){a.strokeStyle=Math.random()>.5?"#ffffff":"#000000",a.lineWidth=Math.random()*1.4+.3,a.beginPath();let c=Math.random()*i,h=Math.random()*t;a.moveTo(c,h),a.lineTo(c+(Math.random()-.5)*40,h+(Math.random()-.5)*40),a.stroke()}}return r}function V_(){let t=document.createElement("canvas");t.width=t.height=512;let e=t.getContext("2d");e.fillStyle="#e9e9e6",e.fillRect(0,0,512,512);for(let s=512*.31;s<512*.5;s+=1.6){let r=205+Math.random()*45;e.strokeStyle=`rgb(${r},${r},${r-2})`,e.lineWidth=1.2,e.beginPath(),e.arc(512/2,512/2,s,0,Math.PI*2),e.stroke()}let n=e.getImageData(0,0,512,512);for(let s=0;s<n.data.length;s+=4){let r=(Math.random()-.5)*22;n.data[s]+=r,n.data[s+1]+=r,n.data[s+2]+=r}return e.putImageData(n,0,0),t}function k_(){let t=document.createElement("canvas");t.width=t.height=128;let e=t.getContext("2d"),n=e.createRadialGradient(128/2,128/2,0,128/2,128/2,128/2);return n.addColorStop(0,"rgba(0,0,0,.34)"),n.addColorStop(1,"rgba(0,0,0,0)"),e.fillStyle=n,e.fillRect(0,0,128,128),new Fe(t)}function Qu(i){let t=[],e=i<.9,n=e?2.3:5.1,s=e?4.7:3.05,r=48;for(let u=0;u<r;u++){let f=u/r*Math.PI*2,g=1+.07*Math.sin(3*f+.6)+.04*Math.cos(2*f);t.push(new C(Math.cos(f)*n*g,0,Math.sin(f)*s*g))}let a=new ni(t,!0,"centripetal"),o=a.getLength(),l=1600,c=[],h=[];for(let u=0;u<=l;u++){let f=u/l;c.push(a.getPointAt(f%1)),h.push(a.getTangentAt(f%1).setY(0).normalize())}return{L:o,at:(u,f,g)=>{let v=(u%o+o)%o/o*l,m=Math.floor(v),p=v-m;return f.copy(c[m]).lerp(c[m+1],p),g&&g.copy(h[m]).lerp(h[m+1],p).normalize(),f},a:n,b:s}}function G_(
   i,
-  { cards: t, reducedMotion: e = !1, onHover: n, onCount: s, onDrawing } = {},
+  { cards: t, reducedMotion: e = !1, onHover: n, onCount: s, onDrawing, floorCopy = {} } = {},
 ) {
   if (!t || !t.length) return null;
   let r = document.createElement("canvas");
@@ -4307,6 +4733,7 @@ void main(){
     (a.toneMappingExposure = 1),
     (a.shadowMap.enabled = !0),
     (a.shadowMap.type = Hn),
+    (a.shadowMap.autoUpdate = !1),
     a.setClearColor(0, 0));
   let o = new fn();
   ((o.environment = Cs(a, { warm: 0.2, light: !0 })),
@@ -4405,6 +4832,51 @@ void main(){
     B.scale.set(2.6, 2.6, 1),
     (B.renderOrder = 2),
     o.add(B));
+  // Typography shares the floor's perspective and sits below every laid sticker.
+  const lettering = document.createElement("canvas");
+  lettering.width = 2048;
+  lettering.height = 1500;
+  const letteringContext = lettering.getContext("2d");
+  const letteringTexture = new Fe(lettering);
+  letteringTexture.colorSpace = de;
+  letteringTexture.anisotropy = a.capabilities.getMaxAnisotropy();
+  const floorText = new $t(new Oe(1, 1), new Ue({
+    map: letteringTexture, transparent: !0, depthWrite: !1, toneMapped: !1
+  }));
+  floorText.rotation.x = -Math.PI / 2;
+  floorText.position.y = .008;
+  floorText.userData.floorCopy = true;
+  o.add(floorText);
+  let floorPortrait = false;
+  function paintFloor() {
+    const ctx = letteringContext, width = lettering.width;
+    lettering.height = floorPortrait ? 1800 : 1500;
+    ctx.clearRect(0, 0, width, lettering.height);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    const text = (value, y, size, weight = 500, color = "#171718", family = '"Noto Sans TC", sans-serif') => {
+      ctx.fillStyle = color;
+      ctx.font = `${weight} ${size}px ${family}`;
+      ctx.fillText(value, width / 2, y, width - 100);
+    };
+    text("04 — SOCIAL RESPONSIBILITY", 105, 43, 600, "#666663", '"Plex Mono", monospace');
+    text("把長期投入，", 340, floorPortrait ? 190 : 185, 900);
+    text("做成持續的行動。", 565, floorPortrait ? 190 : 185, 900);
+    text("Service · Giving · Responsibility", 735, 48, 500, "#636360", 'Archivo, sans-serif');
+    if (floorPortrait) {
+      text("從定期捐款、校園服務、環境行動、", 880, 70, 500, "#51514e");
+      text("照護陪伴，到災後復原，", 985, 70, 500, "#51514e");
+      text("持續把資源投入需要的地方。", 1090, 70, 500, "#51514e");
+    } else {
+      text("從定期捐款、校園服務、環境行動、照護陪伴，", 870, 43, 500, "#51514e");
+      text("到災後復原，持續把資源投入需要的地方。", 945, 43, 500, "#51514e");
+    }
+    text("目前累積投入", floorPortrait ? 1240 : 1085, floorPortrait ? 65 : 49, 700, "#62625e");
+    text("NT$ " + (floorCopy.amount || "138,400"), floorPortrait ? 1400 : 1210, 135, 700, "#171718", 'Archivo, sans-serif');
+    text("截至 " + (floorCopy.asOf || "2026.10.07"), floorPortrait ? 1550 : 1335, floorPortrait ? 58 : 42, 500, "#62625e", '"Plex Mono", monospace');
+    if (floorPortrait) text("01–02 捐款紀錄 · 03–10 服務紀錄", 1710, 56, 700, "#51514e");
+    letteringTexture.needsUpdate = true;
+  }
   // The floor is drawn only by pointer input. Each stroke retains its stickers.
   const raycaster = new vr(), pointer = new dt();
   const head = new C(), direction = new C(1, 0, 0);
@@ -4414,7 +4886,8 @@ void main(){
   let bounds = { x: 5.4, z: 3.4 };
   let stroke = null, activePointer = null, count = 0, rollDistance = 0;
   let hovered = -1, selected = -1, visible = false, frame = 0;
-  let destroyed = false, sized = false;
+  let destroyed = false, sized = false, covered = false;
+  let shadowX = NaN, shadowZ = NaN, shadowAngle = NaN;
 
   function render() {
     if (destroyed) return;
@@ -4427,11 +4900,15 @@ void main(){
     m.quaternion.setFromRotationMatrix(basis);
     m.position.set(head.x, Dn, head.z);
     B.position.set(head.x, .004, head.z);
+    if (head.x !== shadowX || head.z !== shadowZ || angle !== shadowAngle) {
+      a.shadowMap.needsUpdate = true;
+      shadowX = head.x; shadowZ = head.z; shadowAngle = angle;
+    }
     a.render(o, d);
   }
 
   function requestRender() {
-    if (!frame && visible && !document.hidden && !destroyed) frame = requestAnimationFrame(render);
+    if (!frame && visible && !covered && !document.hidden && !destroyed) frame = requestAnimationFrame(render);
   }
 
   function resize() {
@@ -4439,9 +4916,13 @@ void main(){
     a.setSize(Math.max(1, rect.width), Math.max(1, rect.height), false);
     d.aspect = rect.width / Math.max(1, rect.height);
     const portrait = d.aspect < .9;
-    bounds = portrait ? { x: 2.35, z: 4.9 } : { x: 5.4, z: 3.4 };
+    if (!sized || floorPortrait !== portrait) { floorPortrait = portrait; paintFloor(); }
+    floorText.scale.set(portrait ? 9.6 : 10, portrait ? 8.44 : 7.32, 1);
+    floorText.position.z = portrait ? -2.5 : -1.8;
+    a.shadowMap.needsUpdate = true;
+    bounds = portrait ? { x: 4.8, z: 4.9, minZ: -7 } : { x: 5.4, z: 3.4, minZ: -5.6 };
     // Preserve the whole laid path when the device changes orientation.
-    let fitX = Math.max(bounds.x, Math.abs(head.x));
+    let fitX = Math.max(portrait ? 2.35 : bounds.x, Math.abs(head.x));
     let fitZ = Math.max(bounds.z, Math.abs(head.z));
     stickers.forEach(sticker => {
       const shape = sticker.mesh.geometry;
@@ -4461,7 +4942,7 @@ void main(){
     d.updateProjectionMatrix();
     d.updateMatrixWorld();
     if (!sized) {
-      head.set(portrait || i.closest(".csr-hero") ? 0 : -3.3, 0, portrait ? .8 : .5);
+      head.set(i.closest(".csr-hero") ? (portrait ? 2.1 : d.aspect > 2 ? -3.8 : 3.8) : -3.3, 0, portrait ? 4.9 : 3);
       sized = true;
     }
     requestRender();
@@ -4476,7 +4957,7 @@ void main(){
     if (ray.direction.y >= -.00001) return null;
     const hit = ray.origin.clone().addScaledVector(ray.direction, -ray.origin.y / ray.direction.y);
     hit.x = Math.max(-bounds.x, Math.min(bounds.x, hit.x));
-    hit.z = Math.max(-bounds.z, Math.min(bounds.z, hit.z));
+    hit.z = Math.max(bounds.minZ, Math.min(bounds.z, hit.z));
     hit.y = 0;
     return hit;
   }
@@ -4632,12 +5113,15 @@ void main(){
       if (point) lay(point);
       return;
     }
+    if (!stickers.size) return;
     aim(event);
     const hits = raycaster.intersectObjects([...stickers.values()].map(s => s.mesh), false);
-    hovered = hits.length ? hits[0].object.userData.card : -1;
+    const nextHover = hits.length ? hits[0].object.userData.card : -1;
+    const changed = nextHover !== hovered;
+    hovered = nextHover;
     const rect = i.getBoundingClientRect();
     if (n) n(hovered, event.clientX - rect.left, event.clientY - rect.top);
-    highlight();
+    if (changed) highlight();
   }
 
   function leave() {
@@ -4653,7 +5137,7 @@ void main(){
     stickers.clear();
     count = rollDistance = 0;
     hovered = selected = -1;
-    head.set(d.aspect < .9 || i.closest(".csr-hero") ? 0 : -3.3, 0, d.aspect < .9 ? .8 : .5);
+    head.set(i.closest(".csr-hero") ? (d.aspect < .9 ? 2.1 : d.aspect > 2 ? -3.8 : 3.8) : -3.3, 0, d.aspect < .9 ? 4.9 : 3);
     direction.set(1, 0, 0);
     for (let slot = 0; slot < fi; slot++) w(slot, slot % t.length);
     resize();
@@ -4692,6 +5176,16 @@ void main(){
     highlight(card) { selected = card; highlight(); },
     restart,
     stopDrawing() { finish(); },
+    setCovered(value) {
+      if (covered === value) return;
+      covered = value;
+      if (covered) { finish(); cancelAnimationFrame(frame); frame = 0; }
+      else requestRender();
+    },
+    updateFloor(value) {
+      if (JSON.stringify(floorCopy) === JSON.stringify(value)) return;
+      floorCopy = value; paintFloor(); requestRender();
+    },
     updateCards(cards) {
       cards.forEach((card, index) => {
         if (!t[index] || JSON.stringify(t[index]) === JSON.stringify(card)) return;
@@ -4710,8 +5204,8 @@ void main(){
       document.removeEventListener("visibilitychange", visibility);
       window.removeEventListener("blur", finish);
       o.traverse(object => { if (object.geometry) object.geometry.dispose(); });
-      [...g, ...v, b.material, x.material, I, O, h.material, B.material].forEach(material => material.dispose());
-      [...f, y, R, A, B.material.map, o.environment].forEach(texture => texture && texture.dispose());
+      [...g, ...v, b.material, x.material, I, O, h.material, B.material, floorText.material].forEach(material => material.dispose());
+      [...f, y, R, A, B.material.map, letteringTexture, o.environment].forEach(texture => texture && texture.dispose());
       a.dispose(); r.remove();
     }
   };

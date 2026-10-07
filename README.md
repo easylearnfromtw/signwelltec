@@ -20,7 +20,9 @@
 
 - `assets/css/site.css`：全站樣式
 - `assets/js/donations.js`：依臺北日期自動累加定期捐款，同步卡片與膠帶數字；每分鐘及回到頁面時檢查日期
-- `assets/js/service-tape.js`：服務紀錄膠帶操作（滑鼠／觸控拖曳、重新貼、數字同步）
+- `assets/js/service-tape.js`：首屏固定膠帶、滑鼠／觸控拖曳、地面文字與捐款數字同步；手機預設保留捲動，可切換貼膠帶模式
+- `assets/js/rfq-mail.js`：與預覽相同的 HTML 剪貼簿、Gmail 寫信連結、HTML／.eml 匯出與複製備援
+- `assets/js/gpu-lifecycle.js`：暫停離開畫面或背景分頁的裝飾動畫
 - `assets/js/app.js`：介面互動（導覽、Tab bar、詢價單、各頁工具）
 - `assets/js/scene.js`：3D 場景，以 three.js（MIT License）建置，只在首頁、產品頁與社會責任頁載入；裝置不支援 WebGL 時改顯示靜態圖或清單
 - `assets/img/`：零件渲染圖與首頁靜態備援圖
@@ -31,8 +33,14 @@
 - **新增料號**：在 `products.html` 複製一段 `<article class="part-row">`，同步修改料號、規格、`data-*` 屬性與詢價連結；若要出現在首頁零件檢視器，也在 `index.html` 的 `.lib-list` 複製一個按鈕。`data-pkg` 可用值：`smd-diode`、`sot23-5`、`3216`、`2520`、`qfn3x3-20`。
 - **捐款金額**：`social-responsibility.html` 每張捐款卡的 `data-base-amount`（基準金額）、`data-increment`（每月金額）、`data-first-date`（下一次捐款日）、`data-cycle-day`（每月扣款日）。
 - **服務紀錄貼紙**：`social-responsibility.html` 的 `.tape-item` 清單同時是 3D 膠帶的資料來源；`data-lines` 用 `|` 分行，`data-bg`／`data-icon` 設定貼紙底色與圖示，新增一筆就會自動印進膠帶。
-- **商務信箱**：全站搜尋 `signwell.com.tw@gmail.com`，詢價工具的收件人在 `assets/js/app.js`。
+- **商務信箱**：全站搜尋 `luca.sinwell@gmail.com`，詢價工具的收件人在 `assets/js/app.js`。
 
 ## 服務紀錄互動
 
 在地板區按住滑鼠或手指拖曳，膠帶依路徑貼下；放開或取消觸控即停止，已貼紀錄留在地板上。按「重新貼」可清空地板。第 01、02 張為捐款紀錄，第 03–10 張為服務紀錄。捐款金額沿用原定每月排程，捐款卡、清單與 3D 貼紙同步更新。
+
+文字與累積投入繪製在 3D 地面，膠帶可以從上方覆蓋。往下捲動時，紀錄面板向上覆蓋固定首屏；完全覆蓋後不再繪製 3D。首頁使用黑底黃色繞線，首頁和靜止的零件檢視器只在互動或畫面變動時繪製，不以降低解析度換取效能。
+
+## 保留排版的詢價信
+
+「複製排版並開啟 Gmail」複製與預覽相同的 HTML，帶入收件人與主旨。使用者在 Gmail 內文貼上後寄出。Gmail 的寫信網址不接受 HTML 內文，靜態 GitHub Pages 也沒有訪客的 Gmail 寄信授權，因此無法自動插入 HTML 或代按傳送。需要完整信件檔時可下載 HTML 或含 HTML／純文字替代版本的 .eml；Gmail 仍使用複製排版方式。
