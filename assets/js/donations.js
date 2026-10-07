@@ -14,6 +14,55 @@
       day: "2-digit"
     });
     var lastRefreshDate = "";
+    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var amountObserver = null;
+
+    function easeOutExpo(t) {
+      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    }
+
+    function animateAmount(element) {
+      if (!element || element.dataset.counted === "true") return;
+      var target = Number(element.dataset.amountValue || 0);
+      if (!isFinite(target)) return;
+
+      if (reducedMotion) {
+        element.textContent = numberFormat.format(target);
+        element.dataset.counted = "true";
+        return;
+      }
+
+      element.dataset.counted = "true";
+      element.classList.add("is-counting");
+      var start = performance.now();
+      var duration = element.hasAttribute("data-donation-total") ? 1200 : 980;
+
+      function frame(now) {
+        var progress = Math.min(1, (now - start) / duration);
+        var value = Math.round(target * easeOutExpo(progress));
+        element.textContent = numberFormat.format(value);
+
+        if (progress < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          element.textContent = numberFormat.format(target);
+          element.classList.remove("is-counting");
+          element.classList.add("is-counted");
+        }
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    if ("IntersectionObserver" in window && !reducedMotion) {
+      amountObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          amountObserver.unobserve(entry.target);
+          animateAmount(entry.target);
+        });
+      }, { threshold: 0.35, rootMargin: "0px 0px -6% 0px" });
+    }
 
     function taipeiToday() {
       var date = {};
@@ -41,7 +90,22 @@
       if (!element) return;
       var formatted = numberFormat.format(amount);
       element.dataset.final = formatted;
-      element.textContent = formatted;
+      element.dataset.amountValue = String(amount);
+
+      if (element.dataset.counted === "true") {
+        element.textContent = formatted;
+        return;
+      }
+
+      if (amountObserver) {
+        element.textContent = "0";
+        if (element.dataset.countArmed !== "true") {
+          element.dataset.countArmed = "true";
+          amountObserver.observe(element);
+        }
+      } else {
+        animateAmount(element);
+      }
     }
 
     function refreshDonations() {
