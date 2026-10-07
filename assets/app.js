@@ -208,12 +208,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   const form=document.querySelector('[data-rfq-form]');
   if(form){
     const gmailRecipient='signwell.com.tw@gmail.com';
+    const gmailRecipientLabel='signwell.com.tw';
     const steps=[...form.querySelectorAll('[data-rfq-step]')];
     const stepNames=['需求類型','零件條件','聯絡資料','最終確認'];
     const prev=form.querySelector('[data-rfq-prev]');
     const next=form.querySelector('[data-rfq-next]');
     const submit=form.querySelector('[data-rfq-submit]');
-    const copyHtmlButton=form.querySelector('[data-rfq-copy-html]');
     const wizardLabel=form.querySelector('[data-wizard-label]');
     const wizardProgress=form.querySelector('[data-wizard-progress]');
     const mailPreview=form.querySelector('[data-rfq-mail-preview]');
@@ -315,7 +315,6 @@ document.addEventListener('DOMContentLoaded',()=>{
       if(prev) prev.hidden=current===0;
       if(next) next.hidden=current===steps.length-1;
       if(submit) submit.hidden=current!==steps.length-1;
-      if(copyHtmlButton) copyHtmlButton.hidden=current!==steps.length-1;
       if(wizardLabel) wizardLabel.textContent='STEP '+String(current+1).padStart(2,'0')+' / 04　'+stepNames[current];
       if(wizardProgress) wizardProgress.style.width=((current+1)/steps.length*100)+'%';
       if(current===steps.length-1) updatePreview();
@@ -326,38 +325,66 @@ document.addEventListener('DOMContentLoaded',()=>{
     };
     next?.addEventListener('click',()=>showStep(current+1));
     prev?.addEventListener('click',()=>showStep(current-1));
-    copyHtmlButton?.addEventListener('click',async()=>{
+    const copyRichMail=async()=>{
       updatePreview();
       const html=makeMailDocument();
       const text=makeText();
       try{
-        if(!navigator.clipboard?.write||typeof ClipboardItem==='undefined') throw new Error('Rich clipboard is unavailable');
+        if(!navigator.clipboard?.write||typeof ClipboardItem==='undefined') throw new Error('Rich clipboard unavailable');
         await navigator.clipboard.write([new ClipboardItem({
           'text/html':new Blob([html],{type:'text/html'}),
           'text/plain':new Blob([text],{type:'text/plain'})
         })]);
-        if(status) status.textContent='已複製 HTML 排版。按「傳送」開啟 Gmail，將預填的純文字內文全選後貼上，即可使用此版型。';
+        return true;
       }catch{
         try{
-          if(!navigator.clipboard?.writeText) throw new Error('No clipboard access');
-          await navigator.clipboard.writeText(text);
-          if(status) status.textContent='此瀏覽器不支援複製 HTML，已改為複製純文字；按「傳送」可直接開啟 Gmail 草稿。';
+          const holder=document.createElement('div');
+          holder.contentEditable='true';
+          holder.setAttribute('aria-hidden','true');
+          holder.style.position='fixed';
+          holder.style.left='-99999px';
+          holder.style.top='0';
+          holder.innerHTML=html;
+          document.body.appendChild(holder);
+          const range=document.createRange();
+          range.selectNodeContents(holder);
+          const selection=window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+          const ok=document.execCommand('copy');
+          selection.removeAllRanges();
+          holder.remove();
+          return !!ok;
         }catch{
-          if(copyFallback){copyFallback.hidden=false;copyFallback.value=text;copyFallback.focus();copyFallback.select();}
-          if(status) status.textContent='瀏覽器未允許存取剪貼簿。下方已顯示純文字內容供手動複製。';
+          return false;
         }
       }
-    });
-    form.addEventListener('submit',e=>{
+    };
+
+    form.addEventListener('submit',async e=>{
       e.preventDefault();
       if(current!==steps.length-1){showStep(steps.length-1);return;}
+
+      if(submit){
+        submit.disabled=true;
+        submit.textContent='開啟 Gmail…';
+      }
+      if(status) status.textContent='正在準備 HTML 郵件並開啟 Gmail…';
+
+      const copied=await copyRichMail();
       const compose=new URL('https://mail.google.com/mail/');
       compose.searchParams.set('view','cm');
       compose.searchParams.set('fs','1');
-      compose.searchParams.set('to',gmailRecipient);
+      compose.searchParams.set('to','"'+gmailRecipientLabel+'" <'+gmailRecipient+'>');
       compose.searchParams.set('su',subject());
-      compose.searchParams.set('body',makeText());
-      if(status) status.textContent='正在開啟 Gmail 草稿；請在 Gmail 中確認後自行寄出。';
+
+      // If rich HTML could not be copied, preserve the enquiry as a plain-text fallback.
+      if(!copied) compose.searchParams.set('body',makeText());
+
+      try{
+        sessionStorage.setItem('signwell-rfq-html-copied',copied?'1':'0');
+      }catch{}
+
       window.location.assign(compose.toString());
     });
     showStep(0);
