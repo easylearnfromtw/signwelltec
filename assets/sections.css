@@ -286,3 +286,68 @@
   .part-reference-item{grid-template-columns:minmax(0,1fr)}
   .part-ref-enquire{grid-column:1;justify-self:start;margin-top:9px;min-height:42px}
 }
+
+/* SIGNWELL Sky Glass quotation email preview — adapted from SIGN WELL Letter. */
+.rfq-mail-preview{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  overflow:hidden;
+  margin:0 0 20px;
+  background:#EAF6FF;
+  border:1px solid #C9E4F7;
+  border-radius:16px;
+}
+.rfq-mail-preview table{
+  max-width:100%;
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+.rfq-mail-preview td{
+  min-width:0;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+.rfq-mail-meta{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px 18px;
+  margin:0 0 16px;
+  padding:15px 18px;
+  background:#fff;
+  border-left:4px solid var(--blue);
+}
+.rfq-mail-meta span{
+  color:var(--ink-soft);
+  font:700 11px/1.5 var(--font-round);
+}
+.rfq-mail-meta strong{
+  font:800 13px/1.5 var(--font-round);
+  overflow-wrap:anywhere;
+}
+.rfq-wizard [data-rfq-copy-html]{
+  background:#e5f4fd;
+  color:var(--black);
+}
+.rfq-wizard [data-rfq-copy-html]:hover{background:#cbe9fb}
+.rfq-wizard .wizard-actions{flex-wrap:wrap}
+.rfq-wizard .wizard-disclaimer{
+  border-left:4px solid var(--yellow);
+  background:#fff;
+  line-height:1.85;
+}
+@media(max-width:640px){
+  .rfq-mail-preview{border-radius:12px}
+  .rfq-mail-preview>table>tbody>tr>td{padding:12px 5px 20px!important}
+  .rfq-mail-meta{align-items:flex-start;flex-direction:column}
+  .rfq-wizard .wizard-actions{
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+  }
+  .rfq-wizard .wizard-actions .btn{width:100%;min-height:46px}
+  .rfq-wizard [data-rfq-submit]{min-height:52px!important}
+}
