@@ -454,3 +454,174 @@ body[data-page="social-responsibility"] .csr-page-content{
 [data-donation-amount]{min-width:6ch;text-align:right}
 .giving-total strong [data-donation-total]{display:inline-block}
 .donation-overview [data-donation-total]{display:inline-block}
+
+
+/* Homepage registered capital band */
+.capital-band{
+  position:relative;
+  overflow:hidden;
+  background:#fff;
+  color:var(--ink);
+  border-top:1px solid rgba(10,10,11,.10);
+  border-bottom:1px solid rgba(10,10,11,.10);
+}
+.capital-band::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,transparent 0 49.92%,rgba(10,10,11,.045) 49.92% 50.08%,transparent 50.08% 100%),
+    radial-gradient(80% 120% at 82% 50%,rgba(255,216,77,.16),transparent 62%);
+}
+.capital-band-grid{
+  position:relative;
+  z-index:1;
+  min-height:clamp(430px,48vw,690px);
+  display:grid;
+  grid-template-columns:minmax(260px,.72fr) minmax(0,1.55fr);
+  gap:clamp(42px,6vw,104px);
+  align-items:center;
+  padding-top:clamp(78px,8vw,122px);
+  padding-bottom:clamp(78px,8vw,122px);
+}
+.capital-band-meta{
+  align-self:stretch;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  border-top:1px solid var(--ink);
+  padding-top:22px;
+}
+.capital-band-meta>.mono{
+  font-size:11px;
+  letter-spacing:.08em;
+  color:var(--text-3);
+}
+.capital-band-meta h2{
+  margin-top:18px;
+  font-family:var(--f-cn);
+  font-size:clamp(32px,3.6vw,56px);
+  line-height:1.05;
+  font-weight:900;
+  letter-spacing:-.03em;
+}
+.capital-source{
+  width:fit-content;
+  max-width:27em;
+  margin-top:auto;
+  padding-top:34px;
+  display:inline-flex;
+  align-items:flex-start;
+  gap:8px;
+  font-family:var(--f-cn);
+  font-size:12px;
+  line-height:1.65;
+  color:var(--text-3);
+  text-decoration:underline;
+  text-decoration-color:rgba(10,10,11,.28);
+  text-underline-offset:4px;
+  transition:color .22s ease,text-decoration-color .22s ease;
+}
+.capital-source:hover{
+  color:var(--ink);
+  text-decoration-color:var(--ink);
+}
+.capital-source span{
+  flex:0 0 auto;
+  font-family:var(--f-sans);
+}
+.capital-number-wrap{
+  min-width:0;
+  display:flex;
+  align-items:flex-end;
+  justify-content:flex-end;
+  gap:clamp(10px,1.5vw,22px);
+  white-space:nowrap;
+  overflow:hidden;
+}
+.capital-currency{
+  padding-bottom:clamp(12px,1.4vw,22px);
+  font-family:var(--f-mono);
+  font-size:clamp(13px,1.15vw,18px);
+  font-weight:600;
+  letter-spacing:.05em;
+  color:var(--text-3);
+}
+.capital-number{
+  display:inline-block;
+  min-width:8ch;
+  text-align:right;
+  font-family:var(--f-sans);
+  font-stretch:125%;
+  font-size:clamp(70px,10.2vw,168px);
+  font-weight:900;
+  line-height:.82;
+  letter-spacing:-.065em;
+  font-variant-numeric:tabular-nums lining-nums;
+  font-feature-settings:"tnum" 1,"lnum" 1;
+  transform-origin:right center;
+}
+.capital-number.is-counting{
+  animation:capital-number-in .9s var(--ease-out) both;
+}
+.capital-number.is-complete{
+  animation:capital-number-settle .34s var(--ease-out) both;
+}
+@keyframes capital-number-in{
+  0%{opacity:.16;filter:blur(12px);transform:translate3d(0,18px,0) scale(.985)}
+  42%{opacity:1;filter:blur(0);transform:translate3d(0,-3px,0) scale(1.008)}
+  100%{opacity:1;filter:none;transform:none}
+}
+@keyframes capital-number-settle{
+  0%{transform:scale(1.012)}
+  100%{transform:none}
+}
+@media(max-width:900px){
+  .capital-band::before{background:radial-gradient(100% 90% at 80% 70%,rgba(255,216,77,.14),transparent 68%)}
+  .capital-band-grid{
+    min-height:0;
+    grid-template-columns:1fr;
+    gap:54px;
+    padding-top:76px;
+    padding-bottom:76px;
+  }
+  .capital-band-meta{
+    align-self:auto;
+  }
+  .capital-source{
+    margin-top:28px;
+    padding-top:0;
+  }
+  .capital-number-wrap{
+    justify-content:flex-start;
+    overflow:visible;
+  }
+  .capital-number{
+    min-width:0;
+    text-align:left;
+    font-size:clamp(58px,15vw,112px);
+  }
+}
+@media(max-width:560px){
+  .capital-band-grid{
+    gap:42px;
+    padding-top:62px;
+    padding-bottom:62px;
+  }
+  .capital-number-wrap{
+    gap:8px;
+  }
+  .capital-currency{
+    padding-bottom:8px;
+    font-size:11px;
+  }
+  .capital-number{
+    font-size:clamp(52px,14.5vw,82px);
+    letter-spacing:-.055em;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .capital-number.is-counting,
+  .capital-number.is-complete{animation:none!important}
+}
