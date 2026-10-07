@@ -1,6 +1,7 @@
-/* SIGNWELL Software — continuous isometric camera story */
+/* SIGNWELL Software — cinematic scroll camera */
 (function(){
   'use strict';
+
   const story=document.querySelector('[data-sw-story]');
   const world=document.querySelector('[data-sw-world]');
   if(!story||!world) return;
@@ -12,104 +13,192 @@
   const hudTitle=document.querySelector('[data-sw-hud-title]');
   const hudBody=document.querySelector('[data-sw-hud-body]');
   const pills=Array.from(document.querySelectorAll('[data-sw-jump]'));
+  const officeShell=document.querySelector('[data-sw-office-shell]');
   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let raf=0;
 
-  const stages=[
-    {
-      key:'office', label:'OFFICE', start:0, end:.29,
-      camera:[620,-90,.92],
+  const stageCopy={
+    exterior:{
+      nav:'office',label:'OFFICE / EXTERIOR',
       kicker:'01 · SOFTWARE DIVISION',
       title:'欣緯軟體',
-      body:'欣緯科技旗下部門之一。從辦公室開始，看見設計、內容與程式如何一起完成一個網站產品。'
+      body:'鏡頭先停在辦公園區外部，再向建築推進；不是切換頁面，而是在同一個模型世界裡移動。'
     },
-    {
-      key:'road', label:'ROAD / TEAM', start:.29, end:.64,
-      camera:[70,-10,.88],
+    interior:{
+      nav:'office',label:'OFFICE / INSIDE',
+      kicker:'01B · INSIDE THE STUDIO',
+      title:'進入工作現場。',
+      body:'屋頂在鏡頭推近時逐步打開，讓辦公桌、筆電與工作空間成為下一個畫面焦點。'
+    },
+    road:{
+      nav:'road',label:'TEAM ROUTE',
       kicker:'02 · TEAM / ROUTE',
       title:'沿著山路，看見團隊。',
-      body:'鏡頭離開辦公室後進入山區道路；兩個看板分別呈現林哲愷與林哲緯的學經歷與專案角色。'
+      body:'鏡頭從辦公室拉遠，沿著蜿蜒道路移動到山區；人物學經歷成為路線上的實體看板。'
     },
-    {
-      key:'city', label:'CITY / WORKS', start:.64, end:1,
-      camera:[-650,105,.83],
+    city:{
+      nav:'city',label:'WORKS CITY',
       kicker:'03 · SELECTED WORKS',
-      title:'作品進入城市。',
-      body:'城市廣告牌就是作品入口。點擊任一看板可先讀專案詳述，再往下查看完整作品集。'
+      title:'最後進入作品城市。',
+      body:'鏡頭再度推近城市。每一塊城市看板都是作品入口，可直接開啟專案詳述。'
     }
+  };
+
+  // Keyframes intentionally contain flat sections. Those pauses recreate the
+  // "arrive -> inspect -> move again" rhythm in the supplied reference video.
+  const keys=[
+    {p:0.00,x:620,y:-88,s:.91,r:-.35,stage:'exterior'},
+    {p:0.10,x:620,y:-88,s:.91,r:-.35,stage:'exterior'},
+
+    {p:0.19,x:790,y:-175,s:1.22,r:.10,stage:'interior'},
+    {p:0.31,x:790,y:-175,s:1.22,r:.10,stage:'interior'},
+
+    {p:0.43,x:115,y:-12,s:.84,r:-.72,stage:'road'},
+    {p:0.53,x:115,y:-12,s:.84,r:-.72,stage:'road'},
+    {p:0.62,x:-95,y:28,s:.90,r:.40,stage:'road'},
+
+    {p:0.74,x:-620,y:108,s:.84,r:-.36,stage:'city'},
+    {p:0.83,x:-755,y:48,s:1.04,r:.08,stage:'city'},
+    {p:1.00,x:-755,y:48,s:1.04,r:.08,stage:'city'}
   ];
 
   function clamp(v,a=0,b=1){return Math.max(a,Math.min(b,v))}
   function mix(a,b,t){return a+(b-a)*t}
-  function smooth(t){t=clamp(t);return t*t*(3-2*t)}
-  function factor(){
+  function ease(t){
+    t=clamp(t);
+    return t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+  }
+  function viewportFactor(){
     const w=window.innerWidth;
-    if(w<560) return .61;
-    if(w<900) return .72;
-    if(w<1200) return .84;
+    if(w<430)return .62;
+    if(w<560)return .66;
+    if(w<900)return .76;
+    if(w<1200)return .86;
     return 1;
   }
   function cameraAt(p){
-    const hold1=.19, trans1=.34, hold2=.49, trans2=.68;
-    const a=stages[0].camera,b=stages[1].camera,c=stages[2].camera;
-    let x,y,s;
-    if(p<=hold1){[x,y,s]=a}
-    else if(p<trans1){
-      const t=smooth((p-hold1)/(trans1-hold1));
-      x=mix(a[0],b[0],t);y=mix(a[1],b[1],t);s=mix(a[2],b[2],t);
-    }else if(p<=hold2){[x,y,s]=b}
-    else if(p<trans2){
-      const t=smooth((p-hold2)/(trans2-hold2));
-      x=mix(b[0],c[0],t);y=mix(b[1],c[1],t);s=mix(b[2],c[2],t);
-    }else{[x,y,s]=c}
-    const f=factor();
-    return [x*f,y*f,s*f];
+    let a=keys[0],b=keys[keys.length-1];
+    for(let i=0;i<keys.length-1;i++){
+      if(p>=keys[i].p&&p<=keys[i+1].p){a=keys[i];b=keys[i+1];break}
+    }
+    const raw=b.p===a.p?1:(p-a.p)/(b.p-a.p);
+    const t=ease(raw);
+    const f=viewportFactor();
+    return {
+      x:mix(a.x,b.x,t)*f,
+      y:mix(a.y,b.y,t)*f,
+      s:mix(a.s,b.s,t)*f,
+      r:mix(a.r,b.r,t),
+      stage:raw<.5?a.stage:b.stage
+    };
   }
   function stageAt(p){
-    if(p<.31)return stages[0];
-    if(p<.64)return stages[1];
-    return stages[2];
+    if(p<.145)return 'exterior';
+    if(p<.355)return 'interior';
+    if(p<.695)return 'road';
+    return 'city';
   }
-  let activeStage='';
-  function setStage(stage){
-    if(!stage||activeStage===stage.key)return;
-    activeStage=stage.key;
-    if(label)label.textContent=stage.label;
-    if(hud){
-      hud.dataset.stage=stage.key;
-      hud.animate&&hud.animate([{opacity:.78,transform:'translateY(5px)'},{opacity:1,transform:'none'}],{duration:220,easing:'cubic-bezier(.16,1,.3,1)'});
-    }
-    if(hudK)hudK.textContent=stage.kicker;
-    if(hudTitle){
-      hudTitle.textContent=stage.title;
-      hudTitle.tagName==='H1';
-    }
-    if(hudBody)hudBody.textContent=stage.body;
-    pills.forEach(b=>b.classList.toggle('is-active',b.dataset.swJump===stage.key));
-  }
-  function render(){
-    raf=0;
-    const r=story.getBoundingClientRect();
-    const vh=(window.visualViewport&&window.visualViewport.height)||window.innerHeight;
-    const max=Math.max(1,story.offsetHeight-vh);
-    const p=clamp(-r.top/max);
-    if(fill)fill.style.width=(p*100).toFixed(2)+'%';
-    const [x,y,s]=cameraAt(reduce?(p<.31?0:p<.64?.42:1):p);
-    world.style.transform='translate3d(calc(-50% + '+x.toFixed(1)+'px),calc(-50% + '+y.toFixed(1)+'px),0) scale('+s.toFixed(4)+')';
-    setStage(stageAt(p));
-  }
-  function schedule(){if(!raf)raf=requestAnimationFrame(render)}
-  addEventListener('scroll',schedule,{passive:true});
-  addEventListener('resize',schedule,{passive:true});
-  render();
 
-  const stageTarget={office:.02,road:.40,city:.78};
+  let storyTop=0;
+  let storyRange=1;
+  let targetP=0;
+  let visualP=0;
+  let running=false;
+  let activeStage='';
+
+  function measure(){
+    const vh=(window.visualViewport&&window.visualViewport.height)||window.innerHeight;
+    storyTop=window.scrollY+story.getBoundingClientRect().top;
+    storyRange=Math.max(1,story.offsetHeight-vh);
+    targetP=clamp((window.scrollY-storyTop)/storyRange);
+    if(reduce)visualP=targetP;
+  }
+
+  function setStage(key){
+    if(activeStage===key)return;
+    activeStage=key;
+    const stage=stageCopy[key];
+    if(!stage)return;
+
+    world.dataset.focus=key;
+    if(hud)hud.dataset.stage=key;
+    if(label)label.textContent=stage.label;
+    if(hudK)hudK.textContent=stage.kicker;
+    if(hudTitle)hudTitle.textContent=stage.title;
+    if(hudBody)hudBody.textContent=stage.body;
+
+    pills.forEach(btn=>btn.classList.toggle('is-active',btn.dataset.swJump===stage.nav));
+
+    if(hud&&hud.animate&&!reduce){
+      hud.animate(
+        [{opacity:.82,transform:'translate3d(0,6px,0)'},{opacity:1,transform:'translate3d(0,0,0)'}],
+        {duration:280,easing:'cubic-bezier(.16,1,.3,1)'}
+      );
+    }
+  }
+
+  function render(p){
+    if(fill)fill.style.width=(p*100).toFixed(2)+'%';
+
+    const cam=cameraAt(p);
+    world.style.transform=
+      'translate3d(calc(-50% + '+cam.x.toFixed(1)+'px),calc(-50% + '+cam.y.toFixed(1)+'px),0) '+
+      'scale('+cam.s.toFixed(4)+') rotateZ('+cam.r.toFixed(3)+'deg)';
+
+    const stage=stageAt(p);
+    setStage(stage);
+
+    // Exterior shell fades only while the camera physically enters the office.
+    if(officeShell){
+      const fade=clamp((p-.105)/.075);
+      officeShell.style.opacity=(1-ease(fade)).toFixed(3);
+      officeShell.style.pointerEvents='none';
+    }
+  }
+
+  function tick(){
+    if(reduce){
+      visualP=targetP;
+    }else{
+      // Small cinematic inertia: camera keeps moving for a fraction after the finger stops.
+      visualP += (targetP-visualP)*.135;
+      if(Math.abs(targetP-visualP)<.00015)visualP=targetP;
+    }
+
+    render(visualP);
+
+    if(Math.abs(targetP-visualP)>.00015){
+      requestAnimationFrame(tick);
+    }else{
+      running=false;
+    }
+  }
+  function start(){
+    if(running)return;
+    running=true;
+    requestAnimationFrame(tick);
+  }
+  function onScroll(){
+    targetP=clamp((window.scrollY-storyTop)/storyRange);
+    start();
+  }
+
+  measure();
+  visualP=targetP;
+  render(visualP);
+
+  addEventListener('scroll',onScroll,{passive:true});
+  addEventListener('resize',()=>{measure();start()},{passive:true});
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize',()=>{measure();start()},{passive:true});
+  }
+
+  const stageTarget={office:.04,road:.47,city:.82};
   pills.forEach(btn=>btn.addEventListener('click',()=>{
     const p=stageTarget[btn.dataset.swJump]||0;
-    const vh=(window.visualViewport&&window.visualViewport.height)||window.innerHeight;
-    const max=Math.max(1,story.offsetHeight-vh);
-    const top=window.scrollY+story.getBoundingClientRect().top+p*max;
-    window.scrollTo({top,behavior:reduce?'auto':'smooth'});
+    window.scrollTo({
+      top:storyTop+p*storyRange,
+      behavior:reduce?'auto':'smooth'
+    });
   }));
 
   const projects={
@@ -120,27 +209,38 @@
     laoshan:{k:'STORY WORLD / WEB GAME',t:'勞山道士',b:'以世界觀、場景與氣氛為核心的互動式網頁遊戲專案，著重畫面敘事、視覺節奏與可探索感。',l:[['專案庫','https://easylearnfromtw.github.io/musictown/']]},
     vincent:{k:'CONTENT / BRAND SYSTEM',t:'Vincent Project Series',b:'以個人品牌、醫學與投資內容、專業形象及互動工具為核心的系列專案。包含 Vincent’s Note、Vincent Aesthetic Lab 等方向。',l:[['Vincent’s Note','https://vincents-note.pages.dev']]}
   };
+
   const dialog=document.querySelector('[data-sw-dialog]');
   const dk=document.querySelector('[data-sw-dialog-kicker]');
   const dt=document.querySelector('[data-sw-dialog-title]');
   const db=document.querySelector('[data-sw-dialog-body]');
   const dl=document.querySelector('[data-sw-dialog-links]');
+
   function openProject(key){
-    const p=projects[key];if(!p||!dialog)return;
-    if(dk)dk.textContent=p.k;if(dt)dt.textContent=p.t;if(db)db.textContent=p.b;
+    const p=projects[key];
+    if(!p||!dialog)return;
+    if(dk)dk.textContent=p.k;
+    if(dt)dt.textContent=p.t;
+    if(db)db.textContent=p.b;
     if(dl)dl.innerHTML=p.l.map(([n,u])=>'<a href="'+u+'" target="_blank" rel="noopener">'+n+' ↗</a>').join('');
     dialog.showModal?dialog.showModal():dialog.setAttribute('open','');
   }
+
   document.addEventListener('click',e=>{
     const project=e.target.closest&&e.target.closest('[data-sw-project]');
     if(project){openProject(project.dataset.swProject);return}
+
     const close=e.target.closest&&e.target.closest('[data-sw-dialog-close]');
     if(close&&dialog){dialog.close?dialog.close():dialog.removeAttribute('open');return}
+
     const ret=e.target.closest&&e.target.closest('[data-sw-return]');
     if(ret){
       e.preventDefault();
       const url=new URL(ret.href,location.href);
-      try{sessionStorage.setItem('sw-nav-enter','backward');sessionStorage.setItem('sw-nav-color','#0a0a0b')}catch{}
+      try{
+        sessionStorage.setItem('sw-nav-enter','backward');
+        sessionStorage.setItem('sw-nav-color','#0a0a0b');
+      }catch{}
       document.documentElement.dataset.navDir='backward';
       document.documentElement.style.setProperty('--sw-nav-color','#0a0a0b');
       document.documentElement.classList.add('is-page-leaving');
