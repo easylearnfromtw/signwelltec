@@ -1,20 +1,27 @@
 document.addEventListener('DOMContentLoaded',()=>{
-  const pageTransition=document.createElement('div');
-  pageTransition.className='page-transition-layer';
-  pageTransition.innerHTML='<span class="page-transition-brand">SIGNWELL欣緯科技</span>';
-  pageTransition.setAttribute('aria-hidden','true');
-  document.body.appendChild(pageTransition);
-
-  // One reusable layer for both welcome and page transfer.
-  // It is immediately opaque so no edge of the page can flash through.
-  document.documentElement.classList.add('transition-instant');
-  requestAnimationFrame(()=>{
-    requestAnimationFrame(()=>{
-      document.documentElement.classList.remove('transition-instant');
-      document.documentElement.classList.add('transition-visible');
-      setTimeout(()=>document.documentElement.classList.remove('transition-visible'),520);
-    });
-  });
+  // Show the original welcome only once per tab session.
+  // Normal links use native navigation with no transition.
+  let showWelcome=false;
+  try{
+    showWelcome=sessionStorage.getItem('signwell-welcome-seen')!=='1';
+    if(showWelcome) sessionStorage.setItem('signwell-welcome-seen','1');
+  }catch{
+    // No storage access: navigation must remain unaffected.
+  }
+  if(showWelcome && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const welcome=document.createElement('div');
+    welcome.className='page-welcome-layer';
+    welcome.setAttribute('aria-hidden','true');
+    const label=document.createElement('span');
+    label.className='page-welcome-brand';
+    label.textContent='SIGNWELL欣緯科技';
+    welcome.appendChild(label);
+    document.body.appendChild(welcome);
+    setTimeout(()=>{
+      welcome.classList.add('welcome-exit');
+      setTimeout(()=>welcome.remove(),280);
+    },500);
+  }
   // Hard invariant: the site may scroll vertically, never horizontally.
   const lockHorizontalViewport=()=>{
     document.documentElement.style.overflowX='clip';
@@ -98,31 +105,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     updateControls();
   });
 
-  // Internal page transition
-  window.addEventListener('pageshow',()=>{
-    document.body.classList.remove('page-leaving');
-    document.documentElement.classList.remove('page-transition-active','transition-instant','transition-visible');
-  });
-  document.querySelectorAll('a[href]').forEach(a=>{
-    a.addEventListener('click',e=>{
-      if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
-      if(a.target==='_blank'||a.hasAttribute('download')) return;
-      const href=a.getAttribute('href')||'';
-      if(!href||href.startsWith('#')||href.startsWith('mailto:')||href.startsWith('tel:')||href.startsWith('javascript:')) return;
-      const url=new URL(a.href,location.href);
-      if(url.origin!==location.origin) return;
-      if(url.pathname===location.pathname&&url.hash) return;
-      e.preventDefault();
-      document.body.classList.add('page-leaving');
-      document.documentElement.classList.remove('page-transition-active','transition-visible');
-      document.documentElement.classList.add('transition-instant');
-      requestAnimationFrame(()=>{
-        document.documentElement.classList.remove('transition-instant');
-        document.documentElement.classList.add('transition-visible');
-      });
-      setTimeout(()=>{location.href=url.href},260);
-    });
-  });
+  // Page links now navigate directly, without a transition or delay.
 
   // Pointer/tap feedback for interactive controls
   const pressables=document.querySelectorAll('a,button,.service-card,.portfolio-row');
