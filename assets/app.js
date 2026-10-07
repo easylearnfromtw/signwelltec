@@ -361,31 +361,64 @@ document.addEventListener('DOMContentLoaded',()=>{
       }
     };
 
-    form.addEventListener('submit',async e=>{
+    const copyRichMailSync=()=>{
+      const html=makeMailDocument();
+      try{
+        const holder=document.createElement('div');
+        holder.contentEditable='true';
+        holder.setAttribute('aria-hidden','true');
+        holder.style.position='fixed';
+        holder.style.left='-100000px';
+        holder.style.top='0';
+        holder.style.width='650px';
+        holder.innerHTML=html;
+        document.body.appendChild(holder);
+
+        const range=document.createRange();
+        range.selectNodeContents(holder);
+        const selection=window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        const copied=document.execCommand('copy');
+        selection.removeAllRanges();
+        holder.remove();
+        return !!copied;
+      }catch{
+        return false;
+      }
+    };
+
+    form.addEventListener('submit',e=>{
       e.preventDefault();
       if(current!==steps.length-1){showStep(steps.length-1);return;}
+
+      // Keep everything inside the original tap/click event. iOS in-app browsers
+      // may block navigation if we await clipboard APIs before opening Gmail.
+      const copied=copyRichMailSync();
+
+      const compose=new URL('https://mail.google.com/mail/u/0/');
+      compose.searchParams.set('view','cm');
+      compose.searchParams.set('fs','1');
+      compose.searchParams.set('tf','1');
+      compose.searchParams.set('to',gmailRecipient);
+      compose.searchParams.set('su',subject());
+
+      // If rich copy is unavailable, the user still reaches Gmail with all content.
+      if(!copied) compose.searchParams.set('body',makeText());
 
       if(submit){
         submit.disabled=true;
         submit.textContent='開啟 Gmail…';
       }
-      if(status) status.textContent='正在準備 HTML 郵件並開啟 Gmail…';
+      if(status){
+        status.textContent=copied
+          ?'HTML 郵件已複製，正在開啟 Gmail。進入撰寫頁後直接貼上即可。'
+          :'正在開啟 Gmail；此瀏覽器無法複製 HTML，因此已改為預填純文字內容。';
+      }
 
-      const copied=await copyRichMail();
-      const compose=new URL('https://mail.google.com/mail/');
-      compose.searchParams.set('view','cm');
-      compose.searchParams.set('fs','1');
-      compose.searchParams.set('to','"'+gmailRecipientLabel+'" <'+gmailRecipient+'>');
-      compose.searchParams.set('su',subject());
-
-      // If rich HTML could not be copied, preserve the enquiry as a plain-text fallback.
-      if(!copied) compose.searchParams.set('body',makeText());
-
-      try{
-        sessionStorage.setItem('signwell-rfq-html-copied',copied?'1':'0');
-      }catch{}
-
-      window.location.assign(compose.toString());
+      // Same-tab navigation is intentionally synchronous for maximum iPhone reliability.
+      window.location.href=compose.toString();
     });
     showStep(0);
   }
