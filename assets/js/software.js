@@ -98,6 +98,8 @@
     if(w<560)return .66;
     if(w<900)return .76;
     if(w<1200)return .86;
+    if(w>=2200)return 1.12;
+    if(w>=1800)return 1.06;
     return 1;
   }
   function photoAt(p){
