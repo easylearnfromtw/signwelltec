@@ -4,13 +4,45 @@
   const stage = document.querySelector('[data-tape3d]');
   const items = Array.from(document.querySelectorAll('[data-tape-index] .tape-item'));
   if (!stage || !items.length) return;
-  const sceneURL = new URL('scene.js?v=20261007-interactive', document.currentScript.src);
+  const sceneURL = new URL('scene.js?v=20261007-pinned', document.currentScript.src);
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const tip = stage.querySelector('[data-tape-tip]');
   const count = stage.querySelector('[data-tape-count]');
   const status = stage.querySelector('[data-tape-status]');
   const reset = stage.querySelector('[data-tape-reset]');
+  const draw = stage.querySelector('[data-tape-draw]');
+  const hero = stage.closest('.csr-hero');
+  const content = document.querySelector('.csr-page-content');
+  const touchDevice = window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
   let scene = null, loading = false;
+  stage.classList.toggle('supports-touch', touchDevice);
+
+  function idleMessage() {
+    return touchDevice && draw && !stage.classList.contains('is-touch-drawing')
+      ? '向上滑動閱讀，或開啟「手指貼膠帶」'
+      : '按住並拖曳，在地板上貼膠帶';
+  }
+
+  function setTouchDrawing(enabled) {
+    stage.classList.toggle('is-touch-drawing', enabled);
+    if (draw) {
+      draw.setAttribute('aria-pressed', String(enabled));
+      draw.querySelector('span').textContent = enabled ? '完成貼膠帶' : '手指貼膠帶';
+    }
+    if (!enabled && scene) scene.stopDrawing();
+    status.textContent = idleMessage();
+  }
+
+  function syncCover() {
+    if (!hero || !content) return;
+    const panelTop = content.getBoundingClientRect().top;
+    const covered = panelTop <= 0;
+    [stage.querySelector('.tape-controls'), hero.querySelector('.csr-scroll-link')].forEach(element => {
+      if (element) element.inert = panelTop < element.getBoundingClientRect().bottom;
+    });
+    if (covered && !hero.inert) setTouchDrawing(false);
+    hero.inert = covered;
+  }
 
   function cards() {
     return items.map(item => {
@@ -54,13 +86,15 @@
         onHover: showTip,
         onCount(value) { count.textContent = String(value).padStart(6, '0'); },
         onDrawing(drawing) {
-          status.textContent = drawing ? '正在貼膠帶，放開即可停止' : '按住滑鼠或手指，在地板上拖曳貼膠帶';
+          status.textContent = drawing ? '正在貼膠帶，放開即可停止' : idleMessage();
         }
       });
       if (!scene) stage.classList.add('is-static');
       else {
         reset.disabled = false;
-        status.textContent = '按住滑鼠或手指，在地板上拖曳貼膠帶';
+        if (draw) draw.disabled = false;
+        status.textContent = idleMessage();
+        syncCover();
       }
     } catch {
       stage.classList.add('is-static');
@@ -72,8 +106,14 @@
     tip.classList.remove('is-on');
   });
   reset.addEventListener('click', () => {
-    if (scene) { scene.restart(); status.textContent = '地板已清空，按住並拖曳重新貼膠帶'; }
+    if (scene) { scene.restart(); status.textContent = '地板已清空，' + idleMessage(); }
   });
+  if (draw) draw.addEventListener('click', () => setTouchDrawing(!stage.classList.contains('is-touch-drawing')));
+  if (hero && content) {
+    window.addEventListener('scroll', syncCover, { passive: true });
+    window.addEventListener('resize', syncCover, { passive: true });
+    syncCover();
+  }
   items.forEach((item, index) => {
     const button = item.querySelector('button');
     const highlight = () => { if (scene) scene.highlight(index); item.classList.add('is-active'); };

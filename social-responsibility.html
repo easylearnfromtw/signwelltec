@@ -17,11 +17,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap">
 <link rel="preload" href="assets/fonts/archivo-var.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20261007-interactive">
+<link rel="stylesheet" href="assets/css/site.css?v=20261007-pinned">
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <script defer src="assets/js/app.js?v=20261007-interactive"></script>
 <script defer src="assets/js/donations.js?v=20261007-interactive"></script>
-<script defer src="assets/js/service-tape.js?v=20261007-interactive"></script>
+<script defer src="assets/js/service-tape.js?v=20261007-pinned"></script>
 </head>
 <body data-page="social-responsibility" id="top">
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
@@ -59,23 +59,45 @@
 </header>
 <main id="main">
 
-<section class="page-hero s-pink csr-hero" data-tone="light">
+<section class="page-hero s-studio csr-hero" data-tone="light" aria-label="社會責任與互動膠帶">
+  <div class="tape-stage" data-tape3d>
+    <div class="tape-hud wrap" aria-hidden="true">
+      <div class="tape-hud-l">
+        <span class="mono">FIG. 04 — GIVING &amp; SERVICE TAPE</span>
+        <span class="label">01–02 捐款紀錄 · 03–10 服務紀錄</span>
+      </div>
+      <dl class="tape-hud-r">
+        <div><dt>Laid</dt><i></i><dd data-tape-count>000000</dd></div>
+        <div><dt>Stickers</dt><i></i><dd>000010</dd></div>
+        <div><dt>Giving</dt><i></i><dd>000002</dd></div>
+        <div><dt>Service</dt><i></i><dd>000008</dd></div>
+      </dl>
+    </div>
+    <div class="tape-tip lg" data-tape-tip aria-hidden="true"><span class="mono" data-tip-code></span><strong data-tip-title></strong><span data-tip-sub></span></div>
+    <div class="tape-instructions"><p data-tape-status role="status">膠帶準備中…</p><span>沿著你的路徑貼下，放開即可停止</span></div>
+    <div class="tape-controls">
+      <button class="btn btn--glass lg btn--sm" type="button" data-tape-draw aria-pressed="false" disabled><span>手指貼膠帶</span></button>
+      <button class="btn btn--glass lg btn--sm" type="button" data-tape-reset disabled><svg class="ico" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 5a5 5 0 1 1-1 4M3 1v4h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span>重新貼</span></button>
+    </div>
+  </div>
   <div class="wrap">
-    <div class="page-hero-grid">
+    <div class="page-hero-grid csr-hero-copy">
       <div>
         <div class="page-kicker rv"><span class="mono">04</span><span class="bar"></span><span class="label">Social responsibility</span></div>
         <h1 class="t-h1 lines" data-lines>把長期投入，<br>做成持續的行動。<span class="t-en" style="color:rgba(10,10,11,.6)">Service · Giving · Responsibility</span></h1>
         <p class="t-lead rv">從定期捐款、校園服務、環境行動、照護陪伴，到災後復原，持續把資源投入需要的地方。</p>
       </div>
       <div class="giving-total rv" style="--d:2">
-        <span class="label">目前累積投入 · Recurring giving</span>
+        <span class="label">目前累積投入</span>
         <strong><small>NT$</small><span data-donation-total>138,400</span></strong>
         <span>截至 <span class="mono" data-donation-asof>2026.10.07</span></span>
       </div>
     </div>
   </div>
+  <a class="csr-scroll-link" href="#giving">向上滑動，閱讀捐款與服務紀錄 <span aria-hidden="true">↓</span></a>
 </section>
 
+<div class="csr-page-content" data-tone="light" data-surface="paper">
 <section class="section s-paper csr-content" id="giving" data-tone="light">
   <div class="wrap">
     <header class="sec-head">
@@ -144,25 +166,6 @@
     </div>
   </div>
 
-  <div class="tape-stage" data-tape3d>
-    <div class="tape-hud wrap" aria-hidden="true">
-      <div class="tape-hud-l">
-        <span class="mono">FIG. 04 — GIVING &amp; SERVICE TAPE</span>
-        <span class="label">01–02 捐款紀錄 · 03–10 服務紀錄</span>
-      </div>
-      <dl class="tape-hud-r">
-        <div><dt>Laid</dt><i></i><dd data-tape-count>000000</dd></div>
-        <div><dt>Stickers</dt><i></i><dd>000010</dd></div>
-        <div><dt>Giving</dt><i></i><dd>000002</dd></div>
-        <div><dt>Service</dt><i></i><dd>000008</dd></div>
-      </dl>
-    </div>
-    <div class="tape-tip lg" data-tape-tip aria-hidden="true"><span class="mono" data-tip-code></span><strong data-tip-title></strong><span data-tip-sub></span></div>
-    <div class="tape-instructions"><p data-tape-status role="status">膠帶準備中…</p><span>沿著你的路徑貼下，放開即可停止</span></div>
-    <div class="tape-controls">
-      <button class="btn btn--glass lg btn--sm" type="button" data-tape-reset disabled><svg class="ico" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 5a5 5 0 1 1-1 4M3 1v4h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span>重新貼</span></button>
-    </div>
-  </div>
 
   <div class="wrap">
     <ol class="tape-index" data-tape-index aria-label="捐款與服務紀錄清單">
@@ -200,6 +203,7 @@
   </div>
 </section>
 
+</div>
 </main>
 <footer class="site-footer" data-tone="dark">
   <div class="wrap">

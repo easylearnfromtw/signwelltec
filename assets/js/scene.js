@@ -4461,7 +4461,7 @@ void main(){
     d.updateProjectionMatrix();
     d.updateMatrixWorld();
     if (!sized) {
-      head.set(portrait ? 0 : -3.3, 0, portrait ? .8 : .5);
+      head.set(portrait || i.closest(".csr-hero") ? 0 : -3.3, 0, portrait ? .8 : .5);
       sized = true;
     }
     requestRender();
@@ -4609,6 +4609,7 @@ void main(){
 
   function start(event) {
     if (activePointer !== null || !event.isPrimary || event.button !== 0) return;
+    if (event.pointerType === "touch" && i.closest(".csr-hero") && !i.classList.contains("is-touch-drawing")) return;
     const point = aim(event);
     if (!point) return;
     event.preventDefault();
@@ -4652,7 +4653,7 @@ void main(){
     stickers.clear();
     count = rollDistance = 0;
     hovered = selected = -1;
-    head.set(d.aspect < .9 ? 0 : -3.3, 0, d.aspect < .9 ? .8 : .5);
+    head.set(d.aspect < .9 || i.closest(".csr-hero") ? 0 : -3.3, 0, d.aspect < .9 ? .8 : .5);
     direction.set(1, 0, 0);
     for (let slot = 0; slot < fi; slot++) w(slot, slot % t.length);
     resize();
@@ -4690,6 +4691,7 @@ void main(){
   return {
     highlight(card) { selected = card; highlight(); },
     restart,
+    stopDrawing() { finish(); },
     updateCards(cards) {
       cards.forEach((card, index) => {
         if (!t[index] || JSON.stringify(t[index]) === JSON.stringify(card)) return;
