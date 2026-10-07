@@ -11,6 +11,7 @@
       { selector:'#part-records', src:'assets/js/products-filter.js?v=20261007-lazy' }
     ],
     'social-responsibility': [
+      { early:true, src:'assets/js/service-tape.js?v=20261007-lazy' },
       { selector:'#giving', src:'assets/js/donations.js?v=20261007-lazy' }
     ]
   }[page] || [];
@@ -27,6 +28,13 @@
   }
 
   jobs.forEach(job => {
+    if(job.early){
+      const start = () => load(job);
+      if('requestIdleCallback' in window) requestIdleCallback(start,{timeout:320});
+      else setTimeout(start,160);
+      return;
+    }
+
     const target = document.querySelector(job.selector);
     if(!target){ load(job); return; }
 
