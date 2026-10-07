@@ -1243,3 +1243,59 @@ html.transition-instant .page-transition-layer{
     white-space:normal;
   }
 }
+
+/* Business manager contact: hidden by default, revealed only on request. */
+.person-phone{
+  grid-row:4;
+  align-self:end;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  width:100%;
+  margin-top:16px;
+}
+.person-phone-reveal{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  min-height:44px;
+  padding:12px 14px;
+  border:1px solid rgba(10,10,10,.52);
+  border-radius:0;
+  background:transparent;
+  color:var(--black);
+  font-family:var(--font-round);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.04em;
+  cursor:pointer;
+}
+.person-phone-reveal:hover,
+.person-phone-reveal[aria-expanded="true"]{
+  background:var(--black);
+  color:#fff;
+}
+.person-phone-panel{
+  padding:12px 14px;
+  border:1px solid rgba(10,10,10,.28);
+  background:rgba(255,255,255,.3);
+  text-align:center;
+}
+.person-phone-panel[hidden]{display:none!important}
+.person-phone-panel a{
+  display:block;
+  font-family:var(--font-round);
+  font-size:clamp(18px,2vw,23px);
+  font-weight:800;
+  letter-spacing:.03em;
+  overflow-wrap:normal;
+  white-space:nowrap;
+}
+.person-phone-panel small{
+  display:block;
+  margin-top:7px;
+  font-family:var(--font-round);
+  font-size:10px;
+  opacity:.68;
+}
