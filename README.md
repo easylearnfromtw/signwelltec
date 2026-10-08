@@ -11,6 +11,7 @@
 | `products.html` | 產品與服務：料號紀錄（337 項料號，依類別篩選／搜尋／每頁 24 項分頁／每項附封裝 3D 模型／加入詢價單）、電阻判讀、色碼與 SMD 代碼換算、電焊需求、Datasheet 放大鏡、需求自檢 |
 | `sourcing.html` | 尋料服務：情境指引（可帶著清單前往詢價）、常見難題、確認原則 |
 | `social-responsibility.html` | 社會責任：定期捐款（金額依每月排程自動累加）、服務紀錄 3D 貼紙膠帶（兩筆捐款＋八次服務，按住滑鼠或手指沿路貼在地板） |
+| `medical-responsibility.html` | 欣緯生醫：六幕介紹、藥袋 3D 角色、部門經理與真實網站連結、閱讀流程、資訊查證、個人捐助紀錄與生醫網站入口 |
 | `contact.html` | 聯絡：三種聯繫路徑、商務信箱、常見問題 |
 | `rfq.html` | 詢價工具：四步驟、多項料件、貼上清單、詢價單帶入、信件預覽、開啟郵件草稿 |
 | `404.html` | 找不到頁面（GitHub Pages 會自動使用） |
@@ -25,6 +26,8 @@
 - `assets/js/gpu-lifecycle.js`：暫停離開畫面或背景分頁的裝飾動畫
 - `assets/js/app.js`：介面互動（導覽、Tab bar、詢價單、各頁工具）
 - `assets/js/scene.js`：3D 場景，以 three.js（MIT License）建置，只在首頁、產品頁與社會責任頁載入；裝置不支援 WebGL 時改顯示靜態圖或清單。內含封裝模型庫（SOT／SOP／QFN／DFN／TO／SOD／SMA／DIP、各式 LED、電感、保險絲等）
+- `assets/css/bio-story.css`、`assets/js/bio-story.js`：欣緯生醫六幕版面與章節導覽，手機以獨立角色區保留完整文字
+- `assets/js/bio-bag.js`：僅於生醫介紹頁載入的藥袋角色；本機 three.js 模組及 MIT 授權位於 `assets/vendor/`。不支援 WebGL 時保留靜態藥袋，減少動態偏好與背景分頁會暫停裝飾動畫
 - `assets/img/`：零件渲染圖與首頁靜態備援圖；`assets/img/parts/<封裝代碼>.webp` 是料號列表縮圖，也是不支援 WebGL 時的檢視器備援圖
 - `assets/fonts/`：Archivo、IBM Plex Mono（SIL Open Font License，授權檔同資料夾）；中文字體由 Google Fonts 載入 Noto Sans TC
 

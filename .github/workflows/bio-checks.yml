@@ -1,0 +1,40 @@
+name: Check SIGNWELL BIO introduction
+on:
+  pull_request:
+    paths:
+      - medical-responsibility.html
+      - assets/css/bio-story.css
+      - assets/js/bio-*.js
+      - assets/js/donations.js
+      - assets/vendor/**
+      - scripts/check-bio-page.py
+      - .github/workflows/bio-checks.yml
+  push:
+    branches: [main]
+    paths:
+      - medical-responsibility.html
+      - assets/css/bio-story.css
+      - assets/js/bio-*.js
+      - assets/js/donations.js
+      - assets/vendor/**
+      - scripts/check-bio-page.py
+      - .github/workflows/bio-checks.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    name: JavaScript syntax and local page links
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check JavaScript syntax
+        run: |
+          node --check assets/js/bio-story.js
+          node --check assets/js/bio-bag.js
+          node --check assets/js/donations.js
+      - name: Check local assets and chapter anchors
+        run: python3 scripts/check-bio-page.py
