@@ -44,11 +44,11 @@ async function startCompanion() {
   const camera = new THREE.OrthographicCamera(-2, 2, 2.2, -2.2, 0.1, 30);
   camera.position.set(0, 0.1, 9);
   camera.lookAt(0, 0, 0);
-  scene.add(new THREE.HemisphereLight(0xf5f8ff, 0xb3a389, 1.65));
-  const keyLight = new THREE.DirectionalLight(0xfff3df, 2.25);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xa9abb5, 1.65));
+  const keyLight = new THREE.DirectionalLight(0xffffff, 2.25);
   keyLight.position.set(-3, 5, 6);
   scene.add(keyLight);
-  const fillLight = new THREE.DirectionalLight(0xc6daff, 0.70);
+  const fillLight = new THREE.DirectionalLight(0xdfe6ff, 0.70);
   fillLight.position.set(4, 1, 3);
   scene.add(fillLight);
   const rimLight = new THREE.DirectionalLight(0xffffff, 1.7);
@@ -273,12 +273,12 @@ async function startCompanion() {
 function buildSachet(THREE) {
   const root = new THREE.Group();
   const orbit = new THREE.Group();
-  const paper = new THREE.MeshStandardMaterial({ color: 0xf2e7cf, roughness: 0.83, metalness: 0 });
-  const seamPaper = new THREE.MeshStandardMaterial({ color: 0xe5d3b2, roughness: 0.9, side: THREE.DoubleSide });
-  const cream = new THREE.MeshStandardMaterial({ color: 0xfff3df, roughness: 0.58 });
-  const blue = new THREE.MeshStandardMaterial({ color: 0x214f95, roughness: 0.34, metalness: 0.06 });
-  const red = new THREE.MeshStandardMaterial({ color: 0xe76248, roughness: 0.32 });
-  const ink = new THREE.MeshStandardMaterial({ color: 0x183148, roughness: 0.36 });
+  const paper = new THREE.MeshStandardMaterial({ color: 0xfffdfb, roughness: 0.83, metalness: 0 });
+  const seamPaper = new THREE.MeshStandardMaterial({ color: 0xe9e9e5, roughness: 0.9, side: THREE.DoubleSide });
+  const cream = new THREE.MeshStandardMaterial({ color: 0xfffdfb, roughness: 0.58 });
+  const blue = new THREE.MeshStandardMaterial({ color: 0x3d6bff, roughness: 0.34, metalness: 0.06 });
+  const yellow = new THREE.MeshStandardMaterial({ color: 0xffd84d, roughness: 0.32 });
+  const ink = new THREE.MeshStandardMaterial({ color: 0x17191f, roughness: 0.36 });
   const white = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.32 });
 
   function surface(x, y) {
@@ -370,28 +370,28 @@ function buildSachet(THREE) {
   labelCanvas.width = 1024;
   labelCanvas.height = 512;
   const label = labelCanvas.getContext('2d');
-  label.fillStyle = '#faf6e9';
-  label.strokeStyle = '#2b527a';
+  label.fillStyle = '#ffffff';
+  label.strokeStyle = '#2f5bff';
   label.lineWidth = 5;
   label.beginPath();
   label.roundRect(12, 12, 1000, 488, 31);
   label.fill();
   label.stroke();
-  label.fillStyle = '#245589';
+  label.fillStyle = '#2f5bff';
   label.font = 'bold 51px Arial, sans-serif';
   label.letterSpacing = '5px';
   label.fillText('SIGNWELL BIO', 62, 91);
   label.letterSpacing = '0px';
-  label.fillStyle = '#e5674b';
+  label.fillStyle = '#ffd84d';
   label.fillRect(844, 49, 34, 111);
   label.fillRect(806, 87, 110, 34);
-  label.fillStyle = '#245589';
+  label.fillStyle = '#2f5bff';
   label.font = 'bold 175px Georgia, serif';
   label.fillText('Rx', 66, 311);
   label.font = 'bold 29px Arial, sans-serif';
   label.fillText('A LITTLE CARE,', 347, 214);
   label.fillText('EVERY SINGLE DAY.', 347, 255);
-  label.strokeStyle = '#bdc7c8';
+  label.strokeStyle = '#d5deff';
   label.lineWidth = 2;
   for (let i = 0; i < 3; i++) {
     label.beginPath();
@@ -399,7 +399,7 @@ function buildSachet(THREE) {
     label.lineTo(926 - i * 43, 289 + i * 31);
     label.stroke();
   }
-  label.fillStyle = '#356385';
+  label.fillStyle = '#2f5bff';
   label.font = '25px Arial, sans-serif';
   label.fillText('KNOWLEDGE  /  HEALTH  /  YOU', 65, 435);
   // A tiny, varied pharmacy barcode gives the label the familiar sachet detail.
@@ -436,7 +436,7 @@ function buildSachet(THREE) {
     const eyeZ = surface(x, 0.46);
     ball(ink, x, 0.46, eyeZ + 0.027, 0.082, 0.111, 0.053);
     ball(white, x - 0.022, 0.497, eyeZ + 0.073, 0.024, 0.029, 0.014);
-    const cheek = new THREE.MeshStandardMaterial({ color: 0xe89c88, transparent: true, opacity: 0.65, roughness: 0.9 });
+    const cheek = new THREE.MeshStandardMaterial({ color: 0xf7c6d9, transparent: true, opacity: 0.85, roughness: 0.9 });
     ball(cheek, side * 0.50, 0.224, surface(side * 0.50, 0.224) + 0.008, 0.105, 0.058, 0.014);
     const eyebrowPath = new THREE.QuadraticBezierCurve3(
       new THREE.Vector3(x - 0.062, 0.672, surface(x - 0.062, 0.672) + 0.012),
@@ -508,7 +508,7 @@ function buildSachet(THREE) {
     orbit.add(capsule);
     return capsule;
   }
-  const capsuleRed = makeCapsule(red);
+  const capsuleRed = makeCapsule(yellow);
   capsuleRed.position.set(1.27, 0.94, -0.03);
   capsuleRed.rotation.set(-0.18, 0.25, -0.58);
   const capsuleBlue = makeCapsule(blue);
@@ -520,11 +520,11 @@ function buildSachet(THREE) {
     const angle = i / 100 * Math.PI * 2;
     points.push(new THREE.Vector3(Math.cos(angle) * 1.49, Math.sin(angle) * 1.25 + 0.10, -0.50));
   }
-  const ring = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color: 0x74909e, transparent: true, opacity: 0.23 }));
+  const ring = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color: 0x3d6bff, transparent: true, opacity: 0.23 }));
   ring.rotation.z = -0.22;
   orbit.add(ring);
   ball(blue, 0.94, -1.12, -0.5, 0.031, 0.031, 0.031, orbit);
-  ball(red, -0.95, 1.0, -0.5, 0.026, 0.026, 0.026, orbit);
+  ball(yellow, -0.95, 1.0, -0.5, 0.026, 0.026, 0.026, orbit);
 
   const shadowCanvas = document.createElement('canvas');
   shadowCanvas.width = 256;
@@ -532,9 +532,9 @@ function buildSachet(THREE) {
   const shadowContext = shadowCanvas.getContext('2d');
   shadowContext.scale(1, 0.25);
   const gradient = shadowContext.createRadialGradient(128, 128, 3, 128, 128, 120);
-  gradient.addColorStop(0, 'rgba(58,65,75,.55)');
-  gradient.addColorStop(0.5, 'rgba(58,65,75,.20)');
-  gradient.addColorStop(1, 'rgba(58,65,75,0)');
+  gradient.addColorStop(0, 'rgba(50,50,56,.55)');
+  gradient.addColorStop(0.5, 'rgba(50,50,56,.20)');
+  gradient.addColorStop(1, 'rgba(50,50,56,0)');
   shadowContext.fillStyle = gradient;
   shadowContext.fillRect(0, 0, 256, 256);
   const shadow = new THREE.Mesh(new THREE.PlaneGeometry(2.75, 0.45), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(shadowCanvas), transparent: true, opacity: 0.22, depthWrite: false, toneMapped: false }));
