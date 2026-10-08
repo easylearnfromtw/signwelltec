@@ -19,10 +19,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap">
 <link rel="preload" href="assets/fonts/archivo-var.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=20261008-catalog1">
+<link rel="stylesheet" href="assets/css/site.css?v=20261008-rfq-bridge3">
 <script>document.documentElement.classList.replace('no-js','js')</script>
-<script defer src="assets/js/rfq-mail.js?v=20261008-device-mail2"></script>
-<script defer src="assets/js/app.js?v=20261008-catalog1"></script>
+<script defer src="assets/js/rfq-mail.js?v=20261008-rfq-bridge3"></script>
+<script defer src="assets/js/app.js?v=20261008-rfq-bridge3"></script>
 <script defer src="assets/js/belowfold.js?v=20261008-catalog1"></script>
 <script defer src="assets/js/gpu-lifecycle.js?v=20261007-displayfix1"></script>
 </head>
@@ -144,7 +144,8 @@
             <div class="mail-preview rfq-mail-preview" data-rfq-mail-preview aria-label="SIGNWELL 詢價信件預覽"></div>
             <div class="mail-meta rfq-mail-meta"><span>收件人</span><strong>luca.sinwell@gmail.com</strong></div>
             <p class="wizard-note">按下「開啟 Gmail 寄件視窗」後，收件人、主旨與詢價內容會直接以純文字帶入 Gmail；網站不會自動寄出。電腦、一般手機與 iOS 會依裝置使用不同的 Gmail 開啟方式；請在 Gmail 內確認內容後自行按「傳送」。</p>
-<textarea class="copy-fallback" data-rfq-copy-text aria-label="可手動複製的詢價內容" readonly hidden></textarea>
+<div class="rfq-copy-tools"><button class="btn btn--line btn--sm" type="button" data-rfq-copy-plain>複製詢價內容</button><span>若 Gmail 未開啟或內容未完整帶入，請複製全文後貼上。</span></div>
+            <textarea class="copy-fallback" data-rfq-copy-text aria-label="可手動複製的詢價內容" readonly hidden></textarea>
           </fieldset>
         </div>
 

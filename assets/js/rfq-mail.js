@@ -175,6 +175,26 @@
           : '瀏覽器未允許複製。請按「選取排版」後複製，或下載 HTML 信件，再將完整排版貼入 Gmail。');
         return copied;
       };
+      // Plain-text fallback for Gmail pop-up blockers, restricted iOS links, or long URLs.
+      const plainCopyButton = form.querySelector('[data-rfq-copy-plain]');
+      if (plainCopyButton) plainCopyButton.addEventListener('click', async function () {
+        const body = options.text();
+        let copied = false;
+        try { if (navigator.clipboard && navigator.clipboard.writeText) { await navigator.clipboard.writeText(body); copied = true; } } catch (_) {}
+        if (!copied) {
+          const field = form.querySelector('[data-rfq-copy-text]');
+          if (field) {
+            field.hidden = false;
+            field.value = body;
+            field.focus();
+            field.select();
+            try { copied = !!document.execCommand('copy'); } catch (_) {}
+          }
+        }
+        setStatus(copied
+          ? '詢價內容已複製。請開啟 Gmail，貼上內容並由你自行按「傳送」。'
+          : '已在下方選取詢價內容，請手動複製後貼到郵件。網站尚未寄出。');
+      });
       const copyButton = form.querySelector('[data-rfq-copy-html]');
       if (copyButton) copyButton.addEventListener('click', copy);
       const selectButton = form.querySelector('[data-rfq-select-html]');

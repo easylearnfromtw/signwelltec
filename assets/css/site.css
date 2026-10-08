@@ -1257,3 +1257,9 @@ body[data-page="home"] #capital .capital-number{
 .part-more{gap:10px}
 .part-more-n{font-family:var(--f-mono);font-size:12.5px;font-weight:600;letter-spacing:0}
 .part-more small{font-size:12px;font-weight:600;letter-spacing:.02em;opacity:.55}
+
+/* RFQ clipboard fallback: compact and consistent on mobile. */
+.rfq-copy-tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px}
+.rfq-copy-tools span{color:#65656b;font-size:12px;line-height:1.7;flex:1;min-width:180px}
+.rfq-copy-tools .btn{white-space:nowrap}
+.rfq-wizard textarea[data-rfq-copy-text]:not([hidden]){display:block;width:100%;min-height:105px;margin-top:12px;resize:vertical;font:12px/1.6 ui-monospace,SFMono-Regular,monospace}
