@@ -1,261 +1,147 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f6f5f1">
-  <meta name="description" content="認識欣緯生醫 SIGNWELL BIO：以醫療白話文為核心，讓醫療知識、預防觀念與健康議題更清楚、更容易閱讀。">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="zh_TW">
-  <meta property="og:title" content="認識欣緯生醫｜SIGNWELL BIO">
-  <meta property="og:description" content="讓醫學知識更容易被理解。認識欣緯生醫的內容方向與編輯團隊。">
-  <title>認識欣緯生醫｜SIGNWELL BIO · 欣緯科技</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/fonts/archivo-var.woff" as="font" type="font/woff" crossorigin>
-  <style>
-    @font-face{font-family:Archivo;src:url('assets/fonts/archivo-var.woff') format('woff');font-style:normal;font-weight:100 900;font-display:swap}
-    @font-face{font-family:PlexMono;src:url('assets/fonts/plex-mono-400.woff') format('woff');font-weight:400;font-display:swap}
-    :root{color-scheme:light;--ink:#111114;--paper:#f7f6f2;--cream:#f1efe7;--blue:#e4eaff;--line:rgba(20,20,26,.14);--font:Archivo,-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif;--mono:PlexMono,'SFMono-Regular',monospace}
-    *,*::before,*::after{box-sizing:border-box}
-    html{scroll-behavior:smooth;scroll-padding-top:12vh}
-    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:clip}
-    a{color:inherit;text-decoration:none}
-    button,a{-webkit-tap-highlight-color:transparent}
-    a:focus-visible{outline:3px solid #426dff;outline-offset:5px}
-    ::selection{background:#ffe578;color:#111}
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    .skip{position:fixed;z-index:30;top:0;left:12px;transform:translateY(-120%);padding:12px 20px;background:#fff;color:#111}
-    .skip:focus{transform:translateY(8px)}
-    .topbar{position:fixed;z-index:20;left:clamp(15px,3.8vw,60px);right:clamp(15px,3.8vw,60px);top:calc(env(safe-area-inset-top) + 16px);display:flex;align-items:center;justify-content:space-between;gap:18px;pointer-events:none}
-    .mark,.back{pointer-events:auto;display:inline-flex;align-items:center;gap:12px;border:1px solid rgba(20,20,25,.10);box-shadow:0 10px 32px rgba(0,0,0,.045);background:rgba(255,255,255,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:100px;min-height:49px;padding:9px 17px;font-size:13px;font-weight:700;letter-spacing:-.01em}
-    .mark-symbol{width:25px;height:25px;display:grid;place-items:center;border-radius:50%;background:#111;color:#fff;font-family:var(--mono);font-size:13px;letter-spacing:-.06em}
-    .mark-copy{display:flex;flex-direction:column;gap:1px;line-height:1.1}
-    .mark-copy small{font-family:var(--mono);font-weight:400;font-size:9px;letter-spacing:.045em;color:#737378}
-    .back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
-    .story-nav{position:fixed;z-index:19;right:clamp(18px,3.8vw,62px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:15px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.07))}
-    .story-nav a{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.75);border:1px solid rgba(20,20,26,.15);font:11px var(--mono);color:#555;transition:background .25s,color .25s,transform .25s}
-    .story-nav a[aria-current="step"]{background:#111;color:#fff;transform:scale(1.12)}
-    .story-nav-line{height:32px;width:1px;background:rgba(0,0,0,.24)}
-    .chapter{height:138svh;position:relative;isolation:isolate}
-    .chapter:nth-child(1){z-index:1}
-    .chapter:nth-child(2){z-index:2;margin-top:-9svh}
-    .chapter:nth-child(3){z-index:3;margin-top:-9svh;height:116svh}
-    .chapter-panel{position:sticky;top:0;height:100svh;min-height:530px;overflow:hidden;border-radius:26px 26px 0 0;box-shadow:0 -28px 75px rgba(0,0,0,.065);background:var(--paper);display:grid;align-items:center}
-    .chapter:nth-child(1) .chapter-panel{border-radius:0;background:var(--paper)}
-    .chapter:nth-child(2) .chapter-panel{background:#e6ebf6}
-    .chapter:nth-child(3) .chapter-panel{background:#111115;color:#fff;box-shadow:0 -32px 85px rgba(0,0,0,.20)}
-    .panel-body{width:min(1240px,calc(100% - clamp(40px,11vw,190px)));margin:0 auto;position:relative;z-index:3;padding:calc(env(safe-area-inset-top) + 78px) 0 max(48px,env(safe-area-inset-bottom));display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.82fr);align-items:center;gap:clamp(48px,8vw,118px)}
-    .micro{font:11px/1.5 var(--mono);letter-spacing:.115em;text-transform:uppercase}
-    .eyebrow{display:inline-flex;align-items:center;gap:12px;margin-bottom:29px;color:#626269}
-    .eyebrow:before{content:"";width:28px;height:1px;background:currentColor}
-    h1,h2,h3,p{margin:0}
-    h1,h2{font-size:clamp(49px,5.9vw,99px);font-weight:760;line-height:1.13;letter-spacing:-.07em;overflow-wrap:anywhere}
-    .chapter:nth-child(2) h2{font-size:clamp(43px,5.1vw,78px)}
-    .chapter:nth-child(3) h2{font-size:clamp(40px,4.9vw,76px)}
-    .lead{font-size:clamp(15px,1.48vw,19px);line-height:1.95;max-width:33em;color:#525259;margin-top:30px;letter-spacing:.02em}
-    .chapter:nth-child(3) .lead{color:#bdbdc3}
-    .text-em{background:linear-gradient(transparent 72%,#f9dd76 72% 95%,transparent 95%)}
-    .small-note{font:11px/1.65 var(--mono);letter-spacing:.04em;color:#7c7d85;margin-top:46px;display:flex;align-items:center;gap:9px}
-    .small-note .rule{width:34px;height:1px;background:currentColor}
-    .art{position:relative;min-height:425px;height:min(55vw,630px);display:grid;place-items:center;isolation:isolate}
-    .art-one:before,.art-one:after{content:"";position:absolute;width:84%;height:84%;border:1px solid rgba(16,16,20,.13);border-radius:50%;transform:rotate(-19deg) scaleX(.7)}
-    .art-one:after{width:62%;height:62%;transform:rotate(22deg) scaleX(.65);border-color:rgba(16,16,20,.24)}
-    .art-one .orb{width:57%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 28% 23%,#f8f0c9 0,#f9de72 40%,#c4a64e 78%,#8c722d 100%);box-shadow:inset -25px -20px 40px rgba(105,78,15,.20),0 40px 90px rgba(178,150,76,.13);transform:rotate(-15deg)}
-    .art-one .orbits-label{position:absolute;bottom:6%;right:8%;font:11px var(--mono);color:#777780;letter-spacing:.12em}
-    .art-one .circle-tag{position:absolute;top:15%;left:5%;border:1px solid var(--line);background:rgba(255,255,255,.76);border-radius:100px;padding:10px 17px;font:10px var(--mono);letter-spacing:.08em}
-    .art-two{border-left:1px solid rgba(22,24,36,.15);padding-left:clamp(22px,4vw,60px);min-height:0;height:auto;display:block}
-    .topic-list{list-style:none;padding:0;margin:0;display:grid;gap:0}
-    .topic-list li{padding:22px 0;border-bottom:1px solid rgba(16,22,36,.18);display:flex;gap:20px;align-items:flex-start}
-    .topic-list li:first-child{border-top:1px solid rgba(16,22,36,.18)}
-    .topic-list .topic-n{font:11px var(--mono);color:#606c8e;line-height:2.1}
-    .topic-list strong{display:block;font-size:clamp(18px,2vw,25px);font-weight:720;letter-spacing:-.025em}
-    .topic-list p{font-size:13px;line-height:1.8;color:#535b72;margin-top:8px}
-    .art-two-note{margin-top:28px;color:#5e6680;line-height:1.8;font-size:13px}
-    .art-three{height:auto;min-height:0;display:block;align-self:center}
-    .team-caption{border-bottom:1px solid rgba(255,255,255,.26);padding:0 0 17px;margin-bottom:6px;color:#b6b7c0}
-    .member{display:flex;align-items:baseline;gap:12px;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.20)}
-    .member strong{font-size:clamp(22px,2.6vw,35px);font-weight:700;letter-spacing:-.045em}
-    .member span{margin-left:auto;white-space:nowrap;font-size:13px;color:#b6b7c0;letter-spacing:.01em}
-    .visit{display:inline-flex;gap:24px;align-items:center;justify-content:space-between;margin-top:42px;padding:20px 25px;background:#fadd6d;color:#111;border-radius:4px;min-width:min(100%,340px);font-weight:760;letter-spacing:.005em;font-size:16px;transition:transform .2s ease,background .2s ease}
-    .visit svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7}
-    .visit:hover{transform:translateY(-3px);background:#ffe795}
-    .external-note{color:#96979f;margin-top:15px;font-size:11px;letter-spacing:.03em}
-    .ghostword{position:absolute;z-index:0;bottom:-.16em;right:-.06em;font-family:var(--font);font-weight:900;font-size:clamp(170px,29vw,490px);line-height:1;color:rgba(255,255,255,.06);letter-spacing:-.14em;pointer-events:none;white-space:nowrap}
-    .chapter:nth-child(1) .ghostword{color:rgba(20,20,20,.045)}
-    .chapter:nth-child(2) .ghostword{color:rgba(40,63,120,.055)}
-    .chapter-index{position:absolute;bottom:max(26px,env(safe-area-inset-bottom));left:clamp(20px,5.5vw,90px);z-index:4;display:flex;gap:16px;align-items:center;font:10px var(--mono);letter-spacing:.10em;opacity:.6}
-    .chapter-index::before{content:"";width:22px;height:1px;background:currentColor}
-    .bottom-end{position:relative;z-index:5;display:flex;justify-content:center;align-items:center;min-height:140px;padding:36px 20px 50px;background:#111115;color:#95959b;text-align:center;font:12px/1.7 var(--mono);letter-spacing:.025em}
-    .bottom-end a{color:#fff;text-decoration:underline;text-underline-offset:5px}
-    @media(max-width:900px){
-      .panel-body{grid-template-columns:1fr;gap:32px;width:calc(100% - 60px)}
-      .art-one{position:absolute;z-index:-1;right:0;top:4%;width:55%;opacity:.44;pointer-events:none}
-      .art-one .circle-tag,.art-one .orbits-label{display:none}
-      .art-two{border:0;padding:0}
-      .art-three{max-width:560px}
-      .chapter:nth-child(2) .panel-body,.chapter:nth-child(3) .panel-body{align-content:center}
-      .topic-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px}
-      .topic-list li:nth-child(2){border-top:1px solid rgba(16,22,36,.18)}
-      .topic-list li{padding:15px 0}
-      .art-two-note{display:none}
-      .lead{margin-top:20px}
-      .small-note{margin-top:28px}
-    }
-    @media(max-width:650px){
-      html{scroll-padding-top:64px}
-      .topbar{top:calc(env(safe-area-inset-top) + 12px);left:14px;right:14px}
-      .mark,.back{min-height:44px;padding:8px 12px;font-size:11px;gap:8px}
-      .mark-symbol{width:24px;height:24px}
-      .mark-copy small{font-size:8px}
-      .back svg{width:13px}
-      .story-nav{right:auto;left:50%;top:auto;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);flex-direction:row;gap:8px;filter:none;border:1px solid rgba(0,0,0,.1);background:rgba(255,255,255,.93);border-radius:100px;padding:6px 9px;box-shadow:0 3px 25px rgba(0,0,0,.11)}
-      .story-nav a{width:29px;height:29px;background:transparent}
-      .story-nav-line{width:16px;height:1px;background:#a9a9ad}
-      .chapter{height:125svh}
-      .chapter:nth-child(2),.chapter:nth-child(3){margin-top:-7svh}
-      .chapter:nth-child(3){height:107svh}
-      .chapter-panel{min-height:0;height:100svh;border-radius:19px 19px 0 0}
-      .panel-body{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:32px;width:calc(100% - 46px);padding:calc(env(safe-area-inset-top) + 68px) 0 calc(env(safe-area-inset-bottom) + 75px)}
-      .eyebrow{margin-bottom:18px;font-size:10px}
-      h1,h2,.chapter:nth-child(2) h2,.chapter:nth-child(3) h2{font-size:clamp(36px,10.1vw,56px);line-height:1.17}
-      .lead{font-size:14px;line-height:1.85;margin-top:22px}
-      .art-one{width:90%;height:75%;right:-30%;top:24%;opacity:.24}
-      .art-one .orb{width:67%}
-      .small-note{font-size:10px;margin-top:30px}
-      .topic-list{display:grid;grid-template-columns:1fr;gap:0}
-      .topic-list li{padding:10px 0;gap:12px}
-      .topic-list li:nth-child(2){border-top:0}
-      .topic-list strong{font-size:16px}
-      .topic-list p{font-size:11.5px;line-height:1.6;margin-top:3px}
-      .member{padding:16px 0}
-      .member strong{font-size:22px}
-      .member span{font-size:12px}
-      .team-caption{font-size:10px}
-      .visit{margin-top:24px;width:100%;min-width:0;padding:16px 19px;font-size:14px}
-      .chapter-index{bottom:calc(env(safe-area-inset-bottom) + 60px);left:23px;font-size:9px}
-      .ghostword{font-size:45vw;bottom:8%}
-      .bottom-end{min-height:118px;padding:28px 22px 38px}
-    }
-    @media(max-width:380px){.mark-copy small{display:none}.panel-body{width:calc(100% - 40px)}.eyebrow{margin-bottom:14px}.lead{font-size:13px;line-height:1.73}.topic-list li{padding:8px 0}.chapter:nth-child(2) .panel-body{gap:21px}.chapter:nth-child(3) .panel-body{gap:23px}}
-    @media(max-height:670px) and (max-width:650px){
-      .panel-body{gap:16px;padding-top:calc(env(safe-area-inset-top) + 64px);padding-bottom:calc(env(safe-area-inset-bottom) + 48px)}
-      h1,h2,.chapter:nth-child(2) h2,.chapter:nth-child(3) h2{font-size:clamp(31px,9vw,45px)}
-      .lead{font-size:12px;line-height:1.65;margin-top:12px}
-      .topic-list li{padding:6px 0}
-      .topic-list p{margin-top:2px}
-      .member{padding:11px 0}
-      .visit{margin-top:12px}
-      .small-note{display:none}
-      .chapter-index{display:none}
-    }
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f2ed">
+<meta name="description" content="欣緯生醫 SIGNWELL BIO，以醫療白話文為核心，讓醫學知識、預防觀念與健康議題更容易被理解。">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="認識欣緯生醫｜SIGNWELL BIO">
+<meta property="og:description" content="讓醫學值得被說清楚。欣緯生醫的內容方向與編輯團隊。">
+<title>認識欣緯生醫｜SIGNWELL BIO · 欣緯科技</title>
+<style>
+:root{color-scheme:light;--ink:#171718;--paper:#f4f2ed;--yellow:#f4d86e;--blue:#e1e5ee;--font:-apple-system,BlinkMacSystemFont,"Helvetica Neue","PingFang TC","Noto Sans TC",sans-serif;--mono:"SFMono-Regular",Consolas,monospace}
+*,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:clip}a{color:inherit;text-decoration:none}button,a{-webkit-tap-highlight-color:transparent}a:focus-visible{outline:3px solid #456ded;outline-offset:4px}::selection{background:var(--yellow);color:#111}
+.skip{position:fixed;z-index:60;top:0;left:10px;padding:12px 18px;background:white;transform:translateY(-120%)}.skip:focus{transform:translateY(10px)}
+.progress{position:fixed;z-index:39;top:0;left:0;width:100%;height:2px;background:transparent;pointer-events:none}.progress__fill{display:block;width:100%;height:100%;background:#dba92c;transform-origin:left;transform:scaleX(0)}
+.header{position:fixed;z-index:40;top:calc(18px + env(safe-area-inset-top));left:clamp(16px,4vw,62px);right:clamp(16px,4vw,62px);display:flex;justify-content:space-between;align-items:center;gap:18px;pointer-events:none}.logo,.return{display:inline-flex;align-items:center;pointer-events:auto;min-height:46px;border:1px solid rgba(30,30,36,.12);background:rgba(251,251,248,.94);border-radius:999px;box-shadow:0 6px 26px rgba(0,0,0,.06)}.logo{gap:10px;padding:7px 15px 7px 8px}.logo__tile{display:grid;place-items:center;width:30px;height:30px;background:#181818;color:white;border-radius:50%;font:700 14px var(--mono)}.logo__text{display:grid;gap:1px;font-size:12px;font-weight:800;letter-spacing:.06em}.logo__text small{font:9px var(--mono);color:#69696d;letter-spacing:.12em}.return{gap:10px;padding:0 18px;font-size:12px;font-weight:700}.return svg{width:15px;stroke:currentColor;fill:none;stroke-width:1.7}
+.steps{position:fixed;z-index:38;top:50%;right:clamp(18px,3vw,58px);display:grid;justify-items:center;gap:12px;transform:translateY(-50%)}.steps a{display:grid;place-items:center;border:1px solid rgba(26,26,32,.22);border-radius:50%;width:35px;height:35px;font:11px var(--mono);background:rgba(248,247,242,.84);transition:background .2s,color .2s,transform .2s}.steps a[aria-current="step"]{background:#161616;color:white;transform:scale(1.08)}.steps__line{width:1px;height:25px;background:rgba(30,30,34,.27)}
+.scene{height:140svh;position:relative;isolation:isolate}.scene--one{z-index:1}.scene--two{z-index:2;margin-top:-8svh}.scene--three{z-index:3;margin-top:-8svh;height:112svh}.scene__panel{position:sticky;top:0;min-height:560px;height:100svh;overflow:hidden;background:var(--paper);display:flex;align-items:center;border-radius:28px 28px 0 0;box-shadow:0 -25px 65px rgba(27,26,31,.07)}.scene--one .scene__panel{border-radius:0}.scene--two .scene__panel{background:#e5e9f2}.scene--three .scene__panel{background:#17171a;color:#f8f7f3;box-shadow:0 -30px 60px rgba(0,0,0,.2)}
+.scene__panel::before{content:"";position:absolute;z-index:0;inset:0;background-image:linear-gradient(rgba(0,0,0,.018) 1px,transparent 1px);background-size:100% 88px;pointer-events:none}.scene--three .scene__panel::before{background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px)}
+.frame{width:min(1320px,calc(100% - clamp(52px,10vw,180px)));margin:auto;position:relative;z-index:4;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(320px,.88fr);gap:clamp(55px,6vw,100px);align-items:center;padding:calc(env(safe-area-inset-top) + 68px) 0 max(75px,env(safe-area-inset-bottom))}.copy{position:relative;z-index:5}.eyebrow{display:inline-flex;align-items:center;gap:12px;font:11px/1.5 var(--mono);letter-spacing:.13em;color:#727274}.eyebrow::before{content:"";height:1px;width:29px;background:currentColor}.scene--three .eyebrow{color:#d6c37e}h1,h2,h3,p{margin:0}h1,h2{font-weight:750;font-size:clamp(52px,6vw,95px);letter-spacing:-.072em;line-height:1.15;max-width:11em;margin-top:25px;overflow-wrap:anywhere}.scene--two h2,.scene--three h2{font-size:clamp(45px,5vw,78px)}.emphasis{background:linear-gradient(transparent 77%,#f1d56c 77% 96%,transparent 96%)}.lead{max-width:32em;margin-top:29px;font-size:clamp(15px,1.45vw,19px);line-height:1.95;letter-spacing:.015em;color:#545458}.scene--three .lead{color:#b7b7bd}.subline{display:flex;align-items:center;gap:13px;margin-top:45px;font:11px/1.6 var(--mono);letter-spacing:.07em;color:#8c8a84}.subline::before{content:"";height:1px;width:34px;background:currentColor}.chapter-num{position:absolute;z-index:5;bottom:calc(28px + env(safe-area-inset-bottom));left:clamp(25px,5.2vw,84px);display:flex;align-items:center;gap:12px;font:10px var(--mono);letter-spacing:.13em;opacity:.65}.chapter-num::before{content:"";width:24px;height:1px;background:currentColor}.overprint{position:absolute;right:-.05em;bottom:-.2em;font-size:clamp(230px,31vw,540px);font-weight:900;line-height:1;letter-spacing:-.15em;color:rgba(40,40,40,.035);pointer-events:none;white-space:nowrap}.scene--two .overprint{color:rgba(42,64,90,.045)}.scene--three .overprint{color:rgba(255,255,255,.036)}
+/* A separately rendered foreground object: the translucent heat-sealed sachet passes over the scenes, not a page-sized mask. */
+.specimen{position:fixed;z-index:6;right:clamp(7%,13vw,18%);top:50%;width:clamp(270px,34vw,530px);aspect-ratio:560 / 680;pointer-events:none;opacity:1;transform:translate3d(var(--dx,0px),calc(-50% + var(--dy,0px)),0) rotate(var(--rot,-8deg)) scale(var(--scale,1));transform-origin:center;will-change:transform,opacity;transition:opacity .15s linear;filter:drop-shadow(0 32px 22px rgba(42,41,50,.17))}.specimen svg{width:100%;height:100%;display:block;overflow:visible}.specimen__tag{position:absolute;right:-28px;bottom:5%;font:9px var(--mono);letter-spacing:.1em;color:#6a6c71;writing-mode:vertical-rl;white-space:nowrap}.specimen[data-ended="true"]{opacity:0}.hero-spacer{min-height:380px}
+.scene--two .frame{grid-template-columns:minmax(0,1fr) minmax(330px,.91fr)}.subjects{position:relative;z-index:8;list-style:none;margin:0;padding:0;border-top:1px solid rgba(20,28,44,.18)}.subjects li{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px;padding:19px 0;border-bottom:1px solid rgba(20,28,44,.18)}.subjects__num{font:11px/2 var(--mono);color:#67748f}.subjects strong{font-size:clamp(18px,2vw,25px);letter-spacing:-.025em}.subjects p{font-size:13px;line-height:1.75;margin-top:5px;color:#616b7e}.subjects-note{margin-top:21px;color:#687287;font-size:12px;line-height:1.8}
+.editorial{border-top:1px solid rgba(255,255,255,.31)}.editorial__caption{font:10px var(--mono);letter-spacing:.16em;color:#a5a5ac;padding:18px 0 5px}.person{display:flex;align-items:baseline;gap:15px;padding:19px 0;border-bottom:1px solid rgba(255,255,255,.23)}.person strong{font-size:clamp(24px,2.4vw,35px);letter-spacing:-.04em}.person span{margin-left:auto;text-align:right;color:#b6b6bf;font-size:13px}.visit{margin-top:35px;display:inline-flex;align-items:center;justify-content:space-between;gap:30px;padding:18px 24px;min-width:min(100%,340px);background:#f0d56c;color:#121214;font-weight:800;font-size:15px;transition:background .2s,transform .2s}.visit:hover{background:#ffe484;transform:translateY(-3px)}.visit svg{width:20px;stroke:currentColor;stroke-width:1.6;fill:none}.outbound{font-size:11px;color:#92939e;margin-top:15px;line-height:1.7}.closing{position:relative;z-index:5;padding:40px 25px max(55px,env(safe-area-inset-bottom));background:#17171a;color:#a2a2ab;font:11px/1.8 var(--mono);text-align:center}.closing a{color:#fff;text-decoration:underline;text-underline-offset:4px}
+@media(max-width:1020px){.frame{grid-template-columns:1fr 1fr;gap:25px;width:calc(100% - 110px)}.specimen{right:6vw;width:42vw}.scene--one .copy{max-width:28em}.subjects li{padding:14px 0}.scene--two .frame{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.header{top:calc(env(safe-area-inset-top) + 10px);left:14px;right:14px}.logo,.return{min-height:43px}.logo{padding:6px 11px 6px 7px;gap:8px}.logo__tile{width:27px;height:27px}.logo__text{font-size:11px}.logo__text small{font-size:8px}.return{padding:0 12px;font-size:11px;gap:6px}.steps{top:auto;right:auto;bottom:calc(12px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:7px;padding:6px 9px;background:rgba(249,248,245,.97);border:1px solid rgba(0,0,0,.13);box-shadow:0 6px 24px rgba(0,0,0,.13);border-radius:60px}.steps a{height:29px;width:29px;background:transparent}.steps__line{width:15px;height:1px}.scene{height:133svh}.scene--two,.scene--three{margin-top:-6svh}.scene--three{height:106svh}.scene__panel{min-height:0;height:100svh;border-radius:20px 20px 0 0}.frame,.scene--two .frame{display:flex;flex-direction:column;align-items:stretch;justify-content:center;width:calc(100% - 46px);gap:26px;padding:calc(60px + env(safe-area-inset-top)) 0 calc(74px + env(safe-area-inset-bottom))}.frame--one{justify-content:flex-start;padding-top:calc(101px + env(safe-area-inset-top))}.frame--two,.frame--three{justify-content:center}.copy{max-width:100%}.eyebrow{font-size:10px}.eyebrow::before{width:22px}h1,h2,.scene--two h2,.scene--three h2{font-size:clamp(39px,10.3vw,60px);margin-top:18px;line-height:1.16}.lead{font-size:14px;line-height:1.8;margin-top:21px;max-width:35em}.subline{font-size:10px;margin-top:25px}.specimen{z-index:3;top:auto;bottom:calc(72px + env(safe-area-inset-bottom));right:-6vw;width:min(77vw,385px);transform:translate3d(var(--dx,0px),var(--dy,0px),0) rotate(var(--rot,-8deg)) scale(var(--scale,1));filter:drop-shadow(0 25px 16px rgba(30,30,34,.12));opacity:var(--mob-opacity,.85);transition:opacity .1s linear}.specimen__tag{display:none}.scene--one .copy{max-width:100%}.hero-spacer{display:none}.scene--two .copy{position:relative;z-index:5}.subjects{background:rgba(229,233,242,.93);border-radius:2px}.subjects li{padding:10px 0;grid-template-columns:28px minmax(0,1fr)}.subjects strong{font-size:16px}.subjects p{font-size:11px;line-height:1.6}.subjects-note{display:none}.scene--two h2{max-width:100%}.person{padding:14px 0}.person strong{font-size:23px}.person span{font-size:12px}.editorial__caption{padding:12px 0 4px}.visit{width:100%;margin-top:23px;font-size:14px;padding:16px 19px}.outbound{font-size:10px;margin-top:10px}.chapter-num{left:23px;bottom:calc(58px + env(safe-area-inset-bottom));font-size:9px}.overprint{font-size:50vw;bottom:7%}.closing{padding-bottom:60px}}
+@media(max-width:420px){.frame,.scene--two .frame{width:calc(100% - 40px)}.frame--one{padding-top:calc(94px + env(safe-area-inset-top))}h1,h2,.scene--two h2,.scene--three h2{font-size:clamp(36px,10vw,45px)}.lead{font-size:13px;margin-top:16px;line-height:1.75}.specimen{width:80vw;right:-8vw;bottom:calc(66px + env(safe-area-inset-bottom))}.subjects li{padding:8px 0}.visit{margin-top:17px}}
+@media(max-height:690px) and (max-width:720px){.frame,.scene--two .frame{gap:12px;padding-top:calc(57px + env(safe-area-inset-top));padding-bottom:calc(48px + env(safe-area-inset-bottom))}.frame--one{justify-content:flex-start;padding-top:calc(85px + env(safe-area-inset-top))}h1,h2,.scene--two h2,.scene--three h2{font-size:clamp(32px,8.7vw,43px);margin-top:10px}.lead{font-size:12px;line-height:1.6;margin-top:11px}.subjects li{padding:5px 0}.subjects strong{font-size:14px}.subjects p{font-size:10px;margin-top:1px}.person{padding:9px 0}.visit{margin-top:12px;padding:12px 17px}.subline,.chapter-num{display:none}.specimen{width:60vw;bottom:16px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}.specimen{will-change:auto}}
+</style>
 </head>
 <body>
 <a class="skip" href="#main">跳到主要內容</a>
-<header class="topbar" aria-label="頁面導覽">
-  <a class="mark" href="index.html" aria-label="返回欣緯科技首頁">
-    <span class="mark-symbol" aria-hidden="true">S</span>
-    <span class="mark-copy"><span>SIGNWELL</span><small>欣緯科技</small></span>
-  </a>
-  <a class="back" href="index.html#capital">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5-7 7 7 7"/></svg>
-    返回欣緯科技
-  </a>
+<div class="progress" aria-hidden="true"><span class="progress__fill" id="progressFill"></span></div>
+<header class="header" aria-label="網站導覽">
+ <a class="logo" href="https://easylearnfromtw.github.io/signwelltec/" aria-label="返回 SIGNWELL 欣緯科技首頁"><span class="logo__tile">S</span><span class="logo__text">SIGNWELL<small>欣緯科技</small></span></a>
+ <a class="return" href="https://easylearnfromtw.github.io/signwelltec/#capital"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5-7 7 7 7"/></svg>返回欣緯科技</a>
 </header>
-<nav class="story-nav" aria-label="介紹進度">
-  <a href="#chapter-one" aria-label="第一幕：認識欣緯生醫" aria-current="step">01</a>
-  <span class="story-nav-line" aria-hidden="true"></span>
-  <a href="#chapter-two" aria-label="第二幕：閱讀主題">02</a>
-  <span class="story-nav-line" aria-hidden="true"></span>
-  <a href="#chapter-three" aria-label="第三幕：團隊與前往網站">03</a>
+<nav class="steps" aria-label="欣緯生醫介紹章節">
+ <a href="#chapter-one" aria-label="第一幕，平台理念" aria-current="step">01</a><span class="steps__line" aria-hidden="true"></span>
+ <a href="#chapter-two" aria-label="第二幕，編輯主題">02</a><span class="steps__line" aria-hidden="true"></span>
+ <a href="#chapter-three" aria-label="第三幕，團隊與官網">03</a>
 </nav>
+<!-- The sachet is a distinct foreground character. No page-wide image clipping or content masking. -->
+<div class="specimen" id="specimen" aria-hidden="true">
+ <svg viewBox="0 0 560 680" xmlns="http://www.w3.org/2000/svg" focusable="false">
+  <defs>
+   <linearGradient id="film" x1="0" y1="0" x2="1" y2=".85"><stop stop-color="#fff" stop-opacity=".9"/><stop offset=".2" stop-color="#e3e5e9" stop-opacity=".44"/><stop offset=".5" stop-color="#fff" stop-opacity=".24"/><stop offset=".8" stop-color="#d6deeb" stop-opacity=".28"/><stop offset="1" stop-color="#fff" stop-opacity=".8"/></linearGradient>
+   <linearGradient id="crease" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fff" stop-opacity=".84"/><stop offset=".24" stop-color="#c6cfda" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity=".2"/><stop offset=".79" stop-color="#bfc8d4" stop-opacity=".48"/><stop offset="1" stop-color="#fff" stop-opacity=".93"/></linearGradient>
+   <linearGradient id="pocket" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fafbff" stop-opacity=".54"/><stop offset=".48" stop-color="#edf0f5" stop-opacity=".13"/><stop offset="1" stop-color="#f9fbff" stop-opacity=".6"/></linearGradient>
+   <radialGradient id="tablet" cx="31%" cy="22%" r="83%"><stop stop-color="#fff"/><stop offset=".57" stop-color="#eee9dd"/><stop offset=".92" stop-color="#c8c5bd"/><stop offset="1" stop-color="#aaa79f"/></radialGradient>
+   <linearGradient id="capsuleA" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e0ecf8"/><stop offset=".5" stop-color="#9fb4d6"/><stop offset="1" stop-color="#5d7da5"/></linearGradient>
+   <linearGradient id="capsuleB" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".8" stop-color="#ebece8"/><stop offset="1" stop-color="#c5c9cc"/></linearGradient>
+   <pattern id="seal" width="8" height="9" patternUnits="userSpaceOnUse"><path d="M0 0 8 9 M-3 0 5 9 M3 0 11 9" stroke="#a7afb9" stroke-opacity=".45" stroke-width=".8"/></pattern>
+   <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4"/></filter>
+  </defs>
+  <g transform="rotate(-2 280 340)">
+   <path d="M116 44 438 50 463 109 448 587 413 634 123 620 101 574 93 112Z" fill="url(#film)" stroke="#b2b9c3" stroke-opacity=".7" stroke-width="2"/>
+   <path d="M117 49 435 55 445 100 103 105Z" fill="url(#crease)" opacity=".75"/>
+   <path d="M113 60 440 66 441 95 107 96Z" fill="url(#seal)" opacity=".63"/>
+   <path d="M117 580 444 588 414 626 127 615Z" fill="url(#crease)" opacity=".8"/>
+   <path d="M112 591 432 599 415 621 128 608Z" fill="url(#seal)" opacity=".48"/>
+   <path d="M112 111Q99 345 125 578M445 112Q457 332 440 581" fill="none" stroke="#fff" stroke-width="16" stroke-opacity=".35"/>
+   <rect x="136" y="125" width="286" height="432" rx="18" fill="url(#pocket)" stroke="#fff" stroke-opacity=".7" stroke-width="1.5"/>
+   <path d="M157 149Q165 286 149 469M412 159Q393 326 413 542" stroke="#fff" stroke-width="6" stroke-opacity=".36" fill="none"/>
+   <path d="M130 113Q277 130 428 113M137 559Q285 550 421 570" stroke="#9ca4ae" stroke-opacity=".48" stroke-width="2" fill="none"/>
+   <g opacity=".97">
+    <ellipse cx="251" cy="368" rx="56" ry="16" fill="#8f99a8" opacity=".17" filter="url(#soft)"/>
+    <circle cx="236" cy="336" r="42" fill="url(#tablet)" stroke="#b2b2ad" stroke-width="1.1"/>
+    <circle cx="236" cy="336" r="33" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.5"/>
+    <path d="M218 335h35" stroke="#bbb9b2" stroke-width="3" stroke-linecap="round" opacity=".54"/>
+    <g transform="translate(330 392) rotate(40)"><rect x="-29" y="-60" width="58" height="121" rx="29" fill="url(#capsuleB)" stroke="#939ca8" stroke-opacity=".7"/><path d="M-29 0H29V32Q29 61 0 61Q-29 61-29 32Z" fill="url(#capsuleA)"/><path d="M-28 1H28" stroke="#647e9d" stroke-width="1.5"/><path d="M-16 -49Q-26 -26-23 -5" stroke="#fff" stroke-opacity=".7" stroke-width="5" stroke-linecap="round" fill="none"/></g>
+    <ellipse cx="221" cy="477" rx="37" ry="13" fill="#8391a5" opacity=".19" filter="url(#soft)"/>
+    <circle cx="204" cy="452" r="29" fill="url(#tablet)" stroke="#b7b4aa" stroke-width="1"/>
+   </g>
+   <path d="M165 144Q244 177 387 149" fill="none" stroke="#fff" stroke-opacity=".73" stroke-width="6"/>
+   <path d="M163 520Q232 503 399 535" fill="none" stroke="#fff" stroke-opacity=".31" stroke-width="13"/>
+   <g fill="#343d49" font-family="Arial,Helvetica,sans-serif" opacity=".76">
+    <text x="163" y="208" font-size="17" font-weight="700" letter-spacing="2.5">SIGNWELL BIO</text>
+    <text x="164" y="231" font-size="9" letter-spacing="3">MEDICAL EDITORIAL / 001</text>
+    <path d="M163 245H392" stroke="#536070" stroke-opacity=".38"/>
+    <text x="163" y="265" font-size="9" letter-spacing="1.8">PACKAGING STUDY · CONCEPT</text>
+    <text x="164" y="540" font-size="9" letter-spacing="1.9">BETTER UNDERSTANDING</text>
+   </g>
+  </g>
+ </svg>
+ <span class="specimen__tag">01 / TRANSLUCENT PACKAGING STUDY</span>
+</div>
 <main id="main">
-  <div class="chapter" id="chapter-one" data-chapter>
-    <section class="chapter-panel" aria-labelledby="story-title">
-      <div class="panel-body">
-        <div class="copy">
-          <span class="eyebrow micro">SIGNWELL BIO / 01</span>
-          <h1 id="story-title">讓醫學，<br><span class="text-em">更容易理解。</span></h1>
-          <p class="lead">欣緯生醫是一個以<strong>醫療白話文</strong>為核心的內容平台。我們梳理複雜的醫療知識與健康議題，把專業資訊整理成清楚、有脈絡、願意讓人繼續讀下去的文字。</p>
-          <p class="small-note"><span class="rule"></span>醫學知識，不應被艱澀語言隔開。</p>
-        </div>
-        <div class="art art-one" aria-hidden="true"><span class="orb"></span><span class="circle-tag">MEDICAL / EDITORIAL</span><span class="orbits-label">CLARITY IN COMPLEXITY</span></div>
-      </div>
-      <span class="ghostword" aria-hidden="true">BIO</span>
-      <span class="chapter-index" aria-hidden="true">01 — 03 / ABOUT</span>
-    </section>
-  </div>
-  <div class="chapter" id="chapter-two" data-chapter>
-    <section class="chapter-panel" aria-labelledby="topics-title">
-      <div class="panel-body">
-        <div class="copy">
-          <span class="eyebrow micro">WHAT WE WRITE / 02</span>
-          <h2 id="topics-title">不只解釋名詞，<br>更整理脈絡。</h2>
-          <p class="lead">從身體的日常疑問，到一則值得理解的醫療新聞。比起堆疊資訊，我們更在意讀者能否真正讀懂：<strong>這件事是什麼、為什麼重要。</strong></p>
-        </div>
-        <div class="art art-two">
-          <ol class="topic-list">
-            <li><span class="topic-n">01</span><div><strong>疾病與檢查</strong><p>用白話說清楚常見概念與醫療用語。</p></div></li>
-            <li><span class="topic-n">02</span><div><strong>預防醫學與健康老化</strong><p>理解風險、生活習慣與長期健康。</p></div></li>
-            <li><span class="topic-n">03</span><div><strong>醫療新聞與新知</strong><p>從新聞標題走向可信的背景脈絡。</p></div></li>
-            <li><span class="topic-n">04</span><div><strong>醫療觀點與閱讀</strong><p>讓複雜主題成為值得慢慢讀的文章。</p></div></li>
-          </ol>
-          <p class="art-two-note">我們相信，易讀不代表可以失去準確；專業也不必等於艱澀。</p>
-        </div>
-      </div>
-      <span class="ghostword" aria-hidden="true">READ</span>
-      <span class="chapter-index" aria-hidden="true">02 — 03 / EDITORIAL</span>
-    </section>
-  </div>
-  <div class="chapter" id="chapter-three" data-chapter>
-    <section class="chapter-panel" aria-labelledby="team-title">
-      <div class="panel-body">
-        <div class="copy">
-          <span class="eyebrow micro" style="color:#d9ce9a">THE PEOPLE / 03</span>
-          <h2 id="team-title">從一篇文章，<br>開始一場理解。</h2>
-          <p class="lead">我們希望透過持續的整理與編輯，讓醫療內容不只是被看見，更能被耐心閱讀、好好理解。</p>
-        </div>
-        <div class="art art-three">
-          <div class="team-caption micro">FOUNDER &amp; EDITORIAL</div>
-          <div class="member"><strong>林哲愷</strong><span>欣緯生醫創辦人</span></div>
-          <div class="member"><strong>林哲緯</strong><span>主編</span></div>
-          <a class="visit" href="https://easylearnfromtw.github.io/signwellbio/" target="_blank" rel="noopener noreferrer">
-            <span>前往欣緯生醫</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg>
-          </a>
-          <p class="external-note">於新分頁開啟 SIGNWELL BIO 官方網站</p>
-        </div>
-      </div>
-      <span class="ghostword" aria-hidden="true">WELL</span>
-      <span class="chapter-index" aria-hidden="true">03 — 03 / VISIT SIGNWELL BIO</span>
-    </section>
-  </div>
+ <div class="scene scene--one" id="chapter-one" data-scene>
+  <section class="scene__panel" aria-labelledby="title-one"><div class="frame frame--one"><div class="copy">
+   <span class="eyebrow">SIGNWELL BIO / 01 — INTRODUCTION</span>
+   <h1 id="title-one">醫學值得<br><span class="emphasis">被說清楚。</span></h1>
+   <p class="lead">欣緯生醫是一個以<strong>醫療白話文</strong>為核心的內容平台。我們從醫療知識、預防觀念與日常健康議題出發，將艱澀的資訊整理成清楚、有脈絡、值得閱讀的文字。</p>
+   <p class="subline">知識不需要變簡單；表達可以更清晰。</p>
+  </div><div class="hero-spacer" aria-hidden="true"></div></div><span class="overprint" aria-hidden="true">BIO</span><span class="chapter-num">01 — 03 / INTRODUCTION</span></section>
+ </div>
+ <div class="scene scene--two" id="chapter-two" data-scene>
+  <section class="scene__panel" aria-labelledby="title-two"><div class="frame frame--two"><div class="copy">
+   <span class="eyebrow">THE EDITORIAL / 02</span>
+   <h2 id="title-two">不只解釋名詞，<br>更整理脈絡。</h2>
+   <p class="lead">讀者需要的往往不只是答案，而是理解一件事的起點。我們重視資料的準確、寫作的溫度，以及讓觀點有跡可循。</p>
+  </div><div class="subjects-wrap"><ol class="subjects">
+   <li><span class="subjects__num">01</span><div><strong>疾病與檢查</strong><p>把常見醫療用語說清楚，不讓術語成為距離。</p></div></li>
+   <li><span class="subjects__num">02</span><div><strong>預防與健康老化</strong><p>理解風險、生活選擇，以及長期健康管理。</p></div></li>
+   <li><span class="subjects__num">03</span><div><strong>醫療新聞與新知</strong><p>從標題向下閱讀，補上重要背景與證據。</p></div></li>
+   <li><span class="subjects__num">04</span><div><strong>醫療觀點與閱讀</strong><p>保有深度，也保有被一般人理解的可能。</p></div></li>
+  </ol><p class="subjects-note">準確與易讀，不必是二選一。</p></div></div><span class="overprint" aria-hidden="true">READ</span><span class="chapter-num">02 — 03 / CONTENT</span></section>
+ </div>
+ <div class="scene scene--three" id="chapter-three" data-scene>
+  <section class="scene__panel" aria-labelledby="title-three"><div class="frame frame--three"><div class="copy">
+   <span class="eyebrow">THE PEOPLE / 03</span>
+   <h2 id="title-three">讓理解，<br>從閱讀開始。</h2>
+   <p class="lead">透過持續的整理與編輯，讓值得被理解的醫療議題不只短暫出現在眼前，也能留下值得反覆閱讀的內容。</p>
+  </div><div><div class="editorial">
+   <div class="editorial__caption">FOUNDER &amp; EDITORIAL</div>
+   <div class="person"><strong>林哲愷</strong><span>欣緯生醫創辦人</span></div>
+   <div class="person"><strong>林哲緯</strong><span>主編</span></div>
+  </div><a class="visit" href="https://easylearnfromtw.github.io/signwellbio/" target="_blank" rel="noopener noreferrer"><span>前往欣緯生醫</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></a>
+  <p class="outbound">於新分頁開啟 SIGNWELL BIO 官方網站</p></div></div><span class="overprint" aria-hidden="true">WELL</span><span class="chapter-num">03 — 03 / VISIT SIGNWELL BIO</span></section>
+ </div>
 </main>
-<footer class="bottom-end"><span>SIGNWELL · 欣緯科技 &nbsp; / &nbsp; <a href="social-responsibility.html">返回社會責任</a></span></footer>
+<footer class="closing">SIGNWELL · 欣緯科技&nbsp; / &nbsp;<a href="https://easylearnfromtw.github.io/signwelltec/social-responsibility.html">返回社會責任</a></footer>
 <script>
-(()=>{
-  'use strict';
-  const sections=[...document.querySelectorAll('[data-chapter]')];
-  const links=[...document.querySelectorAll('.story-nav a')];
-  if(sections.length!==3||links.length!==3)return;
-  let scheduled=false;
-  const update=()=>{
-    scheduled=false;
-    const anchor=window.innerHeight*.37;
-    let idx=0;
-    for(let i=0;i<sections.length;i++){
-      if(sections[i].getBoundingClientRect().top<=anchor)idx=i;
-    }
-    links.forEach((link,i)=>{
-      if(i===idx)link.setAttribute('aria-current','step');
-      else link.removeAttribute('aria-current');
-    });
-  };
-  const onScroll=()=>{if(!scheduled){scheduled=true;requestAnimationFrame(update)}};
-  addEventListener('scroll',onScroll,{passive:true});
-  addEventListener('resize',onScroll,{passive:true});
-  update();
+(()=>{'use strict';
+ const scenes=[...document.querySelectorAll('[data-scene]')],nav=[...document.querySelectorAll('.steps a')],specimen=document.getElementById('specimen'),fill=document.getElementById('progressFill');
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)'),mobile=matchMedia('(max-width: 720px)');let queued=false, lastIndex=-1;
+ function render(){queued=false;const vh=innerHeight||1,scrollY=window.scrollY||0,doc=Math.max(1,document.documentElement.scrollHeight-vh),startTwo=scenes[1].offsetTop,startThree=scenes[2].offsetTop;
+  const idx=scrollY+vh*.38>=startThree?2:scrollY+vh*.38>=startTwo?1:0;
+  if(idx!==lastIndex){nav.forEach((a,i)=>{if(i===idx)a.setAttribute('aria-current','step');else a.removeAttribute('aria-current')});lastIndex=idx}
+  fill.style.transform='scaleX('+Math.min(1,scrollY/doc).toFixed(4)+')';
+  if(reduced.matches){specimen.style.setProperty('--dx','0px');specimen.style.setProperty('--dy','0px');specimen.style.setProperty('--rot','-8deg');specimen.style.setProperty('--scale','1');specimen.style.setProperty('--mob-opacity',idx===0?'.85':'0');specimen.dataset.ended=idx>=1?'true':'false';return}
+  const range=Math.max(vh,startThree-vh*.2),t=Math.min(1,Math.max(0,scrollY/range)),e=t*t*(3-2*t),isSmall=mobile.matches;
+  specimen.style.setProperty('--dx',((isSmall?-24:-115)*e).toFixed(1)+'px');specimen.style.setProperty('--dy',((isSmall?-62:95)*e).toFixed(1)+'px');specimen.style.setProperty('--rot',(-8+e*25).toFixed(2)+'deg');specimen.style.setProperty('--scale',(1+(isSmall?-.19:.08)*e).toFixed(3));
+  const disappear=Math.max(0,1-Math.max(0,(scrollY-startThree+vh*.72)/(vh*.42)));
+  specimen.style.setProperty('--mob-opacity',Math.min(.86,disappear*.86).toFixed(3));specimen.style.opacity=isSmall?'var(--mob-opacity)':disappear.toFixed(3);specimen.dataset.ended=disappear<.015?'true':'false';
+ }
+ function schedule(){if(!queued){queued=true;requestAnimationFrame(render)}}
+ addEventListener('scroll',schedule,{passive:true});addEventListener('resize',schedule,{passive:true});
+ if(typeof reduced.addEventListener==='function')reduced.addEventListener('change',schedule);
+ if(typeof mobile.addEventListener==='function')mobile.addEventListener('change',schedule);
+ render();
 })();
 </script>
 </body>
