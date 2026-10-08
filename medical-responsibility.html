@@ -999,7 +999,7 @@ var KF=[];
 function buildKF(){
   KF=[];var maxY=Math.max(0,docH-vh),starts=tops.map(function(t,i){return i?Math.max(0,t-vh*.12):0});
   for(var i=0;i<N;i++){var a=Math.min(starts[i],maxY);
-    if(i===FINAL_PAGE){KF.push({y:a,ch:i,stop:3});break}   /* Last chapter only: settle into the marked position. */
+    if(i===FINAL_PAGE){a=Math.min(Math.max(0,tops[i]-vh*.38),maxY);KF.push({y:a,ch:i,stop:3});break}   /* Settle as soon as the yellow final chapter enters view. */
     KF.push({y:a,ch:i,stop:1});
     if(i<N-1){var b=Math.min((starts[i]+starts[i+1])/2,maxY);KF.push({y:b,ch:i,stop:2})}}
 }
