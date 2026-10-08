@@ -762,7 +762,8 @@ var LABELS=[
 var SHADOW=[.15,0,.13,.12,.12,.15], FILM=[.06,.1,.06,.05,.06,.07];
 var bag={x:0,y:0,vx:0,vy:0,ax:0,ay:0,init:false,sq:0,sqV:0,wob:0,drag:null,dragOff:{x:0,y:0},
   label:-1,mix:1,hw:0,hh:0,cx:-999,cy:-999,landed:true};
-function hitBag(x,y){return bag.hw>0&&Math.abs(x-bag.cx)<bag.hw*.92&&Math.abs(y-bag.cy)<bag.hh*.92}
+var bagIsParked=false;
+function hitBag(x,y){return !bagIsParked&&bag.hw>0&&Math.abs(x-bag.cx)<bag.hw*.92&&Math.abs(y-bag.cy)<bag.hh*.92}
 function poke(){bag.sqV-=reduced.matches?0:5.2;bag.wob=1;if(!reduced.matches)bag.vy-=900;kickPills(1)}
 
 /* ---------------- WebGL2 renderer ---------------- */
@@ -998,21 +999,34 @@ var KF=[];
 function buildKF(){
   KF=[];var maxY=Math.max(0,docH-vh),starts=tops.map(function(t,i){return i?Math.max(0,t-vh*.12):0});
   for(var i=0;i<N;i++){var a=Math.min(starts[i],maxY);
-    if(i===FINAL_PAGE){KF.push({y:a,ch:i,stop:3});break}   /* page 4: park in the upper right and stay there to the end */
+    if(i===FINAL_PAGE){KF.push({y:a,ch:i,stop:3});break}   /* Last chapter only: settle into the marked position. */
     KF.push({y:a,ch:i,stop:1});
     if(i<N-1){var b=Math.min((starts[i]+starts[i+1])/2,maxY);KF.push({y:b,ch:i,stop:2})}}
 }
-var FINAL_PAGE=3;
+/* The bag follows the story through all six doses, then parks at the hand-marked spot. */
+var FINAL_PAGE=N-1;
 function finalStop(){
-  var size,cx,cy;
-  if(vw<760){size=Math.min(vw*.44,230);cx=vw-size*(.5-.36);cy=Math.max(200+size*.675,vh*.42)}  /* clear of the top bars on phones */
-  else{size=anchor(FINAL_PAGE).size*.72;cx=vw-size*(.5-.36);cy=Math.max(84+size*.675,vh*.34)}
-  return {cx:cx,cy:cy,size:size,side:1,ch:FINAL_PAGE,yaw:-.42,roll:.16};
+  var size,cx,cy,side;
+  if(vw<760){
+    /* Phone: top-right of the yellow last chapter, away from the title and the CTA. */
+    size=Math.min(vw*.33,170);
+    cx=clamp(vw*.77,size*.62,vw-size*.56);
+    cy=clamp(vh*.43,145+size*.52,vh*.61);
+    side=1;
+  }else{
+    /* Desktop: use the unoccupied side of the final chapter. */
+    var a=anchor(FINAL_PAGE);
+    size=Math.min(a.size*.72,260);
+    cx=a.cx;
+    cy=clamp(vh*.44,140+size*.48,vh*.65);
+    side=-1;
+  }
+  return {cx:cx,cy:cy,size:size,side:side,ch:FINAL_PAGE,yaw:side>0?-.32:.32,roll:side>0?.12:-.1};
 }
 function bagStops(y){
   if(!KF.length)buildKF();var k=0;while(k<KF.length-1&&y>=KF[k+1].y)k++;
   var k1=Math.min(KF.length-1,k+1),y0=KF[k].y,y1=KF[k1].y,L=Math.max(1,y1-y0),t=k1===k?0:sstep(y0+L*.22,y1-L*.22,y);
-  var f=function(kf){return kf.stop===3?finalStop():kf.stop===1?stop1(kf.ch):stop2(kf.ch)};var A=f(KF[k]);return {A:A,B:k1===k?A:f(KF[k1]),t:t};
+  var f=function(kf){return kf.stop===3?finalStop():kf.stop===1?stop1(kf.ch):stop2(kf.ch)};var A=f(KF[k]);return {A:A,B:k1===k?A:f(KF[k1]),t:t,parked:k===KF.length-1&&KF[k].stop===3};
 }
 function onResize(){measure();if(R3D)R3D.resize()}
 addEventListener('resize',onResize,{passive:true});
@@ -1030,7 +1044,8 @@ function frame(now){
   if(busy&&R3D){ema+=(dt-ema)*.04;if(++emaN>150&&ema>1/36&&dprScale>.6){dprScale=Math.max(.6,dprScale-.15);emaN=0;ema=1/60;R3D.resize()}}
   /* read phase */
   var sy=scrollY,p=computeP();scrollP=p;var a=activeFromScroll();
-  var bs=bagStops(sy),A=bs.A,B=bs.B,t=bs.t;
+  var bs=bagStops(sy),A=bs.A,B=bs.B,t=bs.t;bagIsParked=bs.parked;
+  if(bagIsParked){bag.drag=null;bag.dragOff.x=0;bag.dragOff.y=0}
   readDock();var topIdx=chapterAt(40),botIdx=chapterAt(vh-40);
   /* write phase: chrome */
   progress.style.transform='scaleX('+clamp(sy/Math.max(1,docH-vh),0,1).toFixed(4)+')';
@@ -1047,7 +1062,7 @@ function frame(now){
   var near=a;
   /* scroll speed: the bag leans and the pills rattle while the page moves */
   var sv=(scrollY-prevSY)/dt;prevSY=scrollY;prevSvS=svS;svS+=(clamp(sv,-6000,6000)-svS)*(1-Math.exp(-dt*8));
-  if(!rm){ty+=Math.sin(time*1.25)*size*.012;roll+=Math.sin(time*.9)*.02;yaw+=Math.sin(time*.7)*.04;pitch+=clamp(svS/7000,-.16,.16)}
+  if(!rm&&!bagIsParked){ty+=Math.sin(time*1.25)*size*.012;roll+=Math.sin(time*.9)*.02;yaw+=Math.sin(time*.7)*.04;pitch+=clamp(svS/7000,-.16,.16)}
   tx+=bag.dragOff.x;ty+=bag.dragOff.y;
   if(!bag.init){bag.x=tx;bag.y=rm?ty:ty-vh*.75;bag.vx=0;bag.vy=0;bag.init=true;bag.landed=false}
   var pvx=bag.vx,pvy=bag.vy,nsub=Math.max(1,Math.ceil(dt*120)),h=dt/nsub;
@@ -1075,7 +1090,7 @@ function frame(now){
   var sh=SHADOW[a],fm=FILM[a];
   var live=ptr.x>=0&&now-ptr.t<3500;
   if(R3D){R3D.draw({visible:visible,time:time,px:bx,py:by,hw:bag.hw,hh:bag.hh,wx:(bx-vw/2)*k,wy:-(by-vh/2)*k,wz:(rm?0:mid*(cross?.7:.15)),s:s,sx:sx,sy:sy,sz:sz,
-    yaw:yaw+(rm||!live?0:clamp((ptr.x-bx)/vw*.45,-.25,.25)),pitch:pitch+(rm||!live?0:clamp((ptr.y-by)/vh*.3,-.18,.18)),roll:roll,wob:bag.wob,film:fm,shadow:sh})}
+    yaw:yaw+(rm||bagIsParked||!live?0:clamp((ptr.x-bx)/vw*.45,-.25,.25)),pitch:pitch+(rm||bagIsParked||!live?0:clamp((ptr.y-by)/vh*.3,-.18,.18)),roll:roll,wob:bag.wob,film:fm,shadow:sh})}
   else{var w=size,fh=size*1.35,flipY=Math.cos(yaw);svg.style.width=w+'px';svg.style.height=fh+'px';
     svg.style.transform='translate('+(bx-w/2).toFixed(1)+'px,'+(by-fh/2).toFixed(1)+'px) rotate('+(roll*57.3).toFixed(2)+'deg) scale('+(sx*Math.max(.15,Math.abs(flipY))).toFixed(3)+','+sy.toFixed(3)+')';}
   requestAnimationFrame(frame);
