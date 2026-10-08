@@ -548,6 +548,17 @@ body[data-page="social-responsibility"] .csr-page-content{
   width:16px;
   height:16px;
 }
+
+.capital-action-stack{width:min(100%,440px);display:grid;gap:12px}
+.capital-action-stack .capital-action-button{width:100%;min-width:0;justify-content:space-between;text-align:left}
+.capital-action-button.is-bio{background:#fff;color:var(--ink);border-color:rgba(10,10,11,.5);gap:18px}
+.capital-action-button.is-bio:hover{background:#f2f4ff;color:var(--ink);border-color:var(--ink)}
+.capital-action-copy{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0}
+.capital-action-copy strong{font:inherit}
+.capital-action-copy small{font:10px/1.5 var(--f-mono);font-weight:500;letter-spacing:.035em;color:#6a6b70}
+.capital-action-stack .capital-action-button .ico{flex:0 0 16px}
+@media(max-width:560px){.capital-action-stack{width:100%;gap:10px}.capital-action-stack .capital-action-button{padding:15px 19px}.capital-action-copy small{font-size:9px}}
+
 @media(hover:hover){
   .capital-action-button:hover{
     background:#fff;
