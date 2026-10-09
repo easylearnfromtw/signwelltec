@@ -288,7 +288,7 @@ async function start3D() {
 
   /* fonts for canvas text: ask for exactly the glyphs we draw (Google Fonts serves unicode-range subsets) */
   const ALL_TEXT = [MANAGERS.map(m => m.name + m.now.join('') + m.edu.join('')).join(''), WORKS.map(w => w.name + w.desc).join(''), QUESTIONS.map(q => q.q).join(''), V_SIGNS.join(''), H_SIGNS.join(''),
-    '欣緯軟體科技部門經理現職學經歷後台運作原理登入編寫發佈上線延伸電子報社群驗證撰寫審稿草稿提交網站作品醫美診所美學辦公室'].join('');
+    '欣緯軟體設計科技部門經理現職學經歷後台運作原理登入編寫發佈上線延伸電子報社群驗證撰寫審稿草稿提交網站作品醫美診所美學辦公室'].join('');
   async function fontsReady(ms) {   // true when every face arrived in time (then no late redraw is needed)
     if (!document.fonts || !document.fonts.load) return true;
     const jobs = ['900', '700', '500'].map(w => document.fonts.load(w + ' 40px "Noto Sans TC"', ALL_TEXT));
@@ -1084,6 +1084,67 @@ async function start3D() {
     B.fields.mesh(new THREE.MeshLambertMaterial({ vertexColors: true }), false);
   }
 
+  /* Landmark on the mountain's road-facing foothill: independent, freestanding white letters. */
+  const foothillLetterTextures = [];
+  function drawFoothillLetter(canvas, ch) {
+    const ctx = ctxOf(canvas);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = '900 216px ' + FONT_CN;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(ch, canvas.width / 2, canvas.height / 2 + 6, 232);
+  }
+  function buildFoothillHollywoodSign() {
+    // Negative side is the hillside on screen-right when driving through the mountain.
+    road(S_CLIMB0 + 230);
+    const side = -1, offset = 48, along = 14;
+    const cx = RD.x + RD.rx * offset * side + RD.hx * along;
+    const cz = RD.z + RD.rz * offset * side + RD.hz * along;
+    // The surface faces the approaching driving camera, not the hillside.
+    const yaw = yawOf(RD.hx, RD.hz) - 0.12;
+    const glyphs = [...'欣緯軟體設計'];
+    const stride = 7.15, height = 8.7, faceWidth = 6.7;
+    const letterPositions = glyphs.map((ch, i) => {
+      const dx = (i - (glyphs.length - 1) / 2) * stride;
+      const wx = cx + Math.cos(yaw) * dx;
+      const wz = cz - Math.sin(yaw) * dx;
+      return { ch, dx, ground: groundY(wx, wz), wx, wz };
+    });
+    // Shared baseline keeps the landmark typography level across uneven polygonal terrain.
+    const baseline = Math.max(...letterPositions.map(p => p.ground)) + 1.2;
+    const group = new THREE.Group();
+    group.name = 'SIGNWELL_FOOTHILL_HOLLYWOOD_SIGN';
+    group.position.set(cx, 0, cz);
+    group.rotation.y = yaw;
+    const strutMat = lam(0x757a7e);
+    const backMat = new THREE.MeshLambertMaterial({ color: 0xbac0c1, transparent: true, alphaTest: 0.28, side: THREE.DoubleSide });
+    for (const { ch, dx, ground, wx, wz } of letterPositions) {
+      const art = mkCanvas(256, 256), tex = texFrom(art);
+      drawFoothillLetter(art, ch); tex.needsUpdate = true;
+      foothillLetterTextures.push({ canvas: art, char: ch, texture: tex });
+      const front = new THREE.Mesh(new THREE.PlaneGeometry(faceWidth, height), new THREE.MeshLambertMaterial({
+        map: tex, alphaTest: .28, side: THREE.DoubleSide, emissive: 0x383838, emissiveMap: tex
+      }));
+      front.position.set(dx, baseline + height / 2, 0);
+      front.castShadow = true; group.add(front);
+      const backing = new THREE.Mesh(new THREE.PlaneGeometry(faceWidth, height), backMat.clone());
+      backing.material.map = tex;
+      backing.position.set(dx, baseline + height / 2, -0.7);
+      backing.castShadow = true; group.add(backing);
+      // Slim independent supports reach the faceted terrain under each letter.
+      const postHeight = Math.max(2.8, baseline - ground + height * .67);
+      for (const sx of [-1.6, 1.6]) {
+        const post = new THREE.Mesh(new THREE.BoxGeometry(.24, postHeight, .24), strutMat);
+        post.position.set(dx + sx, ground + postHeight / 2, -0.95);
+        post.castShadow = true; group.add(post);
+      }
+      // Keep roadside vegetation from covering the lettering.
+      blockers.push([wx, wz, 4.8]);
+    }
+    scene.add(group);
+  }
+
   /* ---------------- mountain road: tea terraces, curve chevrons, mirrors, shrine, pavilion ---------------- */
   function buildMountain() {
     const b = B.mtn;
@@ -1131,6 +1192,7 @@ async function start3D() {
     { road(S_CLIMB0 + 300); const side = -1, x = RD.x + RD.rx * (HALF + 9) * side, z = RD.z + RD.rz * (HALF + 9) * side, y = groundY(x, z), yaw = yawOf(RD.hx, RD.hz); blockers.push([x, z, 7]);
       box(b, x, y + .2, z, 7, .4, 7, 0xd7d3cb, yaw); [[-2.6, -2.6], [2.6, -2.6], [-2.6, 2.6], [2.6, 2.6]].forEach(([a, c]) => { const px = x + Math.cos(yaw) * a + Math.sin(yaw) * c, pz = z - Math.sin(yaw) * a + Math.cos(yaw) * c; b.add(new THREE.CylinderGeometry(.22, .22, 3.2, 8), mtx(px, y + 2, pz), 0xc4473a); });
       b.add(new THREE.ConeGeometry(5.6, 2.6, 4), mtx(x, y + 4.8, z, yaw + Math.PI / 4), 0x3f7a62); b.add(new THREE.ConeGeometry(.4, 1, 6), mtx(x, y + 6.4, z), 0xe6c26a); }
+    buildFoothillHollywoodSign();
   }
   /* temple-style roof parts (orange glazed tiles, swallow-tail ridge) */
   function templeRoof(b, x, y, z, yaw, w, d, h, col = 0xe0782f) {
@@ -1601,6 +1663,7 @@ async function start3D() {
     workSigns.forEach(sg => redrawQ.push(() => { drawWork(sg.canvas, WORKS[sg.i], images[sg.i]); sg.tex.needsUpdate = true; }));
     voices.forEach(v => redrawQ.push(() => { const t = v.sprite.material.map; drawBubble(t.image, QUESTIONS[v.i].q, v.i); t.needsUpdate = true; }));
     hillLetters.forEach(h => redrawQ.push(() => { drawHillGlyph(h.c, h.kind === 'cn' ? '欣緯軟體' : h.ch, h.kind === 'cn'); h.tex.needsUpdate = true; }));
+    foothillLetterTextures.forEach(h => redrawQ.push(() => { drawFoothillLetter(h.canvas, h.char); h.texture.needsUpdate = true; }));
   });
 
   /* upload every texture and compile every shader now, behind the loading veil,
