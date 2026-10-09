@@ -338,6 +338,17 @@ html:not(.js) .marquee__group{flex-wrap:wrap;justify-content:center;padding:0}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 html.snap *,html.snap *::before,html.snap *::after{transition:none!important;animation:none!important}
+
+/* First-visit gesture cue: appears only at the beginning of the original 3D journey. */
+.scroll-invite{position:fixed;z-index:36;left:50%;bottom:calc(104px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:center;gap:8px;min-width:188px;max-width:calc(100vw - 32px);pointer-events:none;opacity:0;visibility:hidden;transform:translate(-50%,12px);transition:opacity .4s ease,transform .5s var(--ease-out),visibility .4s}
+.is3d.ready:not(.software-scrolled) .scroll-invite{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.scroll-invite__tag{display:flex;align-items:center;gap:12px;padding:12px 17px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(10,10,11,.84);color:#fff;box-shadow:0 12px 36px rgba(0,0,0,.2);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);white-space:nowrap;font-size:14px;font-weight:700;letter-spacing:.08em}
+.scroll-invite__arrow{display:grid;place-items:center;width:23px;height:23px;border-radius:50%;background:var(--yellow);color:var(--ink)}
+.scroll-invite__arrow svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:2;animation:invite-down 1.75s ease-in-out infinite}
+.scroll-invite__sub{padding:2px 9px;border-radius:999px;background:rgba(255,255,255,.78);color:#333;font:600 10px var(--f-mono);letter-spacing:.14em}
+@keyframes invite-down{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
+@media(max-width:760px){.scroll-invite{top:clamp(110px,20svh,170px);bottom:auto}.scroll-invite__tag{padding:11px 15px;font-size:13px}.scroll-invite__sub{background:rgba(255,255,255,.85)}}
+@media(prefers-reduced-motion:reduce){.scroll-invite__arrow svg{animation:none}}
 </style>
 </head>
 <body>
@@ -351,6 +362,10 @@ html.snap *,html.snap *::before,html.snap *::after{transition:none!important;ani
 </header>
 
 <canvas id="world" aria-hidden="true"></canvas>
+<div class="scroll-invite" aria-label="請向下滑動，開始探索欣緯軟體">
+  <div class="scroll-invite__tag"><span class="scroll-invite__arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v15m-6-6 6 6 6-6"/></svg></span><span>向下滑動，開始旅程</span></div>
+  <span class="scroll-invite__sub" aria-hidden="true">SCROLL TO EXPLORE</span>
+</div>
 <div class="veil" id="veil" aria-hidden="true"><b>欣緯軟體</b><i></i><small>SIGNWELL SOFTWARE<br>車子暖機中</small></div>
 <div class="hotspots" id="hotspots"></div>
 
@@ -596,6 +611,16 @@ html.snap *,html.snap *::before,html.snap *::after{transition:none!important;ani
   <div class="dock__cap" id="dockCap" aria-hidden="true"><div class="dock__lensrow" id="dockLens"></div></div>
 </nav>
 
+<script>
+/* Keep the cue out of the way after scrolling; returning to the start shows it again. */
+(function(){
+  var root=document.documentElement,wasScrolled=null;
+  function sync(){var scrolled=window.scrollY>80;if(scrolled!==wasScrolled){root.classList.toggle('software-scrolled',scrolled);wasScrolled=scrolled}}
+  window.addEventListener('scroll',sync,{passive:true});
+  window.addEventListener('pageshow',sync);
+  sync();
+})();
+</script>
 <script nomodule>document.documentElement.classList.add('no3d');document.documentElement.classList.remove('boot');</script>
 <script type="module" src="assets/js/software-drive.js"></script>
 </body>
