@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eef0f2">
+<title>欣緯軟體｜SIGNWELL SOFTWARE · 欣緯科技</title>
+<meta name="description" content="欣緯科技軟體部門：網站設計、前端開發與內容後台。認識部門經理、顧客問題與七個網站作品。部門籌備中。">
+<meta property="og:title" content="欣緯軟體｜SIGNWELL SOFTWARE"><meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#101116;--yellow:#ffd84d;--blue:#486dff;--pink:#f4bbd8;--mist:#eef0f2;--f:"Noto Sans TC",system-ui,-apple-system,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:105px}body{margin:0;color:var(--ink);font-family:var(--f);background:var(--mist);-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:5px}::selection{background:var(--yellow)}
+.skip{position:fixed;z-index:100;left:12px;top:0;padding:14px;background:#fff;transform:translateY(-110%)}.skip:focus{transform:none}
+.top{position:fixed;z-index:50;top:clamp(12px,2vw,24px);left:clamp(12px,3vw,52px);right:clamp(12px,3vw,52px);display:flex;justify-content:space-between;gap:12px;pointer-events:none}.top>a,.top>span{pointer-events:auto}
+.glass{background:rgba(255,255,255,.73);border:1px solid rgba(255,255,255,.85);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);box-shadow:0 10px 38px rgba(26,31,48,.08),inset 0 1px 0 #fff}
+.logo,.return{display:flex;align-items:center;min-height:48px;border-radius:999px;padding:6px 18px;gap:10px;font-size:12px;font-weight:800}.logo__mark{display:grid;place-items:center;height:34px;width:34px;border-radius:13px;background:var(--ink);color:#fff;font-size:19px}.logo__name{display:grid;line-height:1.2;letter-spacing:.09em}.logo__name small{color:#74747a;font-size:10px;letter-spacing:.12em;margin-top:4px}.return{gap:8px}.return svg{width:16px;height:16px}.top-center{display:flex;align-items:center;align-self:center;gap:8px;border-radius:999px;padding:10px 15px;font-size:10px;letter-spacing:.18em;font-weight:800;text-transform:uppercase}.top-center i{width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px #486dff1b}
+.world-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(#dfe8ff,#f9f1e7 48%,#adb8ac)}#world{width:100%;height:100%;display:block}
+.world-vignette{position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,246,250,.84) 0%,rgba(245,246,250,.69) 39%,rgba(245,246,250,.06) 76%),linear-gradient(0deg,rgba(237,238,242,.54),transparent 22%)}
+.progress{height:3px;position:fixed;z-index:60;top:0;left:0;width:100%;pointer-events:none}.progress i{display:block;height:100%;transform:scaleX(0);transform-origin:left;background:var(--blue)}
+main{position:relative;z-index:1}.chapter{min-height:100svh;display:flex;align-items:center;padding:130px clamp(18px,6vw,100px) 140px;scroll-margin-top:0;position:relative}.chapter:nth-child(even){justify-content:flex-end}.chapter:nth-child(even) .panel{max-width:575px}.panel{width:min(100%,580px);border-radius:30px;padding:clamp(26px,4vw,50px);background:rgba(255,255,255,.89);border:1px solid rgba(255,255,255,.95);box-shadow:0 24px 90px rgba(25,35,45,.1),inset 0 1px 0 #fff;-webkit-backdrop-filter:blur(28px);backdrop-filter:blur(28px)}
+.eyebrow{display:flex;flex-wrap:wrap;gap:13px;align-items:center;font-size:11px;font-weight:800;letter-spacing:.17em;color:#85858b;margin:0 0 24px;text-transform:uppercase}.eyebrow b{background:var(--yellow);color:#14151b;padding:5px 10px;border-radius:7px;letter-spacing:.1em}.eyebrow span{font-size:12px;color:var(--blue);letter-spacing:.06em}
+h1,h2,h3,p{margin:0}h1,h2{font-size:clamp(36px,4.4vw,62px);line-height:1.16;font-weight:900;letter-spacing:-.055em}h1 small{display:block;font-size:clamp(13px,1.7vw,18px);letter-spacing:.12em;font-weight:800;margin-top:15px;color:#7c7c84}h2 em{font-style:normal;color:var(--blue)}.lead{margin-top:24px;font-size:clamp(14px,1.25vw,17px);line-height:1.95;color:#555663}.hint{display:flex;align-items:center;gap:10px;margin-top:30px;color:#7f8087;font-size:12px;font-weight:700}.hint i{display:block;height:22px;width:15px;border:1px solid currentColor;border-radius:9px;position:relative}.hint i:before{content:"";position:absolute;left:6px;top:5px;height:5px;width:1px;background:currentColor;animation:scrollDown 1.5s infinite}@keyframes scrollDown{to{transform:translateY(6px);opacity:0}}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:27px}.tags span{font-size:12px;font-weight:700;border-radius:999px;border:1px solid #d4d7de;padding:8px 13px;background:#fff}
+.btn{display:inline-flex;justify-content:center;align-items:center;gap:10px;min-height:46px;background:var(--ink);color:#fff;font-size:13px;font-weight:800;border-radius:999px;padding:0 19px;transition:transform .2s,background .2s;margin-top:20px}.btn:hover{background:#2f50dc;transform:translateY(-2px)}.btn--yellow{background:var(--yellow);color:var(--ink)}.btn--yellow:hover{background:#f5c400;color:var(--ink)}
+.tabs{display:flex;padding:4px;background:#e9eaf0;border:1px solid #dddee5;border-radius:999px;margin-top:26px}.tabs button{width:50%;border:0;background:transparent;min-height:44px;border-radius:999px;font-size:13px;font-weight:800;color:#696b77}.tabs button[aria-selected=true]{background:#fff;color:var(--ink);box-shadow:0 3px 12px #09152b0f}
+.manager{padding-top:22px}.manager[hidden]{display:none}.manager h3{font-size:26px}.manager h3 small{font-size:13px;font-weight:700;color:#81818a;margin-left:10px}.manager>p{font-size:13px;color:#686b76;margin-top:12px;line-height:1.8}.manager-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.manager-grid>div{background:#f4f5f9;border-radius:17px;padding:16px}.manager-grid h4{margin:0 0 10px;font-size:11px;color:#7f8291}.manager-grid ul{list-style:none;padding:0;margin:0}.manager-grid li{font-size:12px;line-height:1.75}
+.faq{margin-top:24px;display:grid;gap:8px}.faq details{background:#f4f5f9;border-radius:13px;padding:0 17px}.faq summary{cursor:pointer;font-size:14px;font-weight:800;list-style:none;padding:18px 20px 18px 0;position:relative}.faq summary::-webkit-details-marker{display:none}.faq summary:after{content:"+";position:absolute;right:0;font-size:18px;top:16px}.faq details[open] summary:after{content:"−"}.faq details p{font-size:13px;line-height:1.8;color:#5b5e69;padding:0 0 18px}
+.works{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:27px}.work{background:#f4f5f9;border:1px solid #e8eaf0;border-radius:18px;min-width:0;padding:19px;display:flex;flex-direction:column;transition:transform .2s,border-color .2s}.work:hover{transform:translateY(-3px);border-color:#aebcfb}.work__top{font-size:10px;font-weight:800;color:#8b8c95;letter-spacing:.12em}.work h3{font-size:16px;line-height:1.5;margin-top:12px}.work p{font-size:12px;line-height:1.7;color:#70727c;margin-top:8px}.work__arrow{font-weight:800;font-size:12px;color:var(--blue);margin-top:auto;padding-top:18px}.work--private .work__arrow{color:#95969e}
+.status{position:relative;z-index:2;background:var(--ink);color:#fff;min-height:100svh;padding:130px clamp(18px,8vw,140px) 90px}.status__in{max-width:1080px;margin:0 auto}.status .eyebrow{color:#b0b0ba}.status h2{font-size:clamp(42px,7vw,100px)}.status h2 em{color:var(--yellow)}.status .lead{color:#b7b8c2;max-width:720px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:52px}.stat{border:1px solid #ffffff26;border-radius:18px;padding:20px}.stat strong{display:block;font-size:clamp(24px,4vw,45px);color:var(--yellow)}.stat small{font-size:12px;color:#a2a3ae}.status__links{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}.status__links .btn{margin-top:0}.status__links .btn--line{background:transparent;border:1px solid #ffffff7a}.status__links .btn--line:hover{background:#ffffff18}
+.footer{position:relative;z-index:2;background:#0a0b0d;color:#ffffffab;padding:30px clamp(18px,8vw,140px) 100px;font-size:12px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}.footer a{text-decoration:underline;color:#fff}
+.dock{position:fixed;z-index:45;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);display:flex;gap:3px;max-width:calc(100vw - 24px);background:rgba(255,255,255,.78);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border:1px solid #ffffffaf;padding:6px;border-radius:999px;box-shadow:0 9px 38px #0a0a0b24}.dock a{font-size:11px;font-weight:800;padding:12px 14px;border-radius:999px;white-space:nowrap;color:#696b75}.dock a[aria-current=true]{background:var(--ink);color:#fff}
+@media(max-width:850px){.top-center{display:none}.world-vignette{background:linear-gradient(0deg,rgba(245,246,250,.84),rgba(245,246,250,.22) 66%),linear-gradient(90deg,#f7f8fa66,#f7f8fa00)}.chapter,.chapter:nth-child(even){justify-content:center;padding:115px 16px 95px}.chapter{min-height:95svh}.panel{background:rgba(255,255,255,.92);border-radius:23px;padding:26px}.return{font-size:11px}.works{gap:9px}.work{padding:14px}.work h3{font-size:14px}.status{padding:110px 22px}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:span 2}}
+@media(max-width:500px){.logo,.return{padding:6px 10px}.logo__name{font-size:10px}.logo__mark{width:29px;height:29px;font-size:15px}.return span{max-width:85px}.manager-grid{grid-template-columns:1fr}.dock a{padding:10px;font-size:10px}.footer{padding-bottom:95px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要內容</a>
+<div class="progress" aria-hidden="true"><i id="progress"></i></div>
+<div class="world-wrap" aria-hidden="true"><canvas id="world"></canvas><div class="world-vignette"></div></div>
+<header class="top">
+  <a class="logo glass" href="index.html" aria-label="返回欣緯科技首頁"><span class="logo__mark">S</span><span class="logo__name">SIGNWELL<small>欣緯軟體</small></span></a>
+  <span class="top-center glass"><i></i>Software Department · 2026</span>
+  <a class="return glass" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m14 5-7 7 7 7"/></svg><span>返回欣緯科技</span></a>
+</header>
+<main id="main">
+  <section class="chapter" id="office" data-step="0">
+    <article class="panel">
+      <p class="eyebrow"><b>01 / 05</b> STUDIO <span>辦公室</span></p>
+      <h1>欣緯軟體 <small>SIGNWELL SOFTWARE</small></h1>
+      <p class="lead">欣緯科技的軟體部門，做網站設計、前端開發與內容後台。程式在這間辦公室寫好，接著就上路。</p>
+      <div class="tags"><span>網站設計</span><span>前端開發</span><span>內容後台 CMS</span><span>互動體驗</span></div>
+      <p class="hint"><i aria-hidden="true"></i>往下捲動，跟著路線認識欣緯軟體</p>
+    </article>
+  </section>
+  <section class="chapter" id="managers" data-step="1">
+    <article class="panel">
+      <p class="eyebrow"><b>02 / 05</b> PEOPLE <span>部門經理</span></p>
+      <h2>山路口的<br><em>兩塊招牌。</em></h2>
+      <p class="lead">欣緯科技軟體部門由兩位經理負責。</p>
+      <div class="tabs" role="tablist" aria-label="選擇部門經理">
+        <button type="button" role="tab" id="tab-kai" aria-controls="mgr-kai" aria-selected="true">林哲愷</button>
+        <button type="button" role="tab" id="tab-wei" aria-controls="mgr-wei" aria-selected="false" tabindex="-1">林哲緯</button>
+      </div>
+      <div id="mgr-kai" class="manager" role="tabpanel" aria-labelledby="tab-kai">
+        <h3>林哲愷 <small>部門經理</small></h3><div class="manager-grid">
+          <div><h4>現職</h4><ul><li>欣緯生醫創辦人</li><li>閒台文 Tai-Wan Way 創辦人</li><li>CITYMUS 創辦人</li><li>欣緯科技軟體部門經理</li></ul></div>
+          <div><h4>背景</h4><ul><li>再興中學</li><li>Google UX Design Professional Certificate</li><li>軟體與互動產品開發</li></ul></div>
+        </div><a class="btn" href="https://easylearnfromtw.github.io/test/chekai-portfolio/" target="_blank" rel="noopener noreferrer">查看個人網站 ↗</a>
+      </div>
+      <div id="mgr-wei" class="manager" role="tabpanel" aria-labelledby="tab-wei" hidden>
+        <h3>林哲緯 <small>部門經理</small></h3><div class="manager-grid">
+          <div><h4>現職</h4><ul><li>欣緯生醫主編</li><li>文森筆記創辦人</li><li>欣緯科技軟體部門經理</li></ul></div>
+          <div><h4>背景</h4><ul><li>建國中學</li><li>中國醫藥大學醫學系</li><li>跨領域網站與醫學內容創作</li></ul></div>
+        </div><a class="btn" href="https://vincent-journal.andyhank1234567890.workers.dev/" target="_blank" rel="noopener noreferrer">閱讀文森筆記 ↗</a>
+      </div>
+    </article>
+  </section>
+  <section class="chapter" id="customers" data-step="2">
+    <article class="panel">
+      <p class="eyebrow"><b>03 / 05</b> LISTEN <span>顧客</span></p>
+      <h2>每一戶的問題，<br><em>都值得聽完。</em></h2>
+      <p class="lead">動手寫程式之前，先把需求問清楚。</p>
+      <div class="faq">
+        <details open><summary>想自己更新網站內容，可以嗎？</summary><p>可以規劃內容後台。欣緯生醫的 CMS 就是一例。</p></details>
+        <details><summary>手機上看會不會跑版？</summary><p>電腦版與手機版一起設計，也一起檢查。</p></details>
+        <details><summary>只有想法，還沒有設計稿。</summary><p>從聊需求開始，先整理頁面架構，再進入設計。</p></details>
+        <details><summary>做得出我們品牌的感覺嗎？</summary><p>先確認品牌色、字體和說話語氣，再套用到每一頁。</p></details>
+        <details><summary>網站會不會很慢？</summary><p>圖片與動畫依裝置調整，離開畫面的動畫會暫停。</p></details>
+      </div>
+    </article>
+  </section>
+  <section class="chapter" id="works" data-step="3">
+    <article class="panel">
+      <p class="eyebrow"><b>04 / 05</b> SELECTED WORKS <span>網站作品</span></p>
+      <h2>從構想，<br><em>走進作品。</em></h2>
+      <p class="lead">目前整理的七個網站與產品案例。點擊有公開連結的項目即可前往。</p>
+      <div class="works">
+        <a class="work" href="index.html"><span class="work__top">01 / CORPORATE</span><h3>欣緯科技 SIGNWELL</h3><p>電子零件企業網站、3D 零件與詢價工具。</p><span class="work__arrow">查看網站 ↗</span></a>
+        <a class="work" href="https://easylearnfromtw.github.io/signwellbio/" target="_blank" rel="noopener noreferrer"><span class="work__top">02 / MEDICAL</span><h3>欣緯生醫 SIGNWELL BIO</h3><p>醫學白話文內容平台。</p><span class="work__arrow">查看網站 ↗</span></a>
+        <div class="work work--private"><span class="work__top">03 / CMS</span><h3>欣緯生醫 CMS</h3><p>內容編輯、發布流程與站點管理。</p><span class="work__arrow">內部系統 · 不對外開放</span></div>
+        <a class="work" href="https://easylearnfromtw.github.io/Taiwanway/" target="_blank" rel="noopener noreferrer"><span class="work__top">04 / EDUCATION</span><h3>閒台文 Tai-Wan Way</h3><p>遊戲化台灣華語學習。</p><span class="work__arrow">查看網站 ↗</span></a>
+        <a class="work" href="https://easylearnfromtw.github.io/test/chekai-portfolio/" target="_blank" rel="noopener noreferrer"><span class="work__top">05 / PORTFOLIO</span><h3>個人網站範例</h3><p>互動 3D 街景作品集。</p><span class="work__arrow">查看網站 ↗</span></a>
+        <a class="work" href="https://vincent-journal.andyhank1234567890.workers.dev/" target="_blank" rel="noopener noreferrer"><span class="work__top">06 / AESTHETICS</span><h3>VINCENT JOURNAL</h3><p>醫學美學內容與品牌敘事。</p><span class="work__arrow">查看網站 ↗</span></a>
+        <a class="work" href="https://easylearnfromtw.github.io/musictown/" target="_blank" rel="noopener noreferrer"><span class="work__top">07 / MUSIC</span><h3>MUSICTOWN</h3><p>依城市、風格與心情探索音樂。</p><span class="work__arrow">查看網站 ↗</span></a>
+      </div>
+    </article>
+  </section>
+  <section class="status" id="status" data-step="4">
+    <div class="status__in">
+      <p class="eyebrow"><b>05 / 05</b> CURRENT STATUS <span>現階段</span></p>
+      <h2>我們還在<br><em>持續建造。</em></h2>
+      <p class="lead">欣緯軟體為欣緯科技旗下軟體部門，目前籌備中。這裡展示網站設計、互動開發及內容平台的持續實作，若想討論合作，可以先聯繫我們。</p>
+      <div class="stats"><div class="stat"><strong>07</strong><small>作品與產品案例</small></div><div class="stat"><strong>02</strong><small>部門經理</small></div><div class="stat"><strong>NOW</strong><small>籌備中</small></div></div>
+      <div class="status__links"><a class="btn btn--yellow" href="mailto:luca.sinwell@gmail.com?subject=%E5%90%88%E4%BD%9C%E6%B4%BD%E8%A9%A2%EF%BD%9C%E6%AC%A3%E7%B7%AF%E8%BB%9F%E9%AB%94">我有興趣合作 ↗</a><a class="btn btn--line" href="index.html">返回欣緯科技 ↗</a></div>
+    </div>
+  </section>
+</main>
+<footer class="footer"><span>© SIGNWELL 欣緯科技 · 欣緯軟體</span><span>返回 <a href="index.html">欣緯科技首頁</a> ／ <a href="medical-responsibility.html">欣緯生醫</a></span></footer>
+<nav class="dock" aria-label="頁面章節"><a href="#office" aria-current="true">01 辦公室</a><a href="#managers">02 經理</a><a href="#customers">03 顧客</a><a href="#works">04 作品</a><a href="#status">05 籌備</a></nav>
+<script>
+(function(){
+"use strict";
+const sections=[...document.querySelectorAll("[data-step]")],links=[...document.querySelectorAll(".dock a")],progress=document.querySelector("#progress"),canvas=document.querySelector("#world"),ctx=canvas.getContext("2d",{alpha:false});let w=0,h=0,dpr=1,scroll=0,queued=false;
+function resize(){dpr=Math.min(devicePixelRatio||1,1.5);w=innerWidth;h=innerHeight;canvas.width=Math.max(1,Math.round(w*dpr));canvas.height=Math.max(1,Math.round(h*dpr));ctx.setTransform(dpr,0,0,dpr,0,0);draw()}
+function rect(x,y,b,c,fill){ctx.fillStyle=fill;ctx.fillRect(x,y,b,c)}
+function poly(pts,fill){ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();ctx.fillStyle=fill;ctx.fill()}
+function text(t,x,y,size,color,align="center",weight=800){ctx.font=weight+" "+size+"px system-ui";ctx.fillStyle=color;ctx.textAlign=align;ctx.fillText(t,x,y)}
+function block(x,y,sz,col){let height=sz*1.4;rect(x-sz/2,y-height,sz,height,col);poly([[x-sz/2,y-height],[x-sz/2+sz*.2,y-height-sz*.17],[x+sz/2+sz*.2,y-height-sz*.17],[x+sz/2,y-height]],"#ece8e3");rect(x-sz/2+sz*.16,y-height+sz*.2,sz*.2,sz*.26,"#d5e8f2");rect(x+sz*.1,y-height+sz*.2,sz*.18,sz*.26,"#d5e8f2")}
+function draw(){
+ if(!ctx)return;
+ const pos=scroll/Math.max(1,document.documentElement.scrollHeight-h),speed=pos*1000;
+ let sky=ctx.createLinearGradient(0,0,0,h);sky.addColorStop(0,"#c5dcf4");sky.addColorStop(.62,"#f9e8d1");sky.addColorStop(1,"#d6dfcb");rect(0,0,w,h,sky);
+ const horizon=h*.43,center=w*(w<850?.52:.64),roadNear=w*1.8;
+ for(let i=0;i<6;i++){let a=i*120+speed*.08;let y=horizon+(i%2)*8;ctx.fillStyle=["#a7beac","#aec7b3","#8eaa9e","#b9cebb"][i%4];ctx.beginPath();ctx.ellipse(center+(i-2.8)*w*.28+Math.sin(a*.03)*55,y+45,w*.23+i*8,115+i*8,0,Math.PI,0);ctx.fill()}
+ poly([[center-14,horizon],[center+14,horizon],[center+roadNear*.46,h],[center-roadNear*.46,h]],"#56595f");
+ poly([[center-14,horizon],[center-9,horizon],[center-roadNear*.4,h],[center-roadNear*.44,h]],"#b0b0a7");
+ poly([[center+9,horizon],[center+14,horizon],[center+roadNear*.44,h],[center+roadNear*.4,h]],"#b0b0a7");
+ for(let i=0;i<17;i++){let z=(i*90+speed*1.2)%1300,scale=1-z/1300;if(scale<=0)continue;let perspective=1/(1+z*.008),y=horizon+(h-horizon)*perspective**.72;let sw=12*perspective+1;rect(center-sw*.17,y,sw*.34,Math.min(120,92*perspective), "#f9f2d4")}
+ let district=speed<230?"office":speed<490?"hills":speed<720?"homes":"city";
+ for(let i=35;i>=0;i--){let z=(i*63-speed*1.35+4400)%2250,scale=1/(1+z*.0055),y=horizon+(h-horizon)*scale**.72,side=i%2?-1:1,x=center+side*(30+(w*.55+135)*scale),bw=(district==="city"?260:190)*scale,bh=(district==="city"?440:240)*scale;if(z>2100||scale<.04)continue;let color=district==="city"?(i%3===0?"#b9b8b1":"#d1d1c9"):(district==="hills"?"#c3c4aa":i%3===0?"#d6c5b1":"#e7d2bb");
+   block(x,y,bw,color);
+   if(district==="city"&&i%4===0){rect(x-bw*.32,y-bh*.73,bw*.64,Math.max(4,bh*.14),"#3750b8");if(bw>48)text(["SIGNWELL","TAI-WAN WAY","BIO","MUSIC"][i%4],x,y-bh*.61,Math.max(8,bw*.065),"white")}
+   if(district==="hills"&&i%6===0){rect(x-bw*.38,y-bh*.97,bw*.76,Math.max(15,bw*.32),"#172333");if(bw>42)text(i%12===0?"林哲緯":"林哲愷",x,y-bh*.8,Math.max(10,bw*.13),"#fff")}
+ }
+ poly([[center-95,h*.94],[center-72,h*.86],[center+77,h*.86],[center+103,h*.94]],"#1c2431");rect(center-68,h*.88,136,20,"#ffd84d");rect(center-55,h*.884,110,14,"#e8f3ff");rect(center-88,h*.947,35,18,"#101115");rect(center+54,h*.947,35,18,"#101115");text("SIGNWELL",center,h*.935,14,"#20232c");
+}
+function update(){queued=false;scroll=scrollY;const top=scroll+h*.49;let active=0;sections.forEach((el,i)=>{if(el.offsetTop<=top)active=i});links.forEach((a,i)=>a.setAttribute("aria-current",String(i===active)));const p=scroll/Math.max(1,document.documentElement.scrollHeight-h);progress.style.transform="none";progress.style.width=(p*100).toFixed(2)+"%";draw()}
+addEventListener("scroll",()=>{if(!queued){queued=true;requestAnimationFrame(update)}},{passive:true});addEventListener("resize",resize,{passive:true});document.addEventListener("visibilitychange",()=>{if(!document.hidden)update()});resize();update();
+const tabs=[...document.querySelectorAll('[role="tab"]')];tabs.forEach(tab=>{tab.addEventListener("click",()=>{tabs.forEach(t=>{let on=t===tab;t.setAttribute("aria-selected",String(on));t.tabIndex=on?0:-1;document.getElementById(t.getAttribute("aria-controls")).hidden=!on})});tab.addEventListener("keydown",e=>{if(e.key==="ArrowLeft"||e.key==="ArrowRight"){e.preventDefault();let next=tabs[(tabs.indexOf(tab)+(e.key==="ArrowRight"?1:tabs.length-1))%tabs.length];next.focus();next.click()}})});
+})();
+</script>
+</body></html>
