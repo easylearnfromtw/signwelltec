@@ -1,159 +1,602 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" class="boot">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#eef0f2">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>欣緯軟體｜SIGNWELL SOFTWARE · 欣緯科技</title>
-<meta name="description" content="欣緯科技軟體部門：網站設計、前端開發與內容後台。認識部門經理、顧客問題與七個網站作品。部門籌備中。">
-<meta property="og:title" content="欣緯軟體｜SIGNWELL SOFTWARE"><meta property="og:type" content="website">
+<meta name="theme-color" content="#eef0f2">
+<meta name="description" content="欣緯軟體 SIGNWELL SOFTWARE：欣緯科技軟體部門。從辦公室出發，經過山路、山腳住宅區到市區，認識部門經理、我們在乎的顧客問題與網站作品。部門目前籌備中。">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="欣緯軟體｜SIGNWELL SOFTWARE">
+<meta property="og:description" content="欣緯科技軟體部門：部門經理、顧客的問題與七個網站作品。部門籌備中。">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap">
+<link rel="modulepreload" href="assets/js/vendor/three.module.min.js">
+<script>
+/* Boot flag: 3D mode is decided by assets/js/software-drive.js. If it never answers, fall back to the flat page. */
+(function(d){d.classList.add('js');var t=9000;setTimeout(function f(){if(d.classList.contains('is3d'))return;if(d.classList.contains('engine')&&t<27000){t+=9000;return setTimeout(f,9000)}d.classList.add('no3d');d.classList.remove('boot')},9000)})(document.documentElement);
+</script>
 <style>
-:root{--ink:#101116;--yellow:#ffd84d;--blue:#486dff;--pink:#f4bbd8;--mist:#eef0f2;--f:"Noto Sans TC",system-ui,-apple-system,sans-serif}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:105px}body{margin:0;color:var(--ink);font-family:var(--f);background:var(--mist);-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:5px}::selection{background:var(--yellow)}
-.skip{position:fixed;z-index:100;left:12px;top:0;padding:14px;background:#fff;transform:translateY(-110%)}.skip:focus{transform:none}
-.top{position:fixed;z-index:50;top:clamp(12px,2vw,24px);left:clamp(12px,3vw,52px);right:clamp(12px,3vw,52px);display:flex;justify-content:space-between;gap:12px;pointer-events:none}.top>a,.top>span{pointer-events:auto}
-.glass{background:rgba(255,255,255,.73);border:1px solid rgba(255,255,255,.85);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);box-shadow:0 10px 38px rgba(26,31,48,.08),inset 0 1px 0 #fff}
-.logo,.return{display:flex;align-items:center;min-height:48px;border-radius:999px;padding:6px 18px;gap:10px;font-size:12px;font-weight:800}.logo__mark{display:grid;place-items:center;height:34px;width:34px;border-radius:13px;background:var(--ink);color:#fff;font-size:19px}.logo__name{display:grid;line-height:1.2;letter-spacing:.09em}.logo__name small{color:#74747a;font-size:10px;letter-spacing:.12em;margin-top:4px}.return{gap:8px}.return svg{width:16px;height:16px}.top-center{display:flex;align-items:center;align-self:center;gap:8px;border-radius:999px;padding:10px 15px;font-size:10px;letter-spacing:.18em;font-weight:800;text-transform:uppercase}.top-center i{width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px #486dff1b}
-.world-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(#dfe8ff,#f9f1e7 48%,#adb8ac)}#world{width:100%;height:100%;display:block}
-.world-vignette{position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,246,250,.84) 0%,rgba(245,246,250,.69) 39%,rgba(245,246,250,.06) 76%),linear-gradient(0deg,rgba(237,238,242,.54),transparent 22%)}
-.progress{height:3px;position:fixed;z-index:60;top:0;left:0;width:100%;pointer-events:none}.progress i{display:block;height:100%;transform:scaleX(0);transform-origin:left;background:var(--blue)}
-main{position:relative;z-index:1}.chapter{min-height:100svh;display:flex;align-items:center;padding:130px clamp(18px,6vw,100px) 140px;scroll-margin-top:0;position:relative}.chapter:nth-child(even){justify-content:flex-end}.chapter:nth-child(even) .panel{max-width:575px}.panel{width:min(100%,580px);border-radius:30px;padding:clamp(26px,4vw,50px);background:rgba(255,255,255,.89);border:1px solid rgba(255,255,255,.95);box-shadow:0 24px 90px rgba(25,35,45,.1),inset 0 1px 0 #fff;-webkit-backdrop-filter:blur(28px);backdrop-filter:blur(28px)}
-.eyebrow{display:flex;flex-wrap:wrap;gap:13px;align-items:center;font-size:11px;font-weight:800;letter-spacing:.17em;color:#85858b;margin:0 0 24px;text-transform:uppercase}.eyebrow b{background:var(--yellow);color:#14151b;padding:5px 10px;border-radius:7px;letter-spacing:.1em}.eyebrow span{font-size:12px;color:var(--blue);letter-spacing:.06em}
-h1,h2,h3,p{margin:0}h1,h2{font-size:clamp(36px,4.4vw,62px);line-height:1.16;font-weight:900;letter-spacing:-.055em}h1 small{display:block;font-size:clamp(13px,1.7vw,18px);letter-spacing:.12em;font-weight:800;margin-top:15px;color:#7c7c84}h2 em{font-style:normal;color:var(--blue)}.lead{margin-top:24px;font-size:clamp(14px,1.25vw,17px);line-height:1.95;color:#555663}.hint{display:flex;align-items:center;gap:10px;margin-top:30px;color:#7f8087;font-size:12px;font-weight:700}.hint i{display:block;height:22px;width:15px;border:1px solid currentColor;border-radius:9px;position:relative}.hint i:before{content:"";position:absolute;left:6px;top:5px;height:5px;width:1px;background:currentColor;animation:scrollDown 1.5s infinite}@keyframes scrollDown{to{transform:translateY(6px);opacity:0}}
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:27px}.tags span{font-size:12px;font-weight:700;border-radius:999px;border:1px solid #d4d7de;padding:8px 13px;background:#fff}
-.btn{display:inline-flex;justify-content:center;align-items:center;gap:10px;min-height:46px;background:var(--ink);color:#fff;font-size:13px;font-weight:800;border-radius:999px;padding:0 19px;transition:transform .2s,background .2s;margin-top:20px}.btn:hover{background:#2f50dc;transform:translateY(-2px)}.btn--yellow{background:var(--yellow);color:var(--ink)}.btn--yellow:hover{background:#f5c400;color:var(--ink)}
-.tabs{display:flex;padding:4px;background:#e9eaf0;border:1px solid #dddee5;border-radius:999px;margin-top:26px}.tabs button{width:50%;border:0;background:transparent;min-height:44px;border-radius:999px;font-size:13px;font-weight:800;color:#696b77}.tabs button[aria-selected=true]{background:#fff;color:var(--ink);box-shadow:0 3px 12px #09152b0f}
-.manager{padding-top:22px}.manager[hidden]{display:none}.manager h3{font-size:26px}.manager h3 small{font-size:13px;font-weight:700;color:#81818a;margin-left:10px}.manager>p{font-size:13px;color:#686b76;margin-top:12px;line-height:1.8}.manager-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.manager-grid>div{background:#f4f5f9;border-radius:17px;padding:16px}.manager-grid h4{margin:0 0 10px;font-size:11px;color:#7f8291}.manager-grid ul{list-style:none;padding:0;margin:0}.manager-grid li{font-size:12px;line-height:1.75}
-.faq{margin-top:24px;display:grid;gap:8px}.faq details{background:#f4f5f9;border-radius:13px;padding:0 17px}.faq summary{cursor:pointer;font-size:14px;font-weight:800;list-style:none;padding:18px 20px 18px 0;position:relative}.faq summary::-webkit-details-marker{display:none}.faq summary:after{content:"+";position:absolute;right:0;font-size:18px;top:16px}.faq details[open] summary:after{content:"−"}.faq details p{font-size:13px;line-height:1.8;color:#5b5e69;padding:0 0 18px}
-.works{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:27px}.work{background:#f4f5f9;border:1px solid #e8eaf0;border-radius:18px;min-width:0;padding:19px;display:flex;flex-direction:column;transition:transform .2s,border-color .2s}.work:hover{transform:translateY(-3px);border-color:#aebcfb}.work__top{font-size:10px;font-weight:800;color:#8b8c95;letter-spacing:.12em}.work h3{font-size:16px;line-height:1.5;margin-top:12px}.work p{font-size:12px;line-height:1.7;color:#70727c;margin-top:8px}.work__arrow{font-weight:800;font-size:12px;color:var(--blue);margin-top:auto;padding-top:18px}.work--private .work__arrow{color:#95969e}
-.status{position:relative;z-index:2;background:var(--ink);color:#fff;min-height:100svh;padding:130px clamp(18px,8vw,140px) 90px}.status__in{max-width:1080px;margin:0 auto}.status .eyebrow{color:#b0b0ba}.status h2{font-size:clamp(42px,7vw,100px)}.status h2 em{color:var(--yellow)}.status .lead{color:#b7b8c2;max-width:720px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:52px}.stat{border:1px solid #ffffff26;border-radius:18px;padding:20px}.stat strong{display:block;font-size:clamp(24px,4vw,45px);color:var(--yellow)}.stat small{font-size:12px;color:#a2a3ae}.status__links{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}.status__links .btn{margin-top:0}.status__links .btn--line{background:transparent;border:1px solid #ffffff7a}.status__links .btn--line:hover{background:#ffffff18}
-.footer{position:relative;z-index:2;background:#0a0b0d;color:#ffffffab;padding:30px clamp(18px,8vw,140px) 100px;font-size:12px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}.footer a{text-decoration:underline;color:#fff}
-.dock{position:fixed;z-index:45;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);display:flex;gap:3px;max-width:calc(100vw - 24px);background:rgba(255,255,255,.78);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border:1px solid #ffffffaf;padding:6px;border-radius:999px;box-shadow:0 9px 38px #0a0a0b24}.dock a{font-size:11px;font-weight:800;padding:12px 14px;border-radius:999px;white-space:nowrap;color:#696b75}.dock a[aria-current=true]{background:var(--ink);color:#fff}
-@media(max-width:850px){.top-center{display:none}.world-vignette{background:linear-gradient(0deg,rgba(245,246,250,.84),rgba(245,246,250,.22) 66%),linear-gradient(90deg,#f7f8fa66,#f7f8fa00)}.chapter,.chapter:nth-child(even){justify-content:center;padding:115px 16px 95px}.chapter{min-height:95svh}.panel{background:rgba(255,255,255,.92);border-radius:23px;padding:26px}.return{font-size:11px}.works{gap:9px}.work{padding:14px}.work h3{font-size:14px}.status{padding:110px 22px}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:span 2}}
-@media(max-width:500px){.logo,.return{padding:6px 10px}.logo__name{font-size:10px}.logo__mark{width:29px;height:29px;font-size:15px}.return span{max-width:85px}.manager-grid{grid-template-columns:1fr}.dock a{padding:10px;font-size:10px}.footer{padding-bottom:95px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
-</style>
-<style id="software-partner-enhance">
-.partners{position:relative;z-index:2;background:#101116;color:white;padding:70px max(18px,calc((100vw - 1080px)/2)) 85px;border-top:1px solid #ffffff22;overflow:hidden}.partners__head{display:flex;align-items:end;justify-content:space-between;flex-wrap:wrap;gap:24px}.partners h2{font-size:clamp(30px,4vw,48px);font-weight:900;letter-spacing:-.03em}.partners__head p{margin-top:8px;color:#ffffffa5;font-size:13px}.partners__head a{color:#101116;background:#ffd84d;border-radius:999px;padding:14px 20px;font-weight:800;font-size:13px}.partners__roll{margin-top:32px;display:flex;gap:12px;overflow-x:auto;padding:4px 0 12px;scrollbar-width:thin}.partner-tile{flex:0 0 auto;display:grid;align-content:center;min-width:205px;min-height:106px;padding:20px;border-radius:18px;background:#fff;color:#101116}.partner-tile b{font-size:17px;font-weight:900}.partner-tile small{color:#74747b;font-size:11px;margin-top:6px}@media(max-width:850px){.partners{padding:55px 18px 70px}.partner-tile{min-width:185px}}
+/* Page: one fixed 3D world (#world) driven by scroll; opaque cards ride above it; the status page scrolls over it at the end. */
+:root{
+  --ink:#0a0a0b; --ink-2:#17171a; --paper:#ffffff; --mist:#eef0f2; --sky:#eef0f2;
+  --yellow:#ffd84d; --yellow-deep:#f5c400; --blue:#3d6bff; --blue-soft:#dfe7ff;
+  --pink:#f7c6d9; --pink-deep:#e98fb2; --pink-soft:#fde9f1;
+  --fg:var(--ink); --fg-2:#55555a; --fg-3:#7d7d83; --line:rgba(10,10,11,.12); --line-2:rgba(10,10,11,.26);
+  --f-display:"Archivo","Noto Sans TC","Noto Sans CJK TC","PingFang TC",sans-serif;
+  --f-cn:"Noto Sans TC","Noto Sans CJK TC","PingFang TC","Hiragino Sans TC","Microsoft JhengHei",sans-serif;
+  --f-mono:"Plex Mono","IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+  --gutter:clamp(16px,4.2vw,72px); --max:1320px;
+  --ease-out:cubic-bezier(.16,1,.3,1); --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --g-bg:rgba(255,255,255,.56); --g-edge:rgba(10,10,11,.09); --g-rim:rgba(255,255,255,.95); --g-fg:var(--ink); --g-sub:rgba(10,10,11,.55); --g-cap:rgba(255,255,255,.92);
+  --card-w:min(408px,calc(100vw - 2 * var(--gutter)));
+  color-scheme:light;
+}
+.top[data-tone="dark"],.dock[data-tone="dark"]{--g-bg:rgba(34,34,38,.5); --g-edge:rgba(255,255,255,.14); --g-rim:rgba(255,255,255,.34); --g-fg:#fff; --g-sub:rgba(255,255,255,.6); --g-cap:rgba(255,255,255,.2)}
+@font-face{font-family:"Archivo";src:url("assets/fonts/archivo-var.woff") format("woff");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+@font-face{font-family:"Plex Mono";src:url("assets/fonts/plex-mono-500.woff") format("woff");font-weight:500;font-display:swap}
+@font-face{font-family:"Plex Mono";src:url("assets/fonts/plex-mono-600.woff") format("woff");font-weight:600;font-display:swap}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--sky);color:var(--ink);font-family:var(--f-cn);-webkit-font-smoothing:antialiased;overflow-x:clip;line-height:1.6}
+a{color:inherit;text-decoration:none}
+a,button,summary{-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:8px}
+::selection{background:var(--yellow);color:var(--ink)}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+img{max-width:100%;display:block}
+.mono{font-family:var(--f-mono);font-weight:500;letter-spacing:.12em}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:fixed;z-index:90;top:0;left:12px;padding:12px 18px;background:var(--paper);color:var(--ink);transform:translateY(-130%);border-radius:0 0 12px 12px}
+.skip:focus{transform:none}
+
+/* ---------- liquid glass (navigation & controls only) ---------- */
+.glass{position:relative;background:var(--g-bg);color:var(--g-fg);-webkit-backdrop-filter:blur(18px) saturate(185%);backdrop-filter:blur(18px) saturate(185%);border:1px solid var(--g-edge);box-shadow:inset 0 1px 0 var(--g-rim),inset 0 -1px 1px rgba(10,10,11,.06),0 12px 30px -14px rgba(10,10,11,.38)}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(145deg,rgba(255,255,255,.42),rgba(255,255,255,0) 34%),linear-gradient(325deg,rgba(255,255,255,.2),rgba(255,255,255,0) 26%);opacity:.8}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.top,.dock,.seg{--g-bg:rgba(255,255,255,.94)}.top[data-tone="dark"],.dock[data-tone="dark"]{--g-bg:rgba(24,24,27,.95)}}
+.progress{position:fixed;z-index:60;top:0;left:0;right:0;height:3px;pointer-events:none}
+.progress i{display:block;height:100%;background:var(--blue);transform-origin:0 50%;transform:scaleX(0)}
+html[data-ui-tone="dark"] .progress i{background:var(--yellow)}
+.top{position:fixed;z-index:50;top:calc(14px + env(safe-area-inset-top,0px));left:var(--gutter);right:var(--gutter);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;pointer-events:none}
+.pill{pointer-events:auto;display:inline-flex;align-items:center;gap:10px;min-height:46px;border-radius:999px;font-size:13px;font-weight:700;transition:transform .45s var(--ease-spring),background .4s,color .4s}
+.pill:hover{transform:translateY(-1px) scale(1.02)}
+.pill:active{transform:scale(.96)}
+.logo{padding:6px 16px 6px 7px}
+.logo__mark{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--ink);color:#fff;font:700 15px var(--f-display);font-stretch:90%}
+.top[data-tone="dark"] .logo__mark{background:#fff;color:var(--ink)}
+.logo__txt{display:grid;line-height:1.15;font-family:var(--f-display);font-size:12.5px;font-weight:800;letter-spacing:.08em}
+.logo__txt small{font:500 10px var(--f-cn);letter-spacing:.14em;color:var(--g-sub)}
+.back{padding:0 18px 0 14px}
+.back svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
+.place{pointer-events:none;position:absolute;left:50%;top:6px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;min-height:34px;padding:0 16px 0 12px;border-radius:999px;font:600 10.5px var(--f-mono);letter-spacing:.16em;white-space:nowrap;opacity:0;transition:opacity .4s}
+.place i{width:8px;height:8px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 3px rgba(255,216,77,.3);animation:beat 1.6s infinite}
+.place span{font-family:var(--f-cn);letter-spacing:.1em;font-size:12px;font-weight:700}
+.is3d .place{opacity:1}
+html[data-ui-tone="dark"] .place{opacity:0}
+@keyframes beat{50%{box-shadow:0 0 0 7px rgba(255,216,77,0)}}
+
+.dock{position:fixed;z-index:50;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(470px,calc(100vw - 24px));padding:5px;border-radius:999px;touch-action:none;user-select:none;-webkit-user-select:none;transition:width .5s var(--ease-out),transform .55s var(--ease-spring),background .4s,color .4s}
+.dock.is-compact{width:min(320px,calc(100vw - 24px));transform:translateX(-50%) scale(.94)}
+.dock__track,.dock__lensrow{display:flex}
+.dock__item{-webkit-user-drag:none;position:relative;z-index:1;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:50px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--g-fg);opacity:.62;transition:opacity .25s,min-height .45s var(--ease-out)}
+.dock__item b{font:600 11px var(--f-mono);letter-spacing:.06em}
+.dock__item span{max-height:16px;overflow:hidden;line-height:1.3;transition:max-height .4s var(--ease-out),opacity .3s}
+.dock.is-compact .dock__item{min-height:36px}
+.dock.is-compact .dock__item span{max-height:0;opacity:0}
+.dock__item[aria-current="true"]{opacity:1}
+.dock__item.is-under{opacity:0}
+.dock__cap{position:absolute;z-index:2;top:5px;bottom:5px;left:0;width:60px;border-radius:999px;pointer-events:none;overflow:hidden;background:var(--g-cap);box-shadow:inset 0 1px .5px rgba(255,255,255,.95),inset 0 -1px 1px rgba(10,10,11,.08),inset 0 0 0 1px rgba(10,10,11,.05),inset 0 0 22px rgba(61,107,255,.16),0 10px 22px -10px rgba(10,10,11,.5);transition:transform .55s var(--ease-spring),width .45s var(--ease-out),background .4s}
+.dock.is-drag .dock__cap{transition:width .3s var(--ease-out),background .4s}
+.dock__lensrow{position:absolute;top:-5px;left:0;padding:5px;will-change:transform}
+.dock__lensrow .dock__item{opacity:1}
+.dock__cap::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(120% 90% at 30% 0%,rgba(255,255,255,.55),rgba(255,255,255,0) 55%);mix-blend-mode:soft-light}
+
+/* ---------- 3D world layer ---------- */
+#world{position:fixed;left:0;top:0;width:100vw;height:100vh;height:100lvh;display:none;z-index:0;outline:none;touch-action:pan-y}
+.is3d #world{display:block}
+html.is3d{background:var(--ink);overscroll-behavior-y:none}   /* dark under the footer on bounce; no pull-to-refresh reloading the world */
+html.is3d body{background:var(--sky)}
+.veil{position:fixed;inset:0;z-index:45;display:none;place-items:center;align-content:center;gap:16px;background:var(--sky);transition:opacity .8s var(--ease-out),visibility 0s .8s}
+.js .veil{display:grid}
+.no3d .veil,.ready .veil{opacity:0;visibility:hidden}
+html.gl-lost .veil{opacity:1;visibility:visible;transition:none}
+.veil b{font:900 clamp(28px,4vw,40px)/1 var(--f-cn);letter-spacing:.04em}
+.veil i{display:block;width:180px;height:3px;border-radius:3px;background:rgba(10,10,11,.1);overflow:hidden}
+.veil i::after{content:"";display:block;width:40%;height:100%;background:var(--ink);border-radius:inherit;animation:load 1.1s var(--ease-out) infinite}
+.veil small{font:600 10.5px var(--f-mono);letter-spacing:.2em;color:var(--fg-3);text-align:center}
+@keyframes load{from{transform:translateX(-100%)}to{transform:translateX(260%)}}
+
+/* hotspots (the "+" markers in the world) */
+.hotspots{position:fixed;inset:0;z-index:20;pointer-events:none;display:none;overflow:hidden}
+.is3d .hotspots{display:block}
+.hs{position:absolute;left:0;top:0;width:0;height:0;opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
+.hs.is-on{opacity:1;visibility:visible;transition-delay:0s}
+.hs__btn{pointer-events:auto;position:absolute;left:-17px;top:-17px;width:34px;height:34px;padding:0;border:0;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 0 0 1px rgba(10,10,11,.08),0 8px 18px -6px rgba(10,10,11,.45);transition:transform .45s var(--ease-spring),background .25s}
+.hs__btn::before{content:"";position:absolute;inset:-6px;border-radius:50%;border:1.5px solid rgba(255,255,255,.9);animation:ring 2.4s var(--ease-out) infinite}
+.hs__btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;transition:transform .45s var(--ease-spring)}
+.hs__btn:hover{transform:scale(1.12)}
+.hs[data-open] .hs__btn{background:var(--ink);color:#fff}
+.hs[data-open] .hs__btn svg.plus{transform:rotate(45deg)}
+.hs--link .hs__btn{background:var(--yellow)}
+@keyframes ring{0%{transform:scale(.8);opacity:.9}100%{transform:scale(1.6);opacity:0}}
+.hs__tip{position:absolute;left:24px;top:-14px;width:max-content;max-width:min(250px,62vw);padding:12px 14px;border-radius:14px;background:#fff;color:var(--ink);font-size:13px;line-height:1.6;box-shadow:0 18px 40px -18px rgba(10,10,11,.5),0 0 0 1px rgba(10,10,11,.06);opacity:0;visibility:hidden;transform:translateY(6px);filter:blur(6px);transition:opacity .35s,transform .45s var(--ease-out),filter .45s,visibility 0s .45s;pointer-events:none}
+.hs__tip b{display:block;font-size:13.5px;margin-bottom:2px}
+.hs__tip small{display:block;font:600 9.5px var(--f-mono);letter-spacing:.16em;color:var(--fg-3);margin-bottom:4px}
+.hs.flip-x .hs__tip{left:auto;right:24px}
+.hs[data-open] .hs__tip,.hs__btn:hover+.hs__tip{opacity:1;visibility:visible;transform:none;filter:none;transition-delay:0s}
+
+/* ---------- the drive: cards (opaque content layer) ---------- */
+.drive{position:relative;z-index:2}
+.hud{position:relative}
+.card{position:relative;background:var(--paper);color:var(--ink);border-radius:24px;padding:20px 22px 22px;box-shadow:0 0 0 1px rgba(10,10,11,.055),0 1px 2px rgba(10,10,11,.06),0 18px 40px -22px rgba(20,22,30,.45),0 40px 80px -48px rgba(20,22,30,.35)}
+.card::before{content:"";position:absolute;left:22px;top:0;width:44px;height:4px;border-radius:0 0 4px 4px;background:var(--yellow)}
+.eyebrow{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;font:600 10.5px/1.4 var(--f-mono);letter-spacing:.16em;color:var(--fg-3)}
+.eyebrow b{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:999px;background:var(--ink);color:#fff;letter-spacing:.12em}
+.status .eyebrow b{background:#fff;color:var(--ink)}
+.eyebrow span{color:var(--fg-2);font-family:var(--f-cn);letter-spacing:.18em}
+.eyebrow em{margin-left:auto;font-style:normal;color:var(--fg)}
+.title{margin-top:14px;font-family:var(--f-cn);font-weight:900;font-size:clamp(30px,2.7vw,40px);line-height:1.14;letter-spacing:-.01em;text-wrap:balance}
+.title small{display:block;margin-top:8px;font:600 11px var(--f-mono);letter-spacing:.24em;color:var(--fg-3)}
+.title mark{color:inherit;background:linear-gradient(transparent 60%,var(--yellow) 60% 92%,transparent 92%);padding:0 .04em}
+.title--work{font-size:clamp(22px,1.9vw,27px);line-height:1.25}
+.lead{margin-top:10px;font-size:14.5px;line-height:1.75;color:var(--fg-2)}
+.lead strong{color:var(--fg)}
+.btn{display:inline-flex;align-items:center;justify-content:space-between;gap:16px;min-height:46px;margin-top:16px;padding:0 18px 0 20px;border-radius:999px;background:var(--ink);color:#fff;font-size:14px;font-weight:700;letter-spacing:.02em;transition:transform .45s var(--ease-spring),background .25s}
+.btn svg{width:17px;height:17px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;transition:transform .45s var(--ease-spring)}
+.btn:hover{transform:translateY(-2px);background:var(--blue)}
+.btn:hover svg{transform:translate(2px,-2px)}
+.btn:active{transform:scale(.97)}
+.btn--line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.btn--line:hover{background:var(--ink);color:#fff}
+.url{display:block;margin-top:10px;font:500 10.5px var(--f-mono);letter-spacing:.06em;color:var(--fg-3);word-break:break-all}
+.url--private{margin-top:14px}
+.route{display:flex;align-items:center;margin-top:16px;font-size:11.5px;font-weight:700;color:var(--fg-3)}
+.route li{position:relative;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.route li::before{content:"";width:8px;height:8px;border-radius:50%;border:2px solid var(--line-2);background:var(--paper);flex:none}
+.route li+li{margin-left:10px;padding-left:22px}
+.route li+li::after{content:"";position:absolute;left:0;top:50%;width:16px;height:2px;background:repeating-linear-gradient(90deg,var(--line-2) 0 3px,transparent 3px 6px)}
+.route li.is-now{color:var(--ink)}
+.route li.is-now::before{border-color:var(--ink);background:var(--yellow)}
+@media (max-width:420px){.route{font-size:10.5px}.route li+li{margin-left:6px;padding-left:16px}.route li+li::after{width:11px}}
+.hint{display:flex;align-items:center;gap:10px;margin-top:16px;font-size:12.5px;font-weight:700;color:var(--fg-2)}
+.hint i{position:relative;width:18px;height:28px;border:2px solid currentColor;border-radius:10px;flex:none}
+.hint i::after{content:"";position:absolute;left:50%;top:5px;width:3px;height:6px;margin-left:-1.5px;border-radius:2px;background:currentColor;animation:wheel 1.6s var(--ease-out) infinite}
+@keyframes wheel{0%{transform:translateY(0);opacity:1}100%{transform:translateY(9px);opacity:0}}
+.card__thumb{display:none;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:14px;margin-top:14px;background:var(--mist);box-shadow:0 0 0 1px rgba(10,10,11,.08)}
+.card__thumb--type{display:none;place-items:center;align-content:center;gap:4px;background:#f4efe6;color:#2b2622;font:400 clamp(24px,3vw,34px)/1 Georgia,"Times New Roman",serif;letter-spacing:.14em;text-align:center}
+.card__thumb--type small{font:600 10px var(--f-mono);letter-spacing:.24em;color:#8b7f72}
+
+/* managers */
+.seg{position:relative;display:inline-flex;margin-top:16px;padding:4px;border-radius:999px;--g-bg:rgba(238,240,242,.7)}
+.seg__cap{position:absolute;z-index:0;top:4px;bottom:4px;left:0;width:50px;border-radius:999px;background:#fff;box-shadow:inset 0 1px .5px #fff,0 0 0 1px rgba(10,10,11,.06),0 6px 14px -6px rgba(10,10,11,.45);transition:transform .55s var(--ease-spring),width .45s var(--ease-out)}
+.seg.is-press .seg__cap{transform:var(--seg-x) scale(1.08)}
+.seg button{position:relative;z-index:1;min-width:92px;min-height:38px;padding:0 16px;border:0;border-radius:999px;background:none;font-size:14px;font-weight:700;cursor:pointer;opacity:.6;transition:opacity .25s}
+.seg button[aria-selected="true"]{opacity:1}
+.mgr{margin-top:14px}
+.mgr[hidden]{display:none}
+.mgr__name{display:flex;align-items:baseline;gap:12px}
+.mgr__name h3{font-size:26px;font-weight:900;letter-spacing:.02em}
+.mgr__name span{font:600 10.5px var(--f-mono);letter-spacing:.18em;color:var(--fg-3)}
+.mgr__cols{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:16px;margin-top:12px}
+.mgr h4{font:600 10px var(--f-mono);letter-spacing:.2em;color:var(--fg-3);padding-bottom:6px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+.mgr li{position:relative;padding-left:12px;font-size:13px;line-height:1.55;margin-top:4px}
+.mgr li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--yellow-deep)}
+.mgr .btn{width:100%}
+
+/* customers */
+.qa{margin-top:14px;border-top:1px solid var(--line)}
+.qa details{border-bottom:1px solid var(--line)}
+.qa summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:8px 0;font-size:14px;font-weight:700;cursor:pointer}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary::after{content:"";flex:none;width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(-2px,-2px);transition:transform .35s var(--ease-out)}
+.qa details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+.qa summary b{display:inline-grid;place-items:center;width:22px;height:22px;margin-right:10px;border-radius:50%;background:var(--pink);font:600 10px var(--f-mono);flex:none}
+.qa summary span{display:flex;align-items:center;flex:1}
+.qa p{padding:0 0 12px 32px;font-size:13.5px;line-height:1.7;color:var(--fg-2)}
+.qa details.is-hot summary b{background:var(--yellow)}
+
+/* CMS principle */
+.flow{counter-reset:f;margin-top:12px;display:grid;gap:8px}
+.flow li{counter-increment:f;position:relative;display:grid;grid-template-columns:30px 1fr;gap:4px 10px;align-items:start;font-size:13px;line-height:1.6;color:var(--fg-2)}
+.flow li::before{content:counter(f,decimal-leading-zero);grid-row:1 / span 2;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--yellow);font:600 10.5px var(--f-mono)}
+.flow li b{color:var(--ink);font-size:13.5px}
+.how{margin-top:12px}
+.how summary{list-style:none;display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:0 14px;border-radius:999px;background:var(--blue-soft);font-size:13px;font-weight:700;cursor:pointer}
+.how summary::-webkit-details-marker{display:none}
+.how summary::after{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(-1px,-1px);transition:transform .35s var(--ease-out)}
+.how[open] summary::after{transform:rotate(-135deg)}
+
+/* ---------- 3D mode: cards float, one at a time ---------- */
+.is3d .drive{height:var(--drive-h,1200vh);pointer-events:none}
+.is3d .hud{position:fixed;z-index:30;left:var(--gutter);bottom:calc(88px + env(safe-area-inset-bottom,0px));width:var(--card-w);height:0;pointer-events:none}
+.is3d .card{position:absolute;left:0;bottom:0;width:100%;max-height:calc(100svh - 196px - env(safe-area-inset-bottom,0px));overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;opacity:0;filter:blur(12px);transform:translateY(18px) scale(.985);transform-origin:0 100%;pointer-events:none;transition:opacity .45s,filter .6s var(--ease-out),transform .7s var(--ease-out)}
+.is3d .card.is-on{z-index:1;opacity:1;filter:none;transform:none;pointer-events:auto}
+.is3d .card--mgr{position:absolute!important;width:1px!important;height:1px!important;max-height:none!important;padding:0!important;overflow:hidden!important;clip-path:inset(50%);white-space:nowrap;opacity:0!important;pointer-events:none!important}
+
+.is3d .card .anchor-pad{display:none}
+.is3d .hud.is-hidden .card{opacity:0!important;filter:blur(12px);pointer-events:none}
+@media (max-width:760px){
+  :root{--card-w:calc(100vw - 24px)}
+  .is3d .hud{left:12px;bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+  .is3d .card{max-height:calc(46svh - 20px);padding:16px 16px 16px;border-radius:20px}
+  .is3d .title{font-size:26px;margin-top:10px}
+  .is3d .title--work{font-size:19px}
+  .is3d .lead{font-size:13.5px;margin-top:6px}
+  .is3d .btn{min-height:42px;margin-top:12px}
+  .is3d .mgr__cols{grid-template-columns:1fr;gap:10px}
+  .is3d .hint{display:none}
+  .place{top:7px;min-height:32px;padding:0 13px 0 10px;gap:8px;font-size:0;letter-spacing:0}
+  .place span{font-size:11.5px}
+  .top{left:12px;right:12px}
+  .back{padding:0 14px 0 11px}
+}
+@media (max-width:420px){.back .back__txt{display:none}.back{width:46px;padding:0;justify-content:center}}
+
+/* ---------- flat mode (no WebGL / no JS): cards in flow ---------- */
+html:not(.is3d) .drive{padding:clamp(100px,14vh,140px) var(--gutter) 90px;background:var(--mist)}
+html:not(.is3d) .hud{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:18px;align-items:start}
+html:not(.is3d) .card--office,html:not(.is3d) .card--mgr,html:not(.is3d) .card--cust{grid-column:1 / -1}
+html:not(.is3d) .card__thumb{display:block}
+html:not(.is3d) .hint{display:none}
+html:not(.is3d) .card__thumb--type{display:grid}
+html:not(.is3d) .seg{display:none}
+html:not(.is3d) .mgr[hidden]{display:block}
+html:not(.is3d) .card--mgr .mgrs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:18px 28px}
+html.boot.js .drive,html.boot.js .status{visibility:hidden}
+
+/* ---------- status: the department is still being prepared ---------- */
+.status{position:relative;z-index:6;min-height:100svh;padding:clamp(90px,12vh,130px) var(--gutter) clamp(120px,15vh,150px);background:var(--ink);color:#fff;border-radius:34px 34px 0 0;box-shadow:0 -40px 80px -40px rgba(10,10,11,.6);--fg-2:rgba(255,255,255,.72);--fg-3:rgba(255,255,255,.5);--line:rgba(255,255,255,.14);--line-2:rgba(255,255,255,.3)}
+html:not(.is3d) .status{border-radius:0}
+.status__in{max-width:var(--max);margin:0 auto}
+.status .eyebrow{color:var(--fg-3)}
+.status .eyebrow b{color:#fff}
+.status .eyebrow span{color:var(--fg-2)}
+.status h2{margin-top:22px;font-weight:900;font-size:clamp(46px,7.4vw,112px);line-height:1.16;letter-spacing:-.035em}
+.status h2 mark{display:inline-block;margin-top:.08em;padding:.02em .14em .08em;line-height:1.02;color:var(--ink);background:var(--yellow);border-radius:.12em}
+.status__lead{max-width:36em;margin-top:26px;font-size:clamp(15px,1.25vw,18px);line-height:1.9;color:var(--fg-2)}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:clamp(36px,6vh,60px)}
+.fact{position:relative;overflow:hidden;padding:20px 20px 22px;border-radius:22px;background:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line);--mx:50%;--my:50%}
+.fact::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(280px circle at var(--mx) var(--my),rgba(255,216,77,.16),transparent 60%);opacity:0;transition:opacity .35s;pointer-events:none}
+.fact:hover::before{opacity:1}
+.fact dt{font:600 10.5px var(--f-mono);letter-spacing:.18em;color:var(--fg-3)}
+.fact dd{margin-top:10px;font-size:clamp(18px,1.6vw,22px);font-weight:900;line-height:1.35}
+.fact dd small{font-size:13px;font-weight:700;color:var(--fg-2);margin-left:6px}
+.fact--live dd{display:flex;align-items:center;gap:10px;color:var(--yellow)}
+.fact--live dd i{width:10px;height:10px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 0 rgba(255,216,77,.6);animation:beatY 1.8s infinite}
+@keyframes beatY{0%{box-shadow:0 0 0 0 rgba(255,216,77,.55)}70%{box-shadow:0 0 0 12px rgba(255,216,77,0)}100%{box-shadow:0 0 0 0 rgba(255,216,77,0)}}
+.num{font:800 clamp(34px,3.4vw,46px)/1 var(--f-display);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.status__grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,4vw,64px);margin-top:clamp(40px,7vh,70px)}
+.status h3{font:600 11px var(--f-mono);letter-spacing:.2em;color:var(--fg-3);padding-bottom:12px;border-bottom:1px solid var(--line)}
+.steps li{display:grid;grid-template-columns:28px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.steps i{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1.5px var(--line-2)}
+.steps i svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4}
+.steps .done i{background:#fff;color:var(--ink);box-shadow:none}
+.steps .now i{box-shadow:inset 0 0 0 1.5px var(--yellow)}
+.steps .now i::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--yellow);animation:beatY 1.8s infinite}
+.steps b{display:block;font-size:16px}
+.steps small{display:block;margin-top:2px;font-size:13.5px;color:var(--fg-2);line-height:1.6}
+.steps .later{color:var(--fg-2)}
+.works-list li a,.works-list li .row{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:12px;min-height:58px;padding:10px 0;border-bottom:1px solid var(--line);transition:padding .35s var(--ease-out),color .25s}
+.works-list li a:hover{padding-left:8px;color:var(--yellow)}
+.works-list .mono{font-size:11px;color:var(--fg-3)}
+.works-list strong{font-size:15px;line-height:1.4}
+.works-list em{display:block;font:500 10.5px var(--f-mono);letter-spacing:.04em;font-style:normal;color:var(--fg-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.works-list svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
+.contact{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px 30px;margin-top:clamp(40px,7vh,70px);padding:26px 28px;border-radius:26px;background:var(--yellow);color:var(--ink)}
+.contact p{font-size:clamp(18px,1.7vw,24px);font-weight:900;line-height:1.4}
+.contact p small{display:block;font:600 10.5px var(--f-mono);letter-spacing:.18em;color:rgba(10,10,11,.6);margin-bottom:6px}
+.contact__act{display:flex;flex-wrap:wrap;gap:10px}
+.contact .btn{margin-top:0}
+.contact .btn:hover{background:var(--blue)}
+.contact .btn--line:hover{background:var(--ink)}
+.rv{opacity:0;filter:blur(10px);transform:translateY(22px);transition:opacity .8s var(--ease-out),filter .9s var(--ease-out),transform 1s var(--ease-out)}
+.rv.is-in{opacity:1;filter:none;transform:none}
+html:not(.js) .rv{opacity:1;filter:none;transform:none}
+@media (max-width:1000px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.status__grid{grid-template-columns:1fr}}
+@media (max-width:520px){.facts{gap:10px}.fact{padding:16px}.fact:nth-child(-n+2){grid-column:1 / -1}.contact{padding:22px 20px}.contact__act,.contact .btn{width:100%}}
+
+/* ---------- partners: logo tiles drifting right → left at a slow, constant speed ---------- */
+.partners{position:relative;z-index:6;padding:clamp(56px,9vh,96px) 0 clamp(52px,8vh,88px);background:var(--ink);color:#fff;border-top:1px solid rgba(255,255,255,.08);--fg:#fff;--fg-2:rgba(255,255,255,.72);--fg-3:rgba(255,255,255,.5)}
+.partners__head{max-width:var(--max);margin:0 auto;padding-inline:var(--gutter);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:22px 40px}
+.partners__intro{min-width:0}
+.partners .eyebrow b{background:var(--yellow);color:var(--ink)}
+.partners h2{margin-top:16px;font-weight:900;font-size:clamp(32px,3.8vw,52px);line-height:1.12;letter-spacing:-.02em;text-wrap:balance}
+.partners__lead{margin-top:10px;font-size:15px;color:var(--fg-2)}
+.partners__cta{display:grid;justify-items:start;gap:10px}
+.btn--coop{margin-top:0;min-height:54px;padding:0 20px 0 26px;background:var(--yellow);color:var(--ink);font-size:15.5px;box-shadow:0 14px 34px -16px rgba(255,216,77,.55)}
+.btn--coop:hover{background:#fff;color:var(--ink)}
+.partners__cta small{font-size:12px;color:var(--fg-3)}
+.partners__cta .mono{font-family:var(--f-mono);letter-spacing:.02em;color:var(--fg-2);-webkit-user-select:all;user-select:all}
+.marquee{position:relative;margin-top:clamp(30px,5vh,46px);overflow:hidden;padding-block:6px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee__track{display:flex;width:max-content;animation:marquee var(--marquee-dur,46s) linear infinite;will-change:transform}
+.marquee:hover .marquee__track,.marquee.is-off .marquee__track{animation-play-state:paused}
+@keyframes marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(-1 * var(--marquee-shift,50%)),0,0)}}
+.marquee__group{display:flex;gap:16px;margin:0;padding:0 16px 0 0;list-style:none}
+.partner{flex:none;display:flex;align-items:center;gap:15px;height:98px;padding:0 28px 0 18px;border-radius:24px;background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(10,10,11,.06),0 18px 36px -24px rgba(0,0,0,.6);transition:transform .45s var(--ease-spring)}
+.partner:hover{transform:translateY(-3px)}
+.partner__mark{width:58px;height:58px;flex:none;display:block}
+.partner__name{display:grid;gap:2px;line-height:1.25;white-space:nowrap}
+.partner__name b{font-size:18.5px;font-weight:900;letter-spacing:.03em}
+.partner__name b.latin{font-family:var(--f-display);font-weight:800;font-size:19px;letter-spacing:.1em}
+.partner__name small{font-size:12px;font-weight:700;letter-spacing:.14em;color:#5c5c63}
+html:not(.js) .marquee__track{animation:none;width:auto;padding-inline:var(--gutter)}
+html:not(.js) .marquee__group{flex-wrap:wrap;justify-content:center;padding:0}
+@media (max-width:640px){.partners__cta{width:100%}.btn--coop{width:100%}.partner{height:82px;gap:12px;padding:0 22px 0 14px;border-radius:20px}.partner__mark{width:48px;height:48px}.partner__name b{font-size:16px}.partner__name b.latin{font-size:16.5px}.partner__name small{font-size:11px}.marquee__group{gap:12px;padding-right:12px}}
+@media (prefers-reduced-motion:reduce){.marquee{-webkit-mask-image:none;mask-image:none}.marquee__track{animation:none;width:auto;padding-inline:var(--gutter)}.marquee__group{flex-wrap:wrap;justify-content:center;padding:0}}
+
+.foot{position:relative;z-index:6;padding:26px var(--gutter) calc(110px + env(safe-area-inset-bottom,0px));background:var(--ink);color:rgba(255,255,255,.6);font-size:12.5px;line-height:1.8;border-top:1px solid rgba(255,255,255,.1)}
+.foot__in{max-width:var(--max);margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 30px}
+.foot a{color:#fff;border-bottom:1px solid rgba(255,255,255,.4)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+html.snap *,html.snap *::before,html.snap *::after{transition:none!important;animation:none!important}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">跳到主要內容</a>
 <div class="progress" aria-hidden="true"><i id="progress"></i></div>
-<div class="world-wrap" aria-hidden="true"><canvas id="world"></canvas><div class="world-vignette"></div></div>
-<header class="top">
-  <a class="logo glass" href="index.html" aria-label="返回欣緯科技首頁"><span class="logo__mark">S</span><span class="logo__name">SIGNWELL<small>欣緯軟體</small></span></a>
-  <span class="top-center glass"><i></i>Software Department · 2026</span>
-  <a class="return glass" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m14 5-7 7 7 7"/></svg><span>返回欣緯科技</span></a>
+
+<header class="top" id="top" data-tone="light" aria-label="網站導覽">
+  <a class="pill glass logo" href="https://easylearnfromtw.github.io/signwelltec/" aria-label="返回 SIGNWELL 欣緯科技首頁"><span class="logo__mark">S</span><span class="logo__txt">SIGNWELL<small>欣緯軟體</small></span></a>
+  <p class="place glass" id="place" aria-hidden="true"><i></i>NOW<span id="placeName">辦公室</span></p>
+  <a class="pill glass back" href="https://easylearnfromtw.github.io/signwelltec/#capital" aria-label="返回欣緯科技"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5-7 7 7 7"/></svg><span class="back__txt">返回欣緯科技</span></a>
 </header>
+
+<canvas id="world" aria-hidden="true"></canvas>
+<div class="veil" id="veil" aria-hidden="true"><b>欣緯軟體</b><i></i><small>SIGNWELL SOFTWARE<br>車子暖機中</small></div>
+<div class="hotspots" id="hotspots"></div>
+
 <main id="main">
-  <section class="chapter" id="office" data-step="0">
-    <article class="panel">
-      <p class="eyebrow"><b>01 / 05</b> STUDIO <span>辦公室</span></p>
-      <h1>欣緯軟體 <small>SIGNWELL SOFTWARE</small></h1>
+<section class="drive" id="drive" aria-label="欣緯軟體：從辦公室開往市區">
+  <div class="hud" id="hud">
+
+    <article class="card card--office" data-stop="office" id="office" aria-labelledby="t-office">
+      <p class="eyebrow"><b>01 / 05</b>STUDIO<span>辦公室</span></p>
+      <h1 class="title" id="t-office">欣緯軟體<small>SIGNWELL SOFTWARE</small></h1>
       <p class="lead">欣緯科技的軟體部門，做網站設計、前端開發與內容後台。程式在這間辦公室寫好，接著就上路。</p>
-      <div class="tags"><span>網站設計</span><span>前端開發</span><span>內容後台 CMS</span><span>互動體驗</span></div>
-      <p class="hint"><i aria-hidden="true"></i>往下捲動，跟著路線認識欣緯軟體</p>
+      <ol class="route" aria-label="路線">
+        <li class="is-now">辦公室</li><li>山路</li><li>住宅區</li><li>市區</li><li>籌備中</li>
+      </ol>
+      <p class="hint"><i aria-hidden="true"></i>往下捲動，跟著車子出發</p>
     </article>
-  </section>
-  <section class="chapter" id="managers" data-step="1">
-    <article class="panel">
-      <p class="eyebrow"><b>02 / 05</b> PEOPLE <span>部門經理</span></p>
-      <h2>山路口的<br><em>兩塊招牌。</em></h2>
+
+    <article class="card card--mgr" data-stop="managers" id="managers" aria-labelledby="t-mgr">
+      <p class="eyebrow"><b>02 / 05</b>MANAGERS<span>部門經理</span></p>
+      <h2 class="title" id="t-mgr">山路口的<mark>兩塊招牌</mark></h2>
       <p class="lead">欣緯科技軟體部門由兩位經理負責。</p>
-      <div class="tabs" role="tablist" aria-label="選擇部門經理">
-        <button type="button" role="tab" id="tab-kai" aria-controls="mgr-kai" aria-selected="true">林哲愷</button>
-        <button type="button" role="tab" id="tab-wei" aria-controls="mgr-wei" aria-selected="false" tabindex="-1">林哲緯</button>
+      <div class="seg glass" role="tablist" aria-label="選擇部門經理" id="mgrSeg">
+        <span class="seg__cap" aria-hidden="true"></span>
+        <button type="button" role="tab" id="tab-kai" aria-controls="p-kai" aria-selected="true" data-mgr="0">林哲愷</button>
+        <button type="button" role="tab" id="tab-wei" aria-controls="p-wei" aria-selected="false" data-mgr="1" tabindex="-1">林哲緯</button>
       </div>
-      <div id="mgr-kai" class="manager" role="tabpanel" aria-labelledby="tab-kai">
-        <h3>林哲愷 <small>部門經理</small></h3><div class="manager-grid">
-          <div><h4>現職</h4><ul><li>欣緯生醫創辦人</li><li>閒台文 Tai-Wan Way 創辦人</li><li>CITYMUS 創辦人</li><li>欣緯科技軟體部門經理</li></ul></div>
-          <div><h4>背景</h4><ul><li>再興中學</li><li>Google UX Design Professional Certificate</li><li>軟體與互動產品開發</li></ul></div>
-        </div><a class="btn" href="https://easylearnfromtw.github.io/test/chekai-portfolio/" target="_blank" rel="noopener noreferrer">查看個人網站 ↗</a>
-      </div>
-      <div id="mgr-wei" class="manager" role="tabpanel" aria-labelledby="tab-wei" hidden>
-        <h3>林哲緯 <small>部門經理</small></h3><div class="manager-grid">
-          <div><h4>現職</h4><ul><li>欣緯生醫主編</li><li>文森筆記創辦人</li><li>欣緯科技軟體部門經理</li></ul></div>
-          <div><h4>背景</h4><ul><li>建國中學</li><li>中國醫藥大學醫學系</li><li>跨領域網站與醫學內容創作</li></ul></div>
-        </div><a class="btn" href="https://vincent-journal.andyhank1234567890.workers.dev/" target="_blank" rel="noopener noreferrer">閱讀文森筆記 ↗</a>
+      <div class="mgrs">
+        <div class="mgr" id="p-kai" role="tabpanel" aria-labelledby="tab-kai">
+          <div class="mgr__name"><h3>林哲愷</h3><span>部門經理</span></div>
+          <div class="mgr__cols">
+            <div><h4>現職</h4><ul>
+              <li>欣緯生醫創辦人</li>
+              <li>閒台文 Tai-Wan Way創辦人</li>
+              <li>CITYMUS 創辦人</li>
+              <li>欣緯科技軟體部門經理</li>
+            </ul></div>
+            <div><h4>學經歷</h4><ul>
+              <li>再興中學</li>
+              <li>清華大學-經濟系學程</li>
+              <li>中央大學-人工智慧學系學程</li>
+              <li>中原大學-理工學系學程</li>
+              <li>Google UX Design Professional Certificate</li>
+              <li>聯合大學企劃</li>
+              <li>台英學士培育計畫</li>
+            </ul></div>
+          </div>
+          <a class="btn" href="https://easylearnfromtw.github.io/test/chekai-portfolio/#art" target="_blank" rel="noopener noreferrer"><span>前往林哲愷個人網站</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </div>
+        <div class="mgr" id="p-wei" role="tabpanel" aria-labelledby="tab-wei" hidden>
+          <div class="mgr__name"><h3>林哲緯</h3><span>部門經理</span></div>
+          <div class="mgr__cols">
+            <div><h4>現職</h4><ul>
+              <li>欣緯生醫主編</li>
+              <li>文森筆記創辦人</li>
+              <li>欣緯科技軟體部門經理</li>
+            </ul></div>
+            <div><h4>學經歷</h4><ul>
+              <li>建國中學</li>
+              <li>中國醫藥大學醫學系</li>
+              <li>新加坡國立大學實習</li>
+              <li>OMC奧林匹亞台灣地區數學壹等獎</li>
+            </ul></div>
+          </div>
+          <a class="btn" href="https://vincent-journal.andyhank1234567890.workers.dev/index.html" target="_blank" rel="noopener noreferrer"><span>閱讀文森筆記</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </div>
       </div>
     </article>
-  </section>
-  <section class="chapter" id="customers" data-step="2">
-    <article class="panel">
-      <p class="eyebrow"><b>03 / 05</b> LISTEN <span>顧客</span></p>
-      <h2>每一戶的問題，<br><em>都值得聽完。</em></h2>
-      <p class="lead">動手寫程式之前，先把需求問清楚。</p>
-      <div class="faq">
-        <details open><summary>想自己更新網站內容，可以嗎？</summary><p>可以規劃內容後台。欣緯生醫的 CMS 就是一例。</p></details>
-        <details><summary>手機上看會不會跑版？</summary><p>電腦版與手機版一起設計，也一起檢查。</p></details>
-        <details><summary>只有想法，還沒有設計稿。</summary><p>從聊需求開始，先整理頁面架構，再進入設計。</p></details>
-        <details><summary>做得出我們品牌的感覺嗎？</summary><p>先確認品牌色、字體和說話語氣，再套用到每一頁。</p></details>
-        <details><summary>網站會不會很慢？</summary><p>圖片與動畫依裝置調整，離開畫面的動畫會暫停。</p></details>
+
+    <article class="card card--cust" data-stop="customers" id="customers" aria-labelledby="t-cust">
+      <p class="eyebrow"><b>03 / 05</b>LISTEN<span>顧客</span></p>
+      <h2 class="title" id="t-cust">每一戶的問題，<br><mark>都值得聽完。</mark></h2>
+      <p class="lead">我們在乎每位顧客的想法和問題。動手寫程式之前，先把需求問清楚。</p>
+      <div class="qa" id="qa">
+        <details name="qa" data-q="0" open><summary><span><b>01</b>想自己更新網站內容，可以嗎？</span></summary><p>可以規劃內容後台。欣緯生醫的 CMS 就是一例：登入後撰寫文章、存草稿，再按下發佈。</p></details>
+        <details name="qa" data-q="1"><summary><span><b>02</b>手機上看會不會跑版？</span></summary><p>電腦版與手機版一起設計，也一起檢查。</p></details>
+        <details name="qa" data-q="2"><summary><span><b>03</b>只有想法，還沒有設計稿。</span></summary><p>從聊需求開始，先整理頁面架構，再進入設計。</p></details>
+        <details name="qa" data-q="3"><summary><span><b>04</b>做得出我們品牌的感覺嗎？</span></summary><p>先確認品牌色、字體和說話語氣，再套用到每一頁。</p></details>
+        <details name="qa" data-q="4"><summary><span><b>05</b>網站會不會很慢？</span></summary><p>圖片與動畫依裝置調整，離開畫面的動畫會暫停。</p></details>
       </div>
     </article>
-  </section>
-  <section class="chapter" id="works" data-step="3">
-    <article class="panel">
-      <p class="eyebrow"><b>04 / 05</b> SELECTED WORKS <span>網站作品</span></p>
-      <h2>從構想，<br><em>走進作品。</em></h2>
-      <p class="lead">目前整理的七個網站與產品案例。點擊有公開連結的項目即可前往。</p>
-      <div class="works">
-        <a class="work" href="index.html"><span class="work__top">01 / CORPORATE</span><h3>欣緯科技 SIGNWELL</h3><p>電子零件企業網站、3D 零件與詢價工具。</p><span class="work__arrow">查看網站 ↗</span></a>
-        <a class="work" href="https://easylearnfromtw.github.io/signwellbio/" target="_blank" rel="noopener noreferrer"><span class="work__top">02 / MEDICAL</span><h3>欣緯生醫 SIGNWELL BIO</h3><p>醫學白話文內容平台。</p><span class="work__arrow">查看網站 ↗</span></a>
-        <div class="work work--private"><span class="work__top">03 / CMS</span><h3>欣緯生醫 CMS</h3><p>內容編輯、發布流程與站點管理。</p><span class="work__arrow">內部系統 · 不對外開放</span></div>
-        <a class="work" href="https://easylearnfromtw.github.io/Taiwanway/" target="_blank" rel="noopener noreferrer"><span class="work__top">04 / EDUCATION</span><h3>閒台文 Tai-Wan Way</h3><p>遊戲化台灣華語學習。</p><span class="work__arrow">查看網站 ↗</span></a>
-        <a class="work" href="https://easylearnfromtw.github.io/test/chekai-portfolio/" target="_blank" rel="noopener noreferrer"><span class="work__top">05 / PORTFOLIO</span><h3>個人網站範例</h3><p>互動 3D 街景作品集。</p><span class="work__arrow">查看網站 ↗</span></a>
-        <a class="work" href="https://vincent-journal.andyhank1234567890.workers.dev/" target="_blank" rel="noopener noreferrer"><span class="work__top">06 / AESTHETICS</span><h3>VINCENT JOURNAL</h3><p>醫學美學內容與品牌敘事。</p><span class="work__arrow">查看網站 ↗</span></a>
-        <a class="work" href="https://easylearnfromtw.github.io/musictown/" target="_blank" rel="noopener noreferrer"><span class="work__top">07 / MUSIC</span><h3>MUSICTOWN</h3><p>依城市、風格與心情探索音樂。</p><span class="work__arrow">查看網站 ↗</span></a>
-      </div>
+
+    <article class="card card--work" data-stop="w1" id="works" aria-labelledby="t-w1">
+      <p class="eyebrow"><b>04 / 05</b>WORKS<span>網站作品</span><em>01 / 07</em></p>
+      <img class="card__thumb" src="assets/img/software/signwelltec.webp" alt="欣緯科技企業網站首頁畫面" width="960" height="600" loading="lazy" decoding="async">
+      <h3 class="title title--work" id="t-w1">欣緯科技 SIGNWELL 企業網站</h3>
+      <p class="lead">電子零件貿易公司官網：3D 零件檢視、337 項料號紀錄與線上詢價工具。</p>
+      <a class="btn" href="https://easylearnfromtw.github.io/signwelltec/" target="_blank" rel="noopener noreferrer"><span>開啟網站</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <span class="url">easylearnfromtw.github.io/signwelltec</span>
     </article>
-  </section>
-  <section class="status" id="status" data-step="4">
-    <div class="status__in">
-      <p class="eyebrow"><b>05 / 05</b> CURRENT STATUS <span>現階段</span></p>
-      <h2>我們還在<br><em>持續建造。</em></h2>
-      <p class="lead">欣緯軟體為欣緯科技旗下軟體部門，目前籌備中。這裡展示網站設計、互動開發及內容平台的持續實作，若想討論合作，可以先聯繫我們。</p>
-      <div class="stats"><div class="stat"><strong>07</strong><small>作品與產品案例</small></div><div class="stat"><strong>02</strong><small>部門經理</small></div><div class="stat"><strong>NOW</strong><small>籌備中</small></div></div>
-      <div class="status__links"><a class="btn btn--yellow" href="mailto:luca.sinwell@gmail.com?subject=%E5%90%88%E4%BD%9C%E6%B4%BD%E8%A9%A2%EF%BD%9C%E6%AC%A3%E7%B7%AF%E8%BB%9F%E9%AB%94">我有興趣合作 ↗</a><a class="btn btn--line" href="index.html">返回欣緯科技 ↗</a></div>
+
+    <article class="card card--work" data-stop="w2" aria-labelledby="t-w2">
+      <p class="eyebrow"><b>04 / 05</b>WORKS<span>網站作品</span><em>02 / 07</em></p>
+      <img class="card__thumb" src="assets/img/software/signwellbio.webp" alt="欣緯生醫醫療網站首頁畫面" width="960" height="600" loading="lazy" decoding="async">
+      <h3 class="title title--work" id="t-w2">欣緯生醫 SIGNWELL BIO 醫療網站</h3>
+      <p class="lead">醫學白話文平台：臨床筆記、主題探討與醫學整理。</p>
+      <a class="btn" href="https://easylearnfromtw.github.io/signwellbio/" target="_blank" rel="noopener noreferrer"><span>開啟網站</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <span class="url">easylearnfromtw.github.io/signwellbio</span>
+    </article>
+
+    <article class="card card--work card--cms" data-stop="w3" aria-labelledby="t-w3">
+      <p class="eyebrow"><b>04 / 05</b>WORKS<span>網站作品</span><em>03 / 07</em></p>
+      <img class="card__thumb" src="assets/img/software/cms.webp" alt="欣緯生醫 CMS 後台登入畫面" width="960" height="600" loading="lazy" decoding="async">
+      <h3 class="title title--work" id="t-w3">欣緯生醫 CMS 後台</h3>
+      <p class="lead">自建的內容後台，公開站與後台都放在 GitHub Pages。</p>
+      <details class="how" id="cmsHow" open>
+        <summary>後台運作原理</summary>
+        <ol class="flow">
+          <li><b>登入</b>Passkey 或管理密碼，交給 Google Apps Script 後端驗證；密碼不存在後台頁面。</li>
+          <li><b>編寫</b>在 CMS 撰寫、審稿、存草稿；選題頁和待審稿匣協助整理內容。</li>
+          <li><b>發佈</b>Apps Script 先檢查 GitHub 目標與寫入權限，再把文章一次 commit 到公開站，最後確認 GitHub Pages 已經上線。</li>
+          <li><b>延伸</b>網站上線後才寄電子報（Gmail 寄送，訂閱者存在 Google Sheet）；圖卡與貼文經 Canva、Meta 發佈。</li>
+        </ol>
+      </details>
+      <span class="url url--private">內部系統・不對外開放</span>
+    </article>
+
+    <article class="card card--work" data-stop="w4" aria-labelledby="t-w4">
+      <p class="eyebrow"><b>04 / 05</b>WORKS<span>網站作品</span><em>04 / 07</em></p>
+      <img class="card__thumb" src="assets/img/software/taiwanway.webp" alt="閒台文網站首頁畫面" width="960" height="600" loading="lazy" decoding="async">
+      <h3 class="title title--work" id="t-w4">閒台文 Tai-Wan Way 用遊戲學台灣式中文</h3>
+      <p class="lead">給外國人學台灣華語：繁體字、注音與拼音、真實生活情境，加上 20 關卡牌闖關。</p>
+      <a class="btn" href="https://easylearnfromtw.github.io/Taiwanway/" target="_blank" rel="noopener noreferrer"><span>開啟網站</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <span class="url">easylearnfromtw.github.io/Taiwanway</span>
+    </article>
+
+    <article class="card card--work" data-stop="w5" aria-labelledby="t-w5">
+      <p class="eyebrow"><b>04 / 05</b>WORKS<span>網站作品</span><em>05 / 07</em></p>
+      <img class="card__thumb" src="assets/img/software/portfolio.webp" alt="林哲愷個人網站 3D 街景畫面" width="960" height="600" loading="lazy" decoding="async">
+      <h3 class="title title--work" id="t-w5">個人網站範例</h3>
+      <p class="lead">林哲愷的作品集：即時 3D 台灣街景，經歷放在一面面看板上。</p>
+      <a class="btn" href="https://easylearnfromtw.github.io/test/chekai-portfolio/" target="_blank" rel="noopener noreferrer"><span>開啟網站</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <span class="url">easylearnfromtw.github.io/test/chekai-portfolio</span>
+    </article>
+
+    <article class="card card--work" data-stop="w6" aria-labelledby="t-w6">
+      <p class="eyebrow"><b>04 / 05</b>WORKS<span>網站作品</span><em>06 / 07</em></p>
+      <div class="card__thumb card__thumb--type" aria-hidden="true">VINCENT<br>JOURNAL<small>AESTHETIC CLINIC</small></div>
+      <h3 class="title title--work" id="t-w6">VINCENT JOURNAL -醫美診所美學網站</h3>
+      <p class="lead">以醫美診所為主題的美學網站。</p>
+      <a class="btn" href="https://vincent-journal.andyhank1234567890.workers.dev/" target="_blank" rel="noopener noreferrer"><span>開啟網站</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <span class="url">vincent-journal.andyhank1234567890.workers.dev</span>
+    </article>
+
+    <article class="card card--work" data-stop="w7" aria-labelledby="t-w7">
+      <p class="eyebrow"><b>04 / 05</b>WORKS<span>網站作品</span><em>07 / 07</em></p>
+      <img class="card__thumb" src="assets/img/software/musictown.webp" alt="MUSICTOWN 音樂播放網站畫面" width="960" height="600" loading="lazy" decoding="async">
+      <h3 class="title title--work" id="t-w7">MUSICTOWN- 音樂播放網站</h3>
+      <p class="lead">依城市、風格與心情挑歌的音樂播放網站。</p>
+      <a class="btn" href="https://easylearnfromtw.github.io/musictown/" target="_blank" rel="noopener noreferrer"><span>開啟網站</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <span class="url">easylearnfromtw.github.io/musictown</span>
+    </article>
+
+  </div>
+</section>
+
+<section class="status" id="status" data-tone="dark" aria-labelledby="t-status">
+  <div class="status__in">
+    <p class="eyebrow rv"><b>05 / 05</b>STATUS<span>部門現況</span></p>
+    <h2 class="rv" id="t-status">欣緯軟體，<br><mark>籌備中。</mark></h2>
+    <p class="status__lead rv">欣緯科技軟體部門目前仍在籌備。服務內容、合作方式與開放時間確定後，會公布在這個頁面。</p>
+
+    <dl class="facts">
+      <div class="fact rv"><dt>DEPARTMENT · 部門</dt><dd>欣緯科技軟體部門</dd></div>
+      <div class="fact rv"><dt>MANAGERS · 部門經理</dt><dd>林哲愷・林哲緯</dd></div>
+      <div class="fact fact--live rv"><dt>STATUS · 目前狀態</dt><dd><i aria-hidden="true"></i>籌備中</dd></div>
+      <div class="fact rv"><dt>WORKS · 網站作品</dt><dd><span class="num" data-count="7">7</span><small>個網站</small></dd></div>
+    </dl>
+
+    <div class="status__grid">
+      <div class="rv">
+        <h3>PROGRESS · 進度</h3>
+        <ol class="steps">
+          <li class="done"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg></i><div><b>網站作品上線</b><small>七個網站，從企業官網到音樂播放網站。</small></div></li>
+          <li class="now"><i aria-hidden="true"></i><div><b>部門籌備</b><small>目前進行中。</small></div></li>
+          <li class="later"><i aria-hidden="true"></i><div><b>服務內容與合作方式</b><small>確定後在這裡公布。</small></div></li>
+        </ol>
+      </div>
+      <div class="rv">
+        <h3>WORKS · 作品一覽</h3>
+        <ul class="works-list">
+          <li><a href="https://easylearnfromtw.github.io/signwelltec/" target="_blank" rel="noopener noreferrer"><span class="mono">01</span><span><strong>欣緯科技 SIGNWELL 企業網站</strong><em>easylearnfromtw.github.io/signwelltec</em></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a href="https://easylearnfromtw.github.io/signwellbio/" target="_blank" rel="noopener noreferrer"><span class="mono">02</span><span><strong>欣緯生醫 SIGNWELL BIO 醫療網站</strong><em>easylearnfromtw.github.io/signwellbio</em></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><div class="row"><span class="mono">03</span><span><strong>欣緯生醫 CMS 後台</strong><em>內部系統・不對外開放</em></span></div></li>
+          <li><a href="https://easylearnfromtw.github.io/Taiwanway/" target="_blank" rel="noopener noreferrer"><span class="mono">04</span><span><strong>閒台文 Tai-Wan Way 用遊戲學台灣式中文</strong><em>easylearnfromtw.github.io/Taiwanway</em></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a href="https://easylearnfromtw.github.io/test/chekai-portfolio/" target="_blank" rel="noopener noreferrer"><span class="mono">05</span><span><strong>個人網站範例</strong><em>easylearnfromtw.github.io/test/chekai-portfolio</em></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a href="https://vincent-journal.andyhank1234567890.workers.dev/" target="_blank" rel="noopener noreferrer"><span class="mono">06</span><span><strong>VINCENT JOURNAL -醫美診所美學網站</strong><em>vincent-journal.andyhank1234567890.workers.dev</em></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+          <li><a href="https://easylearnfromtw.github.io/musictown/" target="_blank" rel="noopener noreferrer"><span class="mono">07</span><span><strong>MUSICTOWN- 音樂播放網站</strong><em>easylearnfromtw.github.io/musictown</em></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+        </ul>
+      </div>
     </div>
-  </section>
-<section class="partners" id="partners" aria-labelledby="partners-title"><div class="partners__head"><div><p class="eyebrow"><b>PARTNERS</b> COLLABORATION</p><h2 id="partners-title">合作廠商</h2><p>一起合作的企業、品牌與協會。</p></div><a href="mailto:luca.sinwell@gmail.com?subject=%E5%90%88%E4%BD%9C%E6%B4%BD%E8%A9%A2%EF%BD%9C%E6%AC%A3%E7%B7%AF%E8%BB%9F%E9%AB%94">我有興趣合作 ↗</a></div><div class="partners__roll" role="list"><div class="partner-tile" role="listitem"><b>琺騏國際行銷</b><small>有限公司</small></div><div class="partner-tile" role="listitem"><b>SIGNWELL</b><small>欣緯科技有限公司</small></div><div class="partner-tile" role="listitem"><b>艾咪</b><small>美粧美材精品</small></div><div class="partner-tile" role="listitem"><b>和平島長青協會</b><small>中華民國</small></div><div class="partner-tile" role="listitem"><b>青年網站設計協會</b><small>中華民國</small></div></div></section>
+
+    <div class="contact rv">
+      <p><small>CONTACT · 聯絡</small>有網站的想法，可以先來信聊聊。</p>
+      <div class="contact__act">
+        <a class="btn" href="mailto:luca.sinwell@gmail.com?subject=%E6%AC%A3%E7%B7%AF%E8%BB%9F%E9%AB%94%E6%B4%BD%E8%A9%A2"><span>luca.sinwell@gmail.com</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        <a class="btn btn--line" href="#office" data-goto="0"><span>回到辦公室重新出發</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="partners" id="partners" aria-labelledby="t-partners">
+  <div class="partners__head">
+    <div class="partners__intro">
+      <p class="eyebrow"><b>PARTNERS</b><span>合作廠商</span></p>
+      <h2 id="t-partners">合作廠商</h2>
+      <p class="partners__lead">一起合作的企業、品牌與協會。</p>
+    </div>
+    <div class="partners__cta">
+      <a class="btn btn--coop" id="coopBtn" href="mailto:luca.sinwell@gmail.com?subject=%E5%90%88%E4%BD%9C%E6%B4%BD%E8%A9%A2%EF%BD%9C%E6%AC%A3%E7%B7%AF%E8%BB%9F%E9%AB%94&amp;body=%E6%82%A8%E5%A5%BD%EF%BC%8C%0A%E6%88%91%E5%B0%8D%E8%88%87%E6%AC%A3%E7%B7%AF%E8%BB%9F%E9%AB%94%E5%90%88%E4%BD%9C%E6%9C%89%E8%88%88%E8%B6%A3%E3%80%82%0A%0A%E5%85%AC%E5%8F%B8%EF%BC%8F%E5%96%AE%E4%BD%8D%EF%BC%9A%0A%E8%81%AF%E7%B5%A1%E4%BA%BA%EF%BC%9A%0A%E8%81%AF%E7%B5%A1%E6%96%B9%E5%BC%8F%EF%BC%9A%0A%E6%83%B3%E5%90%88%E4%BD%9C%E7%9A%84%E5%85%A7%E5%AE%B9%EF%BC%9A%0A" data-gmail="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=luca.sinwell%40gmail.com&amp;su=%E5%90%88%E4%BD%9C%E6%B4%BD%E8%A9%A2%EF%BD%9C%E6%AC%A3%E7%B7%AF%E8%BB%9F%E9%AB%94&amp;body=%E6%82%A8%E5%A5%BD%EF%BC%8C%0A%E6%88%91%E5%B0%8D%E8%88%87%E6%AC%A3%E7%B7%AF%E8%BB%9F%E9%AB%94%E5%90%88%E4%BD%9C%E6%9C%89%E8%88%88%E8%B6%A3%E3%80%82%0A%0A%E5%85%AC%E5%8F%B8%EF%BC%8F%E5%96%AE%E4%BD%8D%EF%BC%9A%0A%E8%81%AF%E7%B5%A1%E4%BA%BA%EF%BC%9A%0A%E8%81%AF%E7%B5%A1%E6%96%B9%E5%BC%8F%EF%BC%9A%0A%E6%83%B3%E5%90%88%E4%BD%9C%E7%9A%84%E5%85%A7%E5%AE%B9%EF%BC%9A%0A"><span>我有興趣合作</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <small>來信寄到 <span class="mono">luca.sinwell@gmail.com</span></small>
+    </div>
+  </div>
+  <div class="marquee" id="partnerMarquee">
+    <div class="marquee__track">
+      <ul class="marquee__group" role="list">
+        <li class="partner partner--faqi"><svg class="partner__mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="2" y="2" width="60" height="60" rx="18" fill="#3d6bff"/><rect x="7.5" y="7.5" width="49" height="49" rx="13" fill="none" stroke="#ffd84d" stroke-width="2"/><g fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" transform="rotate(-18 32 32)"><path d="M15 23l9 9-9 9" opacity=".42"/><path d="M26 23l9 9-9 9" opacity=".7"/><path d="M37 23l9 9-9 9"/></g><circle cx="44.5" cy="19.5" r="2.7" fill="#ffd84d"/></svg><span class="partner__name"><b>琺騏國際行銷</b><small>有限公司</small></span></li>
+        <li class="partner partner--signwell"><svg class="partner__mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="2" y="2" width="60" height="60" rx="12" fill="#0a0a0b"/><rect x="18" y="18" width="28" height="28" fill="#ffd84d"/><circle cx="25" cy="25" r="3.2" fill="#0a0a0b"/></svg><span class="partner__name"><b class="latin">SIGNWELL</b><small>欣緯科技有限公司</small></span></li>
+        <li class="partner partner--amy"><svg class="partner__mark" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#fde9f1"/><circle cx="31" cy="34" r="18" fill="#fff" stroke="#e98fb2" stroke-width="4"/><path d="M21.5 30.5a11 11 0 0 1 8.5-7.5" fill="none" stroke="#f7c6d9" stroke-width="3.2" stroke-linecap="round"/><path d="M24 44.5h14" stroke="#e98fb2" stroke-width="2.4" stroke-linecap="round" opacity=".55"/><path d="M47 9Q47 17 55 17Q47 17 47 25Q47 17 39 17Q47 17 47 9Z" fill="#ffd84d"/><path d="M53.5 26Q53.5 29.5 57 29.5Q53.5 29.5 53.5 33Q53.5 29.5 50 29.5Q53.5 29.5 53.5 26Z" fill="#e98fb2"/></svg><span class="partner__name"><b>艾咪</b><small>美粧美材精品</small></span></li>
+        <li class="partner partner--heping"><svg class="partner__mark" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#dfe7ff"/><circle cx="45" cy="20" r="6" fill="#ffd84d"/><path d="M12 44Q21 31.5 32 34.5Q42 37 52 44Z" fill="#0a0a0b"/><path d="M27 12.5l7 10h-3.6l6 8.5H18.6l6-8.5H21z" fill="#2f8a6a"/><path d="M26 31h3.2v4.5H26z" fill="#0a0a0b"/><path d="M4.5 44Q11.4 40 18.25 44T32 44T45.75 44T59.5 44A30 30 0 0 1 4.5 44Z" fill="#3d6bff"/><path d="M14 51.5q4.5-2.6 9 0t9 0 9 0 9 0" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".75"/></svg><span class="partner__name"><small>中華民國</small><b>和平島長青協會</b></span></li>
+        <li class="partner partner--youth"><svg class="partner__mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="2" y="2" width="60" height="60" rx="16" fill="#ffd84d"/><rect x="10.5" y="14" width="43" height="36" rx="6.5" fill="#fff" stroke="#0a0a0b" stroke-width="3.4"/><path d="M10.5 23.5h43" stroke="#0a0a0b" stroke-width="3"/><circle cx="16.5" cy="18.8" r="1.8" fill="#e98fb2"/><circle cx="22" cy="18.8" r="1.8" fill="#3d6bff"/><circle cx="27.5" cy="18.8" r="1.8" fill="#0a0a0b"/><path d="M22.5 30.5l-5.5 5.5 5.5 5.5M41.5 30.5l5.5 5.5-5.5 5.5" fill="none" stroke="#3d6bff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 44.5v-9" stroke="#2f8a6a" stroke-width="2.6" stroke-linecap="round"/><path d="M32 38.5q-6.5-.6-7-6.8 6.5.3 7 6.8zM32 36q.4-6.3 7-7-.2 6.6-7 7z" fill="#2f8a6a"/></svg><span class="partner__name"><small>中華民國</small><b>青年網站設計協會</b></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
 </main>
-<footer class="footer"><span>© SIGNWELL 欣緯科技 · 欣緯軟體</span><span>返回 <a href="index.html">欣緯科技首頁</a> ／ <a href="medical-responsibility.html">欣緯生醫</a></span></footer>
-<nav class="dock" aria-label="頁面章節"><a href="#office" aria-current="true">01 辦公室</a><a href="#managers">02 經理</a><a href="#customers">03 顧客</a><a href="#works">04 作品</a><a href="#status">05 籌備</a></nav>
-<script>
-(function(){
-"use strict";
-const sections=[...document.querySelectorAll("[data-step]")],links=[...document.querySelectorAll(".dock a")],progress=document.querySelector("#progress"),canvas=document.querySelector("#world"),ctx=canvas.getContext("2d",{alpha:false});let w=0,h=0,dpr=1,scroll=0,queued=false;
-function resize(){dpr=Math.min(devicePixelRatio||1,1.5);w=innerWidth;h=innerHeight;canvas.width=Math.max(1,Math.round(w*dpr));canvas.height=Math.max(1,Math.round(h*dpr));ctx.setTransform(dpr,0,0,dpr,0,0);draw()}
-function rect(x,y,b,c,fill){ctx.fillStyle=fill;ctx.fillRect(x,y,b,c)}
-function poly(pts,fill){ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();ctx.fillStyle=fill;ctx.fill()}
-function text(t,x,y,size,color,align="center",weight=800){ctx.font=weight+" "+size+"px system-ui";ctx.fillStyle=color;ctx.textAlign=align;ctx.fillText(t,x,y)}
-function block(x,y,sz,col){let height=sz*1.4;rect(x-sz/2,y-height,sz,height,col);poly([[x-sz/2,y-height],[x-sz/2+sz*.2,y-height-sz*.17],[x+sz/2+sz*.2,y-height-sz*.17],[x+sz/2,y-height]],"#ece8e3");rect(x-sz/2+sz*.16,y-height+sz*.2,sz*.2,sz*.26,"#d5e8f2");rect(x+sz*.1,y-height+sz*.2,sz*.18,sz*.26,"#d5e8f2")}
-function draw(){
- if(!ctx)return;
- const pos=scroll/Math.max(1,document.documentElement.scrollHeight-h),speed=pos*1000;
- let sky=ctx.createLinearGradient(0,0,0,h);sky.addColorStop(0,"#c5dcf4");sky.addColorStop(.62,"#f9e8d1");sky.addColorStop(1,"#d6dfcb");rect(0,0,w,h,sky);
- const horizon=h*.43,center=w*(w<850?.52:.64),roadNear=w*1.8;
- for(let i=0;i<6;i++){let a=i*120+speed*.08;let y=horizon+(i%2)*8;ctx.fillStyle=["#a7beac","#aec7b3","#8eaa9e","#b9cebb"][i%4];ctx.beginPath();ctx.ellipse(center+(i-2.8)*w*.28+Math.sin(a*.03)*55,y+45,w*.23+i*8,115+i*8,0,Math.PI,0);ctx.fill()}
- poly([[center-14,horizon],[center+14,horizon],[center+roadNear*.46,h],[center-roadNear*.46,h]],"#56595f");
- poly([[center-14,horizon],[center-9,horizon],[center-roadNear*.4,h],[center-roadNear*.44,h]],"#b0b0a7");
- poly([[center+9,horizon],[center+14,horizon],[center+roadNear*.44,h],[center+roadNear*.4,h]],"#b0b0a7");
- for(let i=0;i<17;i++){let z=(i*90+speed*1.2)%1300,scale=1-z/1300;if(scale<=0)continue;let perspective=1/(1+z*.008),y=horizon+(h-horizon)*perspective**.72;let sw=12*perspective+1;rect(center-sw*.17,y,sw*.34,Math.min(120,92*perspective), "#f9f2d4")}
- let district=speed<230?"office":speed<490?"hills":speed<720?"homes":"city";
- for(let i=35;i>=0;i--){let z=(i*63-speed*1.35+4400)%2250,scale=1/(1+z*.0055),y=horizon+(h-horizon)*scale**.72,side=i%2?-1:1,x=center+side*(30+(w*.55+135)*scale),bw=(district==="city"?260:190)*scale,bh=(district==="city"?440:240)*scale;if(z>2100||scale<.04)continue;let color=district==="city"?(i%3===0?"#b9b8b1":"#d1d1c9"):(district==="hills"?"#c3c4aa":i%3===0?"#d6c5b1":"#e7d2bb");
-   block(x,y,bw,color);
-   if(district==="city"&&i%4===0){rect(x-bw*.32,y-bh*.73,bw*.64,Math.max(4,bh*.14),"#3750b8");if(bw>48)text(["SIGNWELL","TAI-WAN WAY","BIO","MUSIC"][i%4],x,y-bh*.61,Math.max(8,bw*.065),"white")}
-   if(district==="hills"&&i%6===0){rect(x-bw*.38,y-bh*.97,bw*.76,Math.max(15,bw*.32),"#172333");if(bw>42)text(i%12===0?"林哲緯":"林哲愷",x,y-bh*.8,Math.max(10,bw*.13),"#fff")}
- }
- poly([[center-95,h*.94],[center-72,h*.86],[center+77,h*.86],[center+103,h*.94]],"#1c2431");rect(center-68,h*.88,136,20,"#ffd84d");rect(center-55,h*.884,110,14,"#e8f3ff");rect(center-88,h*.947,35,18,"#101115");rect(center+54,h*.947,35,18,"#101115");text("SIGNWELL",center,h*.935,14,"#20232c");
-}
-function update(){queued=false;scroll=scrollY;const top=scroll+h*.49;let active=0;sections.forEach((el,i)=>{if(el.offsetTop<=top)active=i});links.forEach((a,i)=>a.setAttribute("aria-current",String(i===active)));const p=scroll/Math.max(1,document.documentElement.scrollHeight-h);progress.style.transform="none";progress.style.width=(p*100).toFixed(2)+"%";draw()}
-addEventListener("scroll",()=>{if(!queued){queued=true;requestAnimationFrame(update)}},{passive:true});addEventListener("resize",resize,{passive:true});document.addEventListener("visibilitychange",()=>{if(!document.hidden)update()});resize();update();
-const tabs=[...document.querySelectorAll('[role="tab"]')];tabs.forEach(tab=>{tab.addEventListener("click",()=>{tabs.forEach(t=>{let on=t===tab;t.setAttribute("aria-selected",String(on));t.tabIndex=on?0:-1;document.getElementById(t.getAttribute("aria-controls")).hidden=!on})});tab.addEventListener("keydown",e=>{if(e.key==="ArrowLeft"||e.key==="ArrowRight"){e.preventDefault();let next=tabs[(tabs.indexOf(tab)+(e.key==="ArrowRight"?1:tabs.length-1))%tabs.length];next.focus();next.click()}})});
-})();
-</script>
-</body></html>
+
+<footer class="foot">
+  <div class="foot__in">
+    <span>SIGNWELL · 欣緯科技 ／ <a href="https://easylearnfromtw.github.io/signwelltec/">返回首頁</a> ／ <a href="medical-responsibility.html">認識欣緯生醫</a></span>
+    <span>欣緯軟體為欣緯科技軟體部門，目前籌備中。</span>
+  </div>
+</footer>
+
+<nav class="dock glass" id="dock" aria-label="欣緯軟體章節">
+  <div class="dock__track" id="dockTrack">
+    <a class="dock__item" draggable="false" href="#office" aria-current="true"><b>01</b><span>辦公室</span></a>
+    <a class="dock__item" draggable="false" href="#managers"><b>02</b><span>經理</span></a>
+    <a class="dock__item" draggable="false" href="#customers"><b>03</b><span>顧客</span></a>
+    <a class="dock__item" draggable="false" href="#works"><b>04</b><span>作品</span></a>
+    <a class="dock__item" draggable="false" href="#status"><b>05</b><span>籌備</span></a>
+  </div>
+  <div class="dock__cap" id="dockCap" aria-hidden="true"><div class="dock__lensrow" id="dockLens"></div></div>
+</nav>
+
+<script nomodule>document.documentElement.classList.add('no3d');document.documentElement.classList.remove('boot');</script>
+<script type="module" src="assets/js/software-drive.js"></script>
+</body>
+</html>
