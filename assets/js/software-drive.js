@@ -282,7 +282,15 @@ async function start3D() {
     url: ($('a.btn', c) || {}).href || null, urlText: $('.url', c).textContent.trim(), img: ($('img.card__thumb', c) || {}).src || null,
     kind: c.classList.contains('card--cms') ? 'cms' : !$('img.card__thumb', c) ? 'type' : 'shot'
   }));
-  const QUESTIONS = qaItems.map(d => ({ q: $('summary span', d).textContent.replace(/^\d+/, '').trim(), a: $('p', d).textContent.trim() }));
+  // Preserve speech-bubble data independently of the removed customer FAQ panel.
+  // The 3D residential scene draws five conversation sprites using QUESTIONS[i].
+  const QUESTIONS = [
+    { q: '想自己更新網站內容，可以嗎？', a: '可以規劃內容後台。欣緯生醫的 CMS 就是一例。' },
+    { q: '手機上看會不會跑版？', a: '電腦版與手機版一起設計，也一起檢查。' },
+    { q: '只有想法，還沒有設計稿。', a: '從聊需求開始，先整理頁面架構，再進入設計。' },
+    { q: '做得出我們品牌的感覺嗎？', a: '先確認品牌色、字體和說話語氣。' },
+    { q: '網站會不會很慢？', a: '圖片與動畫依裝置調整。' }
+  ];
   const V_SIGNS = ['牙醫診所', '眼科', '中醫診所', '藥局', '補習班', '英語', '麵館', '早餐', '便當', '咖啡', '茶飲', '眼鏡', '機車行', '五金', '水電行', '旅社', '理髮', '書局', '水果', '小吃', '火鍋', '滷味', '藥妝', '家具', '鐘錶', '乾洗', '房屋仲介', '鍋貼', '冰店', '電器行', '花店', '診所'];
   const H_SIGNS = ['牛肉麵', '早午餐', '便利商店', '手搖飲', '鍋貼水餃', '眼鏡行', '藥局', '麵包店', '五金百貨', '滷肉飯', '水果行', '電信行', '文具行', '珍珠奶茶', '小籠包', '鹹酥雞'];
 
