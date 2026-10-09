@@ -88,6 +88,26 @@ html[data-ui-tone="dark"] .progress i{background:var(--yellow)}
 #bagSvg{position:fixed;z-index:20;left:0;top:0;width:200px;height:270px;pointer-events:none;display:none;transform-origin:50% 50%;will-change:transform;filter:drop-shadow(0 24px 18px rgba(30,32,44,.18))}
 html[data-bag="svg"] #bagSvg{display:block}
 html[data-bag="svg"] #bag{display:none}
+/* Sixth chapter: this is an actual section child, never a fixed viewport ornament. */
+#visit{isolation:isolate;overflow:clip}
+#visit .grid{z-index:4}
+.visit-bag-fixed{
+  position:absolute;z-index:3;top:12px;right:clamp(6px,1.8vw,24px);
+  width:clamp(150px,37vw,300px);aspect-ratio:200/285;pointer-events:none;
+  opacity:0;transition:opacity .15s ease;contain:layout style;
+}
+.visit-bag-fixed canvas,.visit-bag-fallback{position:absolute;inset:0;width:100%;height:100%;display:block}
+.visit-bag-fixed canvas{opacity:0}
+.visit-bag-fixed.has-snapshot canvas{opacity:1}
+.visit-bag-fixed.has-snapshot .visit-bag-fallback{display:none}
+.visit-bag-fallback svg{position:static!important;display:block!important;width:78%!important;height:85%!important;margin:auto;overflow:visible;transform:rotate(8deg);filter:drop-shadow(0 10px 14px rgba(30,32,44,.2))}
+html.visit-bag-pinned .visit-bag-fixed{opacity:1}
+html.visit-bag-pinned #bag,html.visit-bag-pinned #bagSvg{visibility:hidden!important}
+@media(min-width:761px){
+  .visit-bag-fixed{top:clamp(25px,5vw,85px);left:clamp(25px,7vw,110px);right:auto;width:clamp(185px,26vw,330px)}
+  .visit-bag-fallback svg{transform:rotate(-8deg)}
+}
+@media(prefers-reduced-motion:reduce){.visit-bag-fixed{transition:none}}
 .fb-eye{transform-box:fill-box;transform-origin:center;animation:fbBlink 4.6s infinite}
 @keyframes fbBlink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
 
@@ -580,6 +600,9 @@ h2.title{font-size:clamp(40px,4.6vw,76px)}
 </section>
 
 <section class="chapter c6 flip" id="visit" data-tone="light" aria-labelledby="t6">
+  <div class="visit-bag-fixed" id="visitBagFixed" aria-hidden="true">
+    <canvas id="visitBagStill"></canvas><div class="visit-bag-fallback" id="visitBagFallback"></div>
+  </div>
   <span class="tear" aria-hidden="true">沿虛線撕開 / DOSE 06</span>
   <div class="grid">
     <div class="rail" aria-hidden="true"></div>
@@ -985,6 +1008,42 @@ function initGL(){
 /* ---------------- frame loop ---------------- */
 var svg=$('#bagSvg'),fbNo=$('#fbNo'),fbTitle=$('#fbTitle'),fbEn=$('#fbEn'),fbMark=$('#fbMark');
 var tPrev=performance.now(),time=0,running=true,lastTone='',lastActive=-1;
+/* The original WebGL character travels through chapters 1–5. On entering
+   chapter 6, copy one frame into a canvas owned by that chapter. The copy
+   then scrolls naturally with its yellow section (not with the viewport). */
+var visitSection=$('#visit'),visitBagFixed=$('#visitBagFixed'),visitBagStill=$('#visitBagStill');
+var visitBagFallback=$('#visitBagFallback'),visitBagPinned=false;
+if(visitBagFallback&&svg){
+  var staticSvg=svg.cloneNode(true);
+  staticSvg.removeAttribute('id');
+  var no=staticSvg.querySelector('#fbNo'),ti=staticSvg.querySelector('#fbTitle'),en=staticSvg.querySelector('#fbEn');
+  if(no)no.textContent='No.06';if(ti)ti.textContent='了解欣緯生醫';if(en)en.textContent='CHAPTER 06 / 06';
+  staticSvg.querySelectorAll('[id]').forEach(function(x){x.removeAttribute('id')});
+  visitBagFallback.appendChild(staticSvg);
+}
+function unpinVisitBag(){
+  if(!visitBagPinned)return;
+  visitBagPinned=false;root.classList.remove('visit-bag-pinned');
+  root.classList.remove('bag-hover');
+}
+function freezeVisitBag(){
+  if(visitBagPinned||!visitBagFixed)return;
+  var rect=visitBagFixed.getBoundingClientRect();
+  if(R3D&&rect.width>0&&rect.height>0){
+    try{
+      var scale=Math.min(2,window.devicePixelRatio||1),ctx=visitBagStill.getContext('2d',{alpha:true});
+      var rw=Math.round(rect.width*scale),rh=Math.round(rect.height*scale);
+      visitBagStill.width=rw;visitBagStill.height=rh;
+      ctx.clearRect(0,0,rw,rh);
+      ctx.drawImage(canvas,rect.left*canvas.width/vw,rect.top*canvas.height/vh,
+        rect.width*canvas.width/vw,rect.height*canvas.height/vh,0,0,rw,rh);
+      var mid=ctx.getImageData(Math.floor(rw/2),Math.floor(rh/2),1,1).data;
+      if(mid[3]>8)visitBagFixed.classList.add('has-snapshot');
+    }catch(e){visitBagFixed.classList.remove('has-snapshot')}
+  }
+  visitBagPinned=true;root.classList.add('visit-bag-pinned');
+}
+
 /* fixed screen anchor for each chapter: desktop = middle of the free column, phone = lower corner, half peeking */
 function anchor(i){
   var side=chapters[i].classList.contains('flip')?-1:1;
@@ -1006,29 +1065,21 @@ function buildKF(){
 /* The bag follows the story through all six doses, then parks at the hand-marked spot. */
 var FINAL_PAGE=N-1;
 function finalStop(){
-  var size,cx,cy,side;
-  if(vw<760){
-    /* Phone: top-right of the yellow last chapter, away from the title and the CTA. */
-    size=Math.min(vw*.33,170);
-    cx=clamp(vw*.77,size*.62,vw-size*.56);
-    cy=clamp(vh*.43,145+size*.52,vh*.61);
-    side=1;
-  }else{
-    /* Desktop: use the unoccupied side of the final chapter. */
-    var a=anchor(FINAL_PAGE);
-    size=Math.min(a.size*.72,260);
-    cx=a.cx;
-    cy=clamp(vh*.44,140+size*.48,vh*.65);
-    side=-1;
-  }
-  return {cx:cx,cy:cy,size:size,side:side,ch:FINAL_PAGE,yaw:side>0?-.32:.32,roll:side>0?.12:-.1};
+  /* Align the 3D transition to the actual section-based final illustration. */
+  var r=visitBagFixed.getBoundingClientRect(),size=Math.max(80,r.width*.79);
+  var side=vw<761?1:-1;
+  return {cx:r.left+r.width*.5,cy:r.top+r.height*.5,size:size,side:side,ch:FINAL_PAGE,yaw:-side*.30,roll:side*.12};
 }
 function bagStops(y){
   if(!KF.length)buildKF();var k=0;while(k<KF.length-1&&y>=KF[k+1].y)k++;
   var k1=Math.min(KF.length-1,k+1),y0=KF[k].y,y1=KF[k1].y,L=Math.max(1,y1-y0),t=k1===k?0:sstep(y0+L*.22,y1-L*.22,y);
   var f=function(kf){return kf.stop===3?finalStop():kf.stop===1?stop1(kf.ch):stop2(kf.ch)};var A=f(KF[k]);return {A:A,B:k1===k?A:f(KF[k1]),t:t,parked:k===KF.length-1&&KF[k].stop===3};
 }
-function onResize(){measure();if(R3D)R3D.resize()}
+function onResize(){
+  var oldW=vw;measure();if(R3D)R3D.resize();
+  /* Safari toolbar resize changes height often; only invalidate for width changes. */
+  if(Math.abs(oldW-vw)>4){unpinVisitBag();visitBagFixed.classList.remove('has-snapshot')}
+}
 addEventListener('resize',onResize,{passive:true});
 var dir=0;addEventListener('scroll',function(){var y=scrollY;if(Math.abs(y-lastY)>6){dir=y>lastY?1:-1;lastY=y}},{passive:true});
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&!running){running=true;tPrev=performance.now();requestAnimationFrame(frame)}});
@@ -1044,7 +1095,11 @@ function frame(now){
   if(busy&&R3D){ema+=(dt-ema)*.04;if(++emaN>150&&ema>1/36&&dprScale>.6){dprScale=Math.max(.6,dprScale-.15);emaN=0;ema=1/60;R3D.resize()}}
   /* read phase */
   var sy=scrollY,p=computeP();scrollP=p;var a=activeFromScroll();
-  var bs=bagStops(sy),A=bs.A,B=bs.B,t=bs.t;bagIsParked=bs.parked;
+  var bs=bagStops(sy),A=bs.A,B=bs.B,t=bs.t;
+  var visitRect=visitSection.getBoundingClientRect();
+  var freezeNow=!visitBagPinned&&visitRect.top<=vh*.68&&visitRect.bottom>0;
+  if(visitBagPinned&&visitRect.top>vh*.78)unpinVisitBag();
+  bagIsParked=visitBagPinned||freezeNow;
   if(bagIsParked){bag.drag=null;bag.dragOff.x=0;bag.dragOff.y=0}
   readDock();var topIdx=chapterAt(40),botIdx=chapterAt(vh-40);
   /* write phase: chrome */
@@ -1057,14 +1112,17 @@ function frame(now){
   if(!dockDrag){var cb=capForP(p);placeCap(cb.x,cb.w,false)}
   var mid=Math.sin(Math.PI*t),cross=A.side!==B.side;
   var tx=lerp(A.cx,B.cx,t),ty=lerp(A.cy,B.cy,t),size=lerp(A.size,B.size,t)*(1+(rm?0:mid*(cross?.06:.02)));
+  if(freezeNow){var stop=finalStop();tx=stop.cx;ty=stop.cy;size=stop.size}
   var spin=rm||!cross?0:(B.side<A.side?-1:1)*Math.PI*2*t;
   var yaw=lerp(A.yaw,B.yaw,t)+spin,roll=lerp(A.roll,B.roll,t)+(rm||!cross?0:-(B.side-A.side)*.5*mid*.3),pitch=.05;
-  var near=a;
+  if(freezeNow){yaw=stop.yaw;roll=stop.roll;pitch=.05}
+  var near=freezeNow?FINAL_PAGE:a;
   /* scroll speed: the bag leans and the pills rattle while the page moves */
   var sv=(scrollY-prevSY)/dt;prevSY=scrollY;prevSvS=svS;svS+=(clamp(sv,-6000,6000)-svS)*(1-Math.exp(-dt*8));
   if(!rm&&!bagIsParked){ty+=Math.sin(time*1.25)*size*.012;roll+=Math.sin(time*.9)*.02;yaw+=Math.sin(time*.7)*.04;pitch+=clamp(svS/7000,-.16,.16)}
   tx+=bag.dragOff.x;ty+=bag.dragOff.y;
   if(!bag.init){bag.x=tx;bag.y=rm?ty:ty-vh*.75;bag.vx=0;bag.vy=0;bag.init=true;bag.landed=false}
+  if(freezeNow){bag.x=tx;bag.y=ty;bag.vx=0;bag.vy=0;bag.wob=0;bag.sq=bag.sqV=0}
   var pvx=bag.vx,pvy=bag.vy,nsub=Math.max(1,Math.ceil(dt*120)),h=dt/nsub;
   if(rm){bag.x=tx;bag.y=ty;bag.vx=bag.vy=0}else{var K=150,C=2*Math.sqrt(K)*.62;for(var q=0;q<nsub;q++){bag.vx+=((tx-bag.x)*K-bag.vx*C)*h;bag.vy+=((ty-bag.y)*K-bag.vy*C)*h;bag.x+=bag.vx*h;bag.y+=bag.vy*h}}
   bag.ax=(bag.vx-pvx)/dt;bag.ay=(bag.vy-pvy)/dt;
@@ -1093,6 +1151,7 @@ function frame(now){
     yaw:yaw+(rm||bagIsParked||!live?0:clamp((ptr.x-bx)/vw*.45,-.25,.25)),pitch:pitch+(rm||bagIsParked||!live?0:clamp((ptr.y-by)/vh*.3,-.18,.18)),roll:roll,wob:bag.wob,film:fm,shadow:sh})}
   else{var w=size,fh=size*1.35,flipY=Math.cos(yaw);svg.style.width=w+'px';svg.style.height=fh+'px';
     svg.style.transform='translate('+(bx-w/2).toFixed(1)+'px,'+(by-fh/2).toFixed(1)+'px) rotate('+(roll*57.3).toFixed(2)+'deg) scale('+(sx*Math.max(.15,Math.abs(flipY))).toFixed(3)+','+sy.toFixed(3)+')';}
+  if(freezeNow)freezeVisitBag();
   requestAnimationFrame(frame);
 }
 function start(){measure();if(R3D)R3D.resize();requestAnimationFrame(function(n){tPrev=n;frame(n)})}
