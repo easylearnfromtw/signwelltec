@@ -34,6 +34,61 @@ body[data-page="home"] .hero-actions .btn--software .ico{height:16px;width:16px}
 @media(max-width:860px){body[data-page="home"] .hero-actions{max-width:490px}body[data-page="home"] .hero-actions .btn--software{flex-basis:100%;justify-content:center}}
 @media(prefers-reduced-motion:reduce){body[data-page="home"] .hero-actions .btn--software{transition:none}}
 </style>
+
+<style id="signwell-bio-portal-style">
+/* SIGNWELL.BIO brand gateway in the open space above registered capital. */
+#capital .capital-bio-portal{
+  position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  box-sizing:border-box;width:min(440px,calc(100% - 36px));
+  min-height:128px;margin:clamp(28px,3.6vw,44px) auto 0;
+  padding:20px 22px 20px 24px;
+  border:1px solid rgba(10,10,11,.14);border-radius:17px;
+  background:linear-gradient(118deg,#fff 0%,#f2f7fc 65%,#fff1f5 100%);
+  color:#0a0a0b;text-decoration:none;
+  box-shadow:0 12px 35px -25px rgba(21,47,75,.34);
+  transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease;
+}
+#capital .capital-bio-copy{display:flex;min-width:0;flex-direction:column;align-items:flex-start}
+#capital .capital-bio-kicker{
+  font:600 9px/1.5 var(--f-mono,monospace);
+  letter-spacing:.15em;color:#7d858f;
+}
+#capital .capital-bio-wordmark{
+  display:block;margin-top:8px;
+  font-family:var(--f-sans,Arial,sans-serif);
+  font-size:clamp(26px,4.7vw,36px);font-stretch:125%;
+  font-weight:900;line-height:1.08;letter-spacing:-.045em;white-space:nowrap;
+}
+#capital .capital-bio-wordmark span{color:#4d7ba9}
+#capital .capital-bio-desc{
+  display:block;margin-top:9px;
+  font-family:var(--f-cn,sans-serif);font-size:11px;line-height:1.65;
+  font-weight:500;letter-spacing:.015em;color:#57616b;
+}
+#capital .capital-bio-arrow{
+  width:40px;height:40px;flex:0 0 40px;
+  display:grid;place-items:center;
+  background:#0a0a0b;color:#fff;border-radius:50%;
+  transition:transform .24s ease,background .24s ease;
+}
+#capital .capital-bio-arrow svg{width:19px;height:19px}
+#capital .capital-bio-portal:hover{transform:translateY(-2px);border-color:rgba(10,10,11,.38);box-shadow:0 18px 40px -28px rgba(21,47,75,.42)}
+#capital .capital-bio-portal:hover .capital-bio-arrow{transform:translate(2px,-2px);background:#315f87}
+#capital .capital-bio-portal:focus-visible{outline:3px solid #3d6bff;outline-offset:4px}
+#capital .capital-band-grid{padding-top:clamp(45px,5vw,75px)}
+@media(max-width:560px){
+  #capital .capital-bio-portal{min-height:118px;margin-top:26px;padding:17px 16px 17px 18px;gap:9px}
+  #capital .capital-bio-kicker{font-size:8px;letter-spacing:.1em}
+  #capital .capital-bio-wordmark{font-size:clamp(25px,7.2vw,34px)}
+  #capital .capital-bio-desc{font-size:10.5px}
+  #capital .capital-bio-arrow{width:35px;height:35px;flex-basis:35px}
+  #capital .capital-band-grid{padding-top:44px}
+}
+@media(prefers-reduced-motion:reduce){
+  #capital .capital-bio-portal,#capital .capital-bio-arrow{transition:none}
+}
+</style>
 </head>
 <body data-page="home" id="top">
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
@@ -614,7 +669,17 @@ body[data-page="home"] .hero-actions .btn--software .ico{height:16px;width:16px}
         <svg class="ico" aria-hidden="true"><use href="#i-ne"/></svg>
       </a>
     </div>
-  </div>
+  </di
+  <a class="capital-bio-portal" href="https://easylearnfromtw.github.io/signwellbio/" target="_blank" rel="noopener noreferrer" aria-label="前往欣緯生醫 SIGNWELL.BIO 網站（開啟新分頁）">
+    <span class="capital-bio-copy">
+      <span class="capital-bio-kicker">EXPLORE OUR MEDICAL PLATFORM</span>
+      <strong class="capital-bio-wordmark">SIGNWELL<span>.BIO</span></strong>
+      <span class="capital-bio-desc">欣緯生醫 <span aria-hidden="true">·</span> 從專業出發，讓醫學更容易理解</span>
+    </span>
+    <span class="capital-bio-arrow" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false"><path d="M6 18 18 6M7 6h11v11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+  </a>v>
   <div class="wrap capital-band-grid">
     <div class="capital-band-meta">
       <span class="mono">REGISTERED CAPITAL</span>
