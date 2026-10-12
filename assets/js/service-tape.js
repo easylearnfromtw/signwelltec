@@ -4,7 +4,7 @@
   const stage = document.querySelector('[data-tape3d]');
   const items = Array.from(document.querySelectorAll('[data-tape-index] .tape-item'));
   if (!stage || !items.length) return;
-  const sceneURL = new URL('scene.js?v=20261007-larger-floor1', document.currentScript.src);
+  const sceneURL = new URL('scene.js?v=20261013-gpu2', document.currentScript.src);
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const tip = stage.querySelector('[data-tape-tip]');
   const count = stage.querySelector('[data-tape-count]');
@@ -155,5 +155,10 @@
     button.addEventListener('blur', clear);
     button.addEventListener('click', highlight);
   });
-  initialize();
+  if ('IntersectionObserver' in window) {
+    const preload = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) { preload.disconnect(); initialize(); }
+    }, { rootMargin: '500px 0px' });
+    preload.observe(stage);
+  } else initialize();
 })();

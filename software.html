@@ -79,10 +79,18 @@ html[data-ui-tone="dark"] .progress i{background:var(--yellow)}
 .place span{font-family:var(--f-cn);letter-spacing:.1em;font-size:12px;font-weight:700}
 .is3d .place{opacity:1}
 html[data-ui-tone="dark"] .place{opacity:0}
+html[data-ui-tone="dark"] .place i{animation-play-state:paused}
 @keyframes beat{50%{box-shadow:0 0 0 7px rgba(255,216,77,0)}}
 
 .dock{position:fixed;z-index:50;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(470px,calc(100vw - 24px));padding:5px;border-radius:999px;touch-action:none;user-select:none;-webkit-user-select:none;transition:width .5s var(--ease-out),transform .55s var(--ease-spring),background .4s,color .4s}
 .dock.is-compact{width:min(320px,calc(100vw - 24px));transform:translateX(-50%) scale(.94)}
+/* Reveal after the first rendered scene and the loading veil's .8s fade.
+   Individual translate keeps this entrance separate from compact/drag transforms. */
+.js:not(.ready):not(.no3d) .dock{translate:0 calc(100% + 40px);opacity:0;visibility:hidden;pointer-events:none}
+.js.ready .dock,.js.no3d .dock{animation:dock-arrive .6s var(--ease-out) .8s both}
+html.gl-lost .dock{animation:none;translate:0 calc(100% + 40px);opacity:0;visibility:hidden;pointer-events:none}
+@keyframes dock-arrive{from{translate:0 calc(100% + 40px);opacity:0;visibility:hidden}to{translate:0 0;opacity:1;visibility:visible}}
+@media(prefers-reduced-motion:reduce){.js.ready .dock,.js.no3d .dock{animation-delay:0s}}
 .dock__track,.dock__lensrow{display:flex}
 .dock__item{-webkit-user-drag:none;position:relative;z-index:1;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:50px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--g-fg);opacity:.62;transition:opacity .25s,min-height .45s var(--ease-out)}
 .dock__item b{font:600 11px var(--f-mono);letter-spacing:.06em}
@@ -314,7 +322,9 @@ html:not(.js) .rv{opacity:1;filter:none;transform:none}
 .partners__cta small{font-size:12px;color:var(--fg-3)}
 .partners__cta .mono{font-family:var(--f-mono);letter-spacing:.02em;color:var(--fg-2);-webkit-user-select:all;user-select:all}
 .marquee{position:relative;margin-top:clamp(30px,5vh,46px);overflow:hidden;padding-block:6px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.gpu-paused,.gpu-paused::before,.gpu-paused::after{animation-play-state:paused!important}
 .marquee__track{display:flex;width:max-content;animation:marquee var(--marquee-dur,46s) linear infinite;will-change:transform}
+.marquee__track.gpu-paused{will-change:auto}
 .marquee:hover .marquee__track,.marquee.is-off .marquee__track{animation-play-state:paused}
 @keyframes marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(-1 * var(--marquee-shift,50%)),0,0)}}
 .marquee__group{display:flex;gap:16px;margin:0;padding:0 16px 0 0;list-style:none}
@@ -615,6 +625,7 @@ html.snap *,html.snap *::before,html.snap *::after{transition:none!important;ani
 })();
 </script>
 <script nomodule>document.documentElement.classList.add('no3d');document.documentElement.classList.remove('boot');</script>
-<script type="module" src="assets/js/software-drive.js?v=20261009-restore-3d-faq-data"></script>
+<script defer src="assets/js/gpu-lifecycle.js?v=20261013-gpu2"></script>
+<script type="module" src="assets/js/software-drive.js?v=20261013-gpu2"></script>
 </body>
 </html>

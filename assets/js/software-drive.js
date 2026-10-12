@@ -6,6 +6,7 @@
    The status page then scrolls over the world.
    three.js r160 (MIT) is loaded from ./vendor. Without WebGL the page stays a flat card list. */
 import * as THREE from './vendor/three.module.min.js';
+import { createRenderLoop } from './render-loop.mjs';
 
 const root = document.documentElement;
 root.classList.add('engine');   // tells the boot script the 3D module is running, so it waits instead of falling back
@@ -58,29 +59,36 @@ function endDock(e) {
   for (let i = 0; i < dockItems.length; i++) { const b = boxes[i], d = Math.abs(b.x + b.w / 2 - x); if (d < bd) { bd = d; best = i; } }
   dockDrag = null; dock.classList.remove('is-drag');
   if (e.type === 'pointerup') { dockSuppress = true; setTimeout(() => { dockSuppress = false; }, 350); goToChapter(best); }
+  wakeChrome(); // cancelled/current-chapter drags may not produce a scroll event
 }
 dock.addEventListener('pointerup', endDock); dock.addEventListener('pointercancel', endDock);
 dockItems.forEach((a, i) => a.addEventListener('click', e => { e.preventDefault(); if (dockSuppress) return; goToChapter(i); }));
 $$('[data-goto]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); goToChapter(+a.dataset.goto); }));
 
-let lastCh = -1, lastTone = '', scrollDir = 0, lastSY = scrollY, dockDirty = 60, lastDockTone = '', compactNow = false;
-function markDockDirty(n) { dockDirty = Math.max(dockDirty, n); }
-if ('ResizeObserver' in window) new ResizeObserver(() => markDockDirty(20)).observe(dock);
+let lastCh = -1, lastTone = '', scrollDir = 0, lastSY = scrollY, dockDirty = true, lastDockTone = '', compactNow = false;
+let wakeChrome = () => {};
+function markDockDirty() { dockDirty = true; wakeChrome(); }
+if ('ResizeObserver' in window) {
+  const dockObserver = new ResizeObserver(markDockDirty);
+  dockObserver.observe(dock);
+  dockItems.forEach(item => dockObserver.observe(item));
+}
 let docH = 0;   // document height, read only when the layout actually changes (not every frame)
-const readDocH = () => { docH = document.documentElement.scrollHeight; };
+const readDocH = () => { docH = document.documentElement.scrollHeight; wakeChrome(); };
 if ('ResizeObserver' in window) new ResizeObserver(readDocH).observe(document.body); addEventListener('resize', readDocH); readDocH();
 function updateChrome(statusTop) {
   const sy = scrollY, vh = innerHeight;
+  const stTop = statusTop == null ? statusEl.getBoundingClientRect().top : statusTop;
+  if (!dockDrag && dockDirty) { readDock(); dockDirty = false; }
   scrollDir = sy > lastSY + 1 ? 1 : sy < lastSY - 1 ? -1 : scrollDir; lastSY = sy;
   progressBar.style.transform = 'scaleX(' + clamp(sy / Math.max(1, docH - vh), 0, 1).toFixed(4) + ')';
   const ch = Math.round(clamp(chapterP, 0, N_CH - 1));
   if (ch !== lastCh) { lastCh = ch; dockItems.forEach((it, i) => i === ch ? it.setAttribute('aria-current', 'true') : it.removeAttribute('aria-current')); }
-  const stTop = statusTop == null ? statusEl.getBoundingClientRect().top : statusTop;
   const tone = stTop < 40 ? 'dark' : 'light';
   if (tone !== lastTone) { lastTone = tone; root.dataset.uiTone = tone; topBar.dataset.tone = tone; const m = $('meta[name="theme-color"]'); if (m) m.setAttribute('content', tone === 'dark' ? '#0a0a0b' : '#eef0f2'); }
   const dTone = stTop < vh - 60 ? 'dark' : 'light'; if (dTone !== lastDockTone) { lastDockTone = dTone; dock.dataset.tone = dTone; }
   const compact = scrollDir > 0 && sy > 160; if (compact !== compactNow) { compactNow = compact; dock.classList.toggle('is-compact', compact); markDockDirty(45); }
-  if (!dockDrag) { if (dockDirty > 0) { readDock(); dockDirty--; } const cb = capForP(chapterP); placeCap(cb.x, cb.w, false); }
+  if (!dockDrag) { const cb = capForP(chapterP); placeCap(cb.x, cb.w, false); }
 }
 
 /* managers (flat mode / screen readers): segmented control with one shared capsule */
@@ -140,15 +148,24 @@ const coopBtn = $('#coopBtn');
 if (coopBtn && coopBtn.dataset.gmail && matchMedia('(pointer:fine)').matches) { coopBtn.href = coopBtn.dataset.gmail; coopBtn.target = '_blank'; coopBtn.rel = 'noopener noreferrer'; }
 
 /* ============================================================== flat mode */
+let flatStarted = false;
 function startFlat() {
+  if (flatStarted) return;
+  flatStarted = true;
   root.classList.add('no3d'); root.classList.remove('boot', 'is3d');
   const sections = dockItems.map(a => $(a.getAttribute('href')));
+  let chromeFrame = 0;
   function onScroll() {
+    chromeFrame = 0;
     const vh = innerHeight; let p = 0;
     sections.forEach((s, i) => { if (s && s.getBoundingClientRect().top < vh * .45) p = i; });
     chapterP = p; updateChrome();
   }
-  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onScroll); onScroll();
+  function scheduleChrome() { if (!chromeFrame) chromeFrame = requestAnimationFrame(onScroll); }
+  wakeChrome = scheduleChrome;
+  addEventListener('scroll', scheduleChrome, { passive: true });
+  addEventListener('resize', () => { markDockDirty(); scheduleChrome(); });
+  onScroll();
   requestAnimationFrame(() => { readDock(); placeSeg(); onScroll(); });
 }
 
@@ -1565,8 +1582,10 @@ async function start3D() {
   function pick(cx, cy) { ptr.set(cx / W * 2 - 1, -(cy / H) * 2 + 1); ray.setFromCamera(ptr, camera); const hits = ray.intersectObjects(signs.map(s => s.face), false); if (!hits.length || hits[0].distance > 180) return null; const sg = signs.find(s => s.face === hits[0].object); return sg && (sg.kind === 'mgr' || sg.url) ? sg : null; }
 
   /* ---------------- frame loop ---------------- */
-  let sCam = 4, sGoal = 4, prevS = 4, speed = 0, time = 0, tPrev = performance.now(), running = true, lastScrollAt = 0, activeIdx = -1, covered = false, hidden = null, frameNo = 0;
-  let idleTick = 0, readyAt = 0; const redrawQ = [];
+  let sCam = 4, sGoal = 4, prevS = 4, speed = 0, time = 0, lastScrollAt = 0, activeIdx = -1, covered = false, hidden = null, frameNo = 0;
+  let readyAt = 0, canRender = false, contextReady = true; const redrawQ = [];
+  const loop = createRenderLoop({ draw: frame, isVisible: () => canRender && contextReady && !document.hidden });
+  wakeChrome = () => loop.wake();
   const camPos = new THREE.Vector3(), camTgt = new THREE.Vector3(), tgtSm = new THREE.Vector3(), posSm = new THREE.Vector3(), focusV = new THREE.Vector3(), lastSun = new THREE.Vector3(1e9, 0, 0);
   let firstFrame = true;
   const setOf = tag => peopleSets.filter(p => p.tag === tag);
@@ -1585,9 +1604,8 @@ async function start3D() {
       if (st.mgr != null) outPos.y += w * 2;
     }
   }
-  function frame(now) {
-    if (!running) return; requestAnimationFrame(frame);
-    const dt = Math.min(.1, Math.max(.001, (now - tPrev) / 1000)); tPrev = now; time += dt;
+  function frame(now, dt) {
+    time += dt;
     const sy = scrollY; const u = (sy - driveTop) / vhPx; const at = sAtScroll(u);
     sGoal = at.s; const k = SNAP ? 400 : reduced.matches ? 14 : 3.4; sCam += (sGoal - sCam) * (1 - Math.exp(-dt * k)); if (Math.abs(sGoal - sCam) < .002) sCam = sGoal;
     speed = (sCam - prevS) / dt; prevS = sCam;
@@ -1608,10 +1626,10 @@ async function start3D() {
     if (placeName.textContent !== placeTxt) placeName.textContent = placeTxt;
     // late font redraws: one canvas per frame so texture uploads never pile into one long frame
     if (redrawQ.length) { redrawQ.shift()(); needRender = true; }
-    if (covered && !firstFrame && !needRender) return;
-    if (GLX.isContextLost()) return;   // between a GPU reset and its event: draw nothing rather than half a frame
+    if (covered && !firstFrame) return dockDirty; // scroll/resize wakes chrome; no perpetual offscreen loop
+    if (GLX.isContextLost()) return false; // contextrestored wakes the single frame owner
     const idle = now - lastScrollAt > 2200 && Math.abs(sGoal - sCam) < .01 && !downAt;
-    if (idle && !firstFrame && !needRender && (++idleTick & 1)) return;
+    // Keep visible animation at display cadence; skipping every other idle frame caused judder.
     // quality governor: watch moving frames; two windows in a row with >40% of frames under ~45 fps → one notch down
     if (!idle && !firstFrame && now - readyAt > 1800) {
       qN++; if (dt > 1 / 45) qSlow++;
@@ -1661,6 +1679,11 @@ async function start3D() {
     updateHotspots(sCam);
     renderer.render(scene, camera); needRender = false;
     if (firstFrame) { firstFrame = false; readyAt = now; root.classList.add('ready'); if (SNAP) console.log('[drive] first frame', Math.round(performance.now() - T0) + 'ms', renderer.info.render.triangles + ' tris', renderer.info.render.calls + ' calls', 'dpr ' + dprNow.toFixed(2), renderer.domElement.width + '×' + renderer.domElement.height); }
+    return !covered && (!reduced.matches || Math.abs(sGoal - sCam) > .002 ||
+      posSm.distanceToSquared(camPos) > .000001 || tgtSm.distanceToSquared(camTgt) > .000001 ||
+      Math.abs(lensX - lx) + Math.abs(lensY - ly) > .0001 ||
+      voices.some(v => Math.abs((resOn && sCam > v.s + 6 ? 1 : 0) - v.pop) > .001) ||
+      redrawQ.length > 0 || dockDirty);
   }
 
   /* re-draw canvas art only if web fonts arrived after we drew it; queued one canvas per frame */
@@ -1672,6 +1695,7 @@ async function start3D() {
     voices.forEach(v => redrawQ.push(() => { const t = v.sprite.material.map; drawBubble(t.image, QUESTIONS[v.i].q, v.i); t.needsUpdate = true; }));
     hillLetters.forEach(h => redrawQ.push(() => { drawHillGlyph(h.c, h.kind === 'cn' ? '欣緯軟體' : h.ch, h.kind === 'cn'); h.tex.needsUpdate = true; }));
     foothillLetterTextures.forEach(h => redrawQ.push(() => { drawFoothillLetter(h.canvas, h.char); h.texture.needsUpdate = true; }));
+    loop.wake();
   });
 
   /* upload every texture and compile every shader now, behind the loading veil,
@@ -1688,20 +1712,24 @@ async function start3D() {
   root.classList.add('is3d'); root.classList.remove('boot', 'no3d');
   resize(true);
   await warmGPU(); mark('gpu warm');
-  addEventListener('resize', () => resize(false));
-  addEventListener('orientationchange', () => setTimeout(() => resize(true), 250));
-  addEventListener('scroll', () => { lastScrollAt = performance.now(); }, { passive: true });
-  addEventListener('load', () => { statusDocTop = statusEl.getBoundingClientRect().top + scrollY; });
-  const resume = () => { needRender = true; if (!running) { running = true; tPrev = performance.now(); requestAnimationFrame(frame); } };
-  document.addEventListener('visibilitychange', () => { if (document.hidden) running = false; else resume(); });
+  addEventListener('resize', () => { resize(false); markDockDirty(); });
+  addEventListener('orientationchange', () => setTimeout(() => { resize(true); loop.wake(); }, 250));
+  addEventListener('scroll', () => { lastScrollAt = performance.now(); loop.wake(); }, { passive: true });
+  addEventListener('load', () => { statusDocTop = statusEl.getBoundingClientRect().top + scrollY; loop.wake(); });
+  const resume = () => { needRender = true; loop.wake(); };
+  document.addEventListener('visibilitychange', () => { if (document.hidden) loop.pause(); else resume(); });
+  addEventListener('pagehide', () => loop.pause());
+  addEventListener('pageshow', resume);
+  reduced.addEventListener?.('change', resume);
   // A lost GPU context (tab in background, memory pressure) shows the loading veil instead of a blank canvas,
   // then the world is rebuilt on the GPU from the same scene. Only if it never comes back do we fall back to flat.
   let lostT = 0;
-  canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); running = false; root.classList.add('gl-lost'); clearTimeout(lostT); lostT = setTimeout(() => { root.classList.remove('gl-lost'); startFlat(); }, 8000); });
-  canvas.addEventListener('webglcontextrestored', () => { clearTimeout(lostT); applyDpr(W, H); lastSun.set(1e9, 0, 0); warmGPU().then(() => { root.classList.remove('gl-lost'); resume(); }); });
-  if (SNAP) window.__drive = { STOPS, TEX, camera, van, THREE, renderer, get sCam() { return sCam; }, get running() { return running; }, get needRender() { return needRender; }, get covered() { return covered; }, get driveTop() { return driveTop; }, get vhPx() { return vhPx; } };
+  canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); contextReady = false; loop.pause(); root.classList.add('gl-lost'); clearTimeout(lostT); lostT = setTimeout(() => { canRender = false; root.classList.remove('gl-lost'); startFlat(); }, 8000); });
+  canvas.addEventListener('webglcontextrestored', () => { clearTimeout(lostT); if (!canRender) return; applyDpr(W, H); lastSun.set(1e9, 0, 0); warmGPU().then(() => { contextReady = true; root.classList.remove('gl-lost'); resume(); }); });
+  if (SNAP) window.__drive = { STOPS, TEX, camera, van, THREE, renderer, get sCam() { return sCam; }, get running() { return loop.running; }, get needRender() { return needRender; }, get covered() { return covered; }, get driveTop() { return driveTop; }, get vhPx() { return vhPx; } };
   jumpHash();
   const u0 = (scrollY - driveTop) / vhPx; sCam = sAtScroll(u0).s; prevS = sCam;
-  requestAnimationFrame(frame);
+  canRender = true;
+  loop.wake();
   mark('ready to render');
 }

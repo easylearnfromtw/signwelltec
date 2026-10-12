@@ -23,6 +23,7 @@
 - `assets/js/service-tape.js`：首屏固定膠帶、滑鼠／觸控拖曳、地面文字與捐款數字同步；手機預設保留捲動，可切換貼膠帶模式
 - `assets/js/rfq-mail.js`：與預覽相同的 HTML 剪貼簿、Gmail 寫信連結、HTML／.eml 匯出與複製備援
 - `assets/js/gpu-lifecycle.js`：暫停離開畫面或背景分頁的裝飾動畫
+- `assets/js/render-loop.mjs`：軟體部門 3D 的單一幀排程；背景分頁及被內容覆蓋時停止，捲動、尺寸變動及返回分頁時喚醒
 - `assets/js/app.js`：介面互動（導覽、Tab bar、詢價單、各頁工具）
 - `assets/js/scene.js`：3D 場景，以 three.js（MIT License）建置，只在首頁、產品頁與社會責任頁載入；裝置不支援 WebGL 時改顯示靜態圖或清單。內含封裝模型庫（SOT／SOP／QFN／DFN／TO／SOD／SMA／DIP、各式 LED、電感、保險絲等）
 - `assets/img/`：零件渲染圖與首頁靜態備援圖；`assets/img/parts/<封裝代碼>.webp` 是料號列表縮圖，也是不支援 WebGL 時的檢視器備援圖
