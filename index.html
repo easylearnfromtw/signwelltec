@@ -77,6 +77,9 @@ body[data-page="home"] .hero-actions .btn--software .ico{height:16px;width:16px}
 #capital .capital-bio-portal:hover .capital-bio-arrow{transform:translate(2px,-2px);background:#315f87}
 #capital .capital-bio-portal:focus-visible{outline:3px solid #3d6bff;outline-offset:4px}
 #capital .capital-band-grid{padding-top:clamp(45px,5vw,75px)}
+/* Keep the registered-capital headline and figure slightly higher without altering nearby sections. */
+#capital .capital-band-meta,
+#capital .capital-number-wrap{transform:translateY(-20px)}
 @media(max-width:560px){
   #capital .capital-bio-portal{min-height:118px;margin-top:26px;padding:17px 16px 17px 18px;gap:9px}
   #capital .capital-bio-kicker{font-size:8px;letter-spacing:.1em}
@@ -84,6 +87,8 @@ body[data-page="home"] .hero-actions .btn--software .ico{height:16px;width:16px}
   #capital .capital-bio-desc{font-size:10.5px}
   #capital .capital-bio-arrow{width:35px;height:35px;flex-basis:35px}
   #capital .capital-band-grid{padding-top:44px}
+  #capital .capital-band-meta,
+  #capital .capital-number-wrap{transform:translateY(-14px)}
 }
 @media(prefers-reduced-motion:reduce){
   #capital .capital-bio-portal,#capital .capital-bio-arrow{transition:none}
