@@ -90,6 +90,13 @@ body[data-page="home"] .hero-actions .btn--software .ico{height:16px;width:16px}
   #capital .capital-band-meta,
   #capital .capital-number-wrap{transform:translateY(-14px)}
 }
+@media(max-width:760px){
+  /* Remove the viewport-height spacer that separated the BIO card from the capital heading on phones. */
+  body[data-page="home"] .home-cover-stack #capital .capital-band-grid{
+    min-height:0;
+    align-content:start;
+  }
+}
 @media(prefers-reduced-motion:reduce){
   #capital .capital-bio-portal,#capital .capital-bio-arrow{transition:none}
 }
