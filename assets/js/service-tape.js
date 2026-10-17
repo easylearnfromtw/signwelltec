@@ -4,7 +4,7 @@
   const stage = document.querySelector('[data-tape3d]');
   const items = Array.from(document.querySelectorAll('[data-tape-index] .tape-item'));
   if (!stage || !items.length) return;
-  const sceneURL = new URL('scene.js?v=20261017-techgpu3', document.currentScript.src);
+  const sceneURL = new URL('scene.js?v=20261017-techgpu4', document.currentScript.src);
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const tip = stage.querySelector('[data-tape-tip]');
   const count = stage.querySelector('[data-tape-count]');
