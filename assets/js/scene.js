@@ -4286,21 +4286,29 @@ void main(){
   col += vec3(1.0, 0.55, 0.72) * band(y2, 0.05) * 0.05 * fade;
   gl_FragColor = vec4(col, 1.0);
 }
-`;function b_(i, { onReady: t, reducedMotion: e = false, interactive: n = true } = {}) {
+`;
+// Shared GPU resolution governor for the three independent 3D canvases.
+// Limit fragment fill rate and renderbuffer memory without dropping geometry.
+function swGpuDpr(width, height, maxDpr = 2, pixelBudget = 3000000) {
+  const hardware = window.devicePixelRatio || 1;
+  return Math.max(.5, Math.min(hardware, maxDpr, Math.sqrt(pixelBudget / Math.max(1, width * height))));
+}
+function b_(i, { onReady: t, reducedMotion: e = false, interactive: n = true } = {}) {
   const s = document.createElement("canvas");
   s.className = "hero3d-canvas";
   s.setAttribute("aria-hidden", "true");
   i.appendChild(s);
+  const mobile = Math.min(window.innerWidth, window.innerHeight) < 700;
   let r;
   try {
-    r = new ui({ canvas: s, antialias: true, powerPreference: "high-performance", alpha: false });
+    r = new ui({ canvas: s, antialias: !mobile, powerPreference: "high-performance", alpha: false });
   } catch {
     s.remove();
     return null;
   }
-  // Keep native pixel density; idle and hidden scenes do not consume GPU frames.
-  const mobile = Math.min(window.innerWidth, window.innerHeight) < 700;
-  r.setPixelRatio(window.devicePixelRatio || 1);
+  // Defer pixel ratio selection until actual stage dimensions are available.
+  r.setPixelRatio(1);
+  let heroDrawW = 0, heroDrawH = 0, heroDrawDpr = 1;
   r.outputColorSpace = de;
   r.toneMapping = Wn;
   r.toneMappingExposure = 1.05;
@@ -4369,8 +4377,11 @@ void main(){
   function resize() {
     const bounds = i.getBoundingClientRect();
     const width = Math.max(1, bounds.width), height = Math.max(1, bounds.height);
-    r.setPixelRatio(window.devicePixelRatio || 1);
-    r.setSize(width, height, false);
+    const nextDpr = swGpuDpr(width, height, mobile ? 1.5 : 2, mobile ? 1500000 : 3200000);
+    const ratioChanged = Math.abs(nextDpr - heroDrawDpr) > .02;
+    const sizeChanged = Math.abs(width - heroDrawW) >= 1 || Math.abs(height - heroDrawH) >= 1;
+    if (ratioChanged) { r.setPixelRatio(nextDpr); heroDrawDpr = nextDpr; }
+    if (ratioChanged || sizeChanged) { r.setSize(width, height, false); heroDrawW = width; heroDrawH = height; }
     h.aspect = width / height;
     h.updateProjectionMatrix();
     sizeY = 2 * h.position.z * Math.tan(Mn.degToRad(h.fov / 2));
@@ -4446,7 +4457,7 @@ void main(){
   function render(time) {
     frame = 0;
     if (destroyed || document.hidden || !visible) return;
-    const dt = Math.max(.001, (time - lastTime) / 1000);
+    const dt = Math.min(.05, Math.max(.001, (time - lastTime) / 1000));
     lastTime = time;
     stepRotation(rotationX, dt);
     stepRotation(rotationY, dt);
@@ -4518,10 +4529,12 @@ var Ac={};function Ye(i){if(Ac[i])return Ac[i];let t={epoxy:()=>new Be({color:ne
   a.className = "viewer3d-canvas";
   a.setAttribute("aria-hidden", "true");
   i.appendChild(a);
+  const viewerMobile = Math.min(window.innerWidth, window.innerHeight) < 700;
+  let viewerW = 0, viewerH = 0, viewerDpr = 1;
   let o;
-  try { o = new ui({ canvas: a, antialias: !0, alpha: !0, preserveDrawingBuffer: !1 }); }
+  try { o = new ui({ canvas: a, antialias: !viewerMobile, alpha: !0, preserveDrawingBuffer: !1, powerPreference: "high-performance" }); }
   catch { a.remove(); return null; }
-  o.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  o.setPixelRatio(1);
   o.outputColorSpace = de;
   o.toneMapping = Wn;
   o.toneMappingExposure = 1.15;
@@ -4537,7 +4550,7 @@ var Ac={};function Ye(i){if(Ac[i])return Ac[i];let t={epoxy:()=>new Be({color:ne
   const c = new Ei(16777215, 1.6);
   c.position.set(-3, 7, 4);
   c.castShadow = !0;
-  c.shadow.mapSize.set(1024, 1024);
+  c.shadow.mapSize.set(viewerMobile ? 512 : 1024, viewerMobile ? 512 : 1024);
   c.shadow.camera.left = -4; c.shadow.camera.right = 4;
   c.shadow.camera.top = 4; c.shadow.camera.bottom = -4;
   c.shadow.radius = 6; c.shadow.bias = -6e-4;
@@ -4595,7 +4608,11 @@ var Ac={};function Ye(i){if(Ac[i])return Ac[i];let t={epoxy:()=>new Be({color:ne
   function setDims(G) { E = G; if (y) y.visible = G; requestRender(); }
   function resize() {
     const rect = i.getBoundingClientRect(), width = Math.max(1, rect.width), height = Math.max(1, rect.height);
-    o.setSize(width, height, !1);
+    const nextDpr = swGpuDpr(width, height, viewerMobile ? 1.5 : 2, viewerMobile ? 1000000 : 2200000);
+    const ratioChanged = Math.abs(nextDpr - viewerDpr) > .02;
+    const sizeChanged = Math.abs(width - viewerW) >= 1 || Math.abs(height - viewerH) >= 1;
+    if (ratioChanged) { o.setPixelRatio(nextDpr); viewerDpr = nextDpr; }
+    if (ratioChanged || sizeChanged) { o.setSize(width, height, !1); viewerW = width; viewerH = height; }
     u.aspect = width / height; u.updateProjectionMatrix();
     g.radius = (u.aspect < .85 ? 12.5 : 9.6) * r;
     requestRender();
@@ -4718,16 +4735,18 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
 ) {
   if (!t || !t.length) return null;
   let r = document.createElement("canvas");
+  const tapeMobile = Math.min(window.innerWidth, window.innerHeight) < 700;
+  let tapeW = 0, tapeH = 0, tapeDpr = 1;
   ((r.className = "tape3d-canvas"),
     r.setAttribute("aria-hidden", "true"),
     i.appendChild(r));
   let a;
   try {
-    a = new ui({ canvas: r, antialias: !0, alpha: !0 });
+    a = new ui({ canvas: r, antialias: !tapeMobile, alpha: !0, powerPreference: "high-performance" });
   } catch {
     return (r.remove(), null);
   }
-  (a.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)),
+  (a.setPixelRatio(1),
     (a.outputColorSpace = de),
     (a.toneMapping = Wn),
     (a.toneMappingExposure = 1),
@@ -4742,7 +4761,7 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
   let l = new Ei(16777215, 1.55);
   (l.position.set(4.5, 9, 3.5),
     (l.castShadow = !0),
-    l.shadow.mapSize.set(2048, 2048));
+    l.shadow.mapSize.set(tapeMobile ? 512 : 1024, tapeMobile ? 512 : 1024));
   let c = l.shadow.camera;
   ((c.left = -9),
     (c.right = 9),
@@ -4914,8 +4933,13 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
 
   function resize() {
     const rect = i.getBoundingClientRect();
-    a.setSize(Math.max(1, rect.width), Math.max(1, rect.height), false);
-    d.aspect = rect.width / Math.max(1, rect.height);
+    const width = Math.max(1, rect.width), height = Math.max(1, rect.height);
+    const nextDpr = swGpuDpr(width, height, tapeMobile ? 1.5 : 2, tapeMobile ? 1500000 : 2600000);
+    const ratioChanged = Math.abs(nextDpr - tapeDpr) > .02;
+    const sizeChanged = Math.abs(width - tapeW) >= 1 || Math.abs(height - tapeH) >= 1;
+    if (ratioChanged) { a.setPixelRatio(nextDpr); tapeDpr = nextDpr; }
+    if (ratioChanged || sizeChanged) { a.setSize(width, height, false); tapeW = width; tapeH = height; }
+    d.aspect = width / height;
     const portrait = d.aspect < .9;
     if (!sized || floorPortrait !== portrait) { floorPortrait = portrait; paintFloor(); }
     floorText.scale.set(portrait ? 9.6 : 10, portrait ? 8.44 : 7.32, 1);
