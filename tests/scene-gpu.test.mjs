@@ -37,3 +37,21 @@ test('all three 3D stages guard unchanged drawing-buffer dimensions', () => {
   assert.ok(scene.includes('if (ratioChanged || sizeChanged) { a.setSize(width, height, false);'), 'tape resize');
   assert.ok(scene.includes('l.shadow.mapSize.set(tapeMobile ? 512 : 1024'), 'tape GPU shadow budget');
 });
+
+test('all three canvases recover from GPU context resets and retain mobile antialiasing', () => {
+  for (const [stage, canvas] of [['hero', 's'], ['viewer', 'a'], ['tape', 'r']]) {
+    assert.ok(scene.includes(canvas + '.addEventListener("webglcontextlost",'), stage + ' context-lost handler');
+    assert.ok(scene.includes(canvas + '.addEventListener("webglcontextrestored",'), stage + ' context-restored handler');
+    assert.ok(scene.includes('swGpuEvent("' + stage + '", "lost")'), stage + ' local GPU fault diagnosis');
+  }
+  assert.ok(scene.includes('canvas: s, antialias: true'), 'hero edges remain antialiased');
+  assert.ok(scene.includes('canvas: a, antialias: !0'), 'product edges remain antialiased');
+  assert.ok(scene.includes('canvas: r, antialias: !0'), 'tape edges remain antialiased');
+});
+
+test('3D camera depth ranges and tape sticker layers remain stable', () => {
+  assert.ok(scene.includes('new we(28, 1, .35, 100)'), 'hero depth precision');
+  assert.ok(scene.includes('new we(24, 1, .3, 100)'), 'product depth precision');
+  assert.ok(scene.includes('new we(30, 1, 0.5, 200)'), 'tape depth precision');
+  assert.ok(scene.includes('polygonOffsetFactor: -1, polygonOffsetUnits: -1'), 'tape decals render in front of floor');
+});
