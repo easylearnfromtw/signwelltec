@@ -195,16 +195,26 @@ async function start3D() {
      (one notch at a time, before a frame is drawn) so the canvas never shows a cleared buffer. */
   const DEV = devicePixelRatio || 1;
   const Q_LEVELS = [1, .86, .72, .62];
+  const GPU_PIXEL_BUDGET = SMALL ? 2.5e6 : 3.6e6;
   let qLevel = (LOW && !SMALL) || (navigator.deviceMemory || 8) <= 3 ? 1 : 0;
   const qInit = qLevel; let qN = 0, qSlow = 0, qBad = 0, qGood = 0, qWentUp = false, qUpLocked = false, dprNow = 0;
   function baseDpr(cw, ch) {
-    const budget = SMALL ? 3.0e6 : 4.2e6;
     const d = SMALL ? Math.min(DEV, 3) : Math.min(2, Math.max(DEV, 2560 / Math.max(cw, ch)));
-    return Math.max(SMALL ? 1 : .8, Math.min(d, Math.sqrt(budget / Math.max(1, cw * ch))));
+    return Math.min(d, Math.sqrt(GPU_PIXEL_BUDGET / Math.max(1, cw * ch)));
   }
+  let appliedCssW = 0, appliedCssH = 0, appliedDpr = 0;
   function applyDpr(cw, ch) {
-    dprNow = Math.max(SMALL ? 1 : .75, baseDpr(cw, ch) * Q_LEVELS[qLevel]);
-    renderer.setPixelRatio(dprNow); renderer.setSize(cw, ch, false); needRender = true;
+    const nextDpr = Math.max(.5, baseDpr(cw, ch) * Q_LEVELS[qLevel]);
+    const pixelRatioChanged = Math.abs(nextDpr - appliedDpr) > .0001;
+    const cssSizeChanged = cw !== appliedCssW || ch !== appliedCssH;
+    // setPixelRatio itself calls setSize. Never clear/reallocate the drawing
+    // buffer on scroll-driven resize events when its dimensions are unchanged.
+    if (!pixelRatioChanged && !cssSizeChanged) return;
+    dprNow = nextDpr;
+    if (pixelRatioChanged) renderer.setPixelRatio(nextDpr);
+    if (cssSizeChanged) renderer.setSize(cw, ch, false);
+    appliedDpr = nextDpr; appliedCssW = cw; appliedCssH = ch;
+    needRender = true;
   }
   let needRender = true;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -595,6 +605,12 @@ async function start3D() {
     return texFrom(c, true);
   }
   const RTEX = roadTex(), roadMat = new THREE.MeshLambertMaterial({ map: RTEX });
+  // At intersections the straight street overlaps the curved route.
+  // Separate depth ordering avoids distant coplanar road flicker.
+  const sideStreetMat = roadMat.clone();
+  sideStreetMat.polygonOffset = true;
+  sideStreetMat.polygonOffsetFactor = 1;
+  sideStreetMat.polygonOffsetUnits = 1;
   function buildRoad() {
     const pos = [], uv = [], idx = []; let n = 0;
     for (let s = 0; s <= L; s += 1.5) {
@@ -616,18 +632,20 @@ async function start3D() {
     }
     const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setIndex(idx); g.computeVertexNormals();
     if (g.attributes.normal.getY(0) < 0) { const a = g.index.array; for (let i = 0; i < a.length; i += 3) { const t = a[i + 1]; a[i + 1] = a[i + 2]; a[i + 2] = t; } g.computeVertexNormals(); }
-    const m = new THREE.Mesh(g, lam(color)); m.receiveShadow = true; m.matrixAutoUpdate = false; scene.add(m); return m;
+    const m = new THREE.Mesh(g, lam(color, { polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 }));
+    m.receiveShadow = true; m.matrixAutoUpdate = false; scene.add(m); return m;
   }
   /* a straight street strip (not on the route): centre, direction yaw, length, width */
   function street(x, z, yaw, len, wid = 10) {
     const g = new THREE.PlaneGeometry(wid, len); g.rotateX(-Math.PI / 2); const uv = g.attributes.uv; for (let i = 0; i < uv.count; i++) uv.setY(i, uv.getY(i) * len / 15);
-    const m = new THREE.Mesh(g, roadMat); m.position.set(x, .05, z); m.rotation.y = yaw; m.receiveShadow = true; scene.add(m); return m;
+    const m = new THREE.Mesh(g, sideStreetMat); m.position.set(x, .05, z); m.rotation.y = yaw; m.receiveShadow = true; scene.add(m); return m;
   }
   buildRoad();
 
   /* ---------------- vegetation ---------------- */
-  const trees = new Inst(new THREE.IcosahedronGeometry(1, 0), new THREE.MeshLambertMaterial({ flatShading: true }));
-  const trunks = new Inst((() => { const g = new THREE.CylinderGeometry(.16, .22, 1, 5); g.translate(0, .5, 0); return g; })(), lam(C.trunk));
+  // Low-tier GPUs keep the trees but skip hundreds of tiny shadow casters.
+  const trees = new Inst(new THREE.IcosahedronGeometry(1, 0), new THREE.MeshLambertMaterial({ flatShading: true }), !LOW);
+  const trunks = new Inst((() => { const g = new THREE.CylinderGeometry(.16, .22, 1, 5); g.translate(0, .5, 0); return g; })(), lam(C.trunk), !LOW);
   function addTree(x, z, s, k = R() * 3 | 0, col) {
     const y = groundY(x, z), h = (2.3 + (k === 2 ? .8 : 0)) * s, w = s * (1.25 + (k === 1 ? .2 : 0));
     trunks.add(mtx(x, y - .4, z, 0, s, h * .55 + .4, s)); trees.add(mtx(x, y + h, z, R() * 6.28, w, h * .62, w), col || [C.tree, C.tree2, C.tree3][k % 3]);
@@ -970,7 +988,8 @@ async function start3D() {
   const signs = [];
   function makeBillboard(w, h, tex, opts = {}) {
     const g = new THREE.Group();
-    const face = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false })); face.position.z = .21; g.add(face);
+    const face = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 }));
+    face.position.z = .235; g.add(face);
     const frameM = new THREE.MeshLambertMaterial({ color: opts.frame || C.ink });
     const back = new THREE.Mesh(new THREE.BoxGeometry(w + .7, h + .7, .4), frameM); back.castShadow = true; back.receiveShadow = true; g.add(back);
     const glow = new THREE.Mesh(new THREE.PlaneGeometry(w + 1.3, h + 1.3), new THREE.MeshBasicMaterial({ color: C.yellow, toneMapped: false, transparent: true, opacity: 0, depthWrite: false })); glow.position.z = -.05; glow.renderOrder = -1; g.add(glow);
