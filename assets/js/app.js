@@ -147,6 +147,9 @@ function wt(){var s=q(),h=function(E){return E||"\u672A\u63D0\u4F9B"};return{typ
     let url;
     try { url = new URL(href, location.href); } catch { location.href = href; return; }
     if(!isCrossPage(url)){ location.href = url.href; return; }
+    // The RFQ page is business-critical: navigate directly instead of waiting
+    // for an animation frame, which may be paused on GPU-heavy/mobile pages.
+    if(fileName(url) === 'rfq.html'){ location.assign(url.href); return; }
 
     url.hash = '';
     navigating = true;
@@ -167,9 +170,9 @@ function wt(){var s=q(),h=function(E){return E||"\u672A\u63D0\u4F9B"};return{typ
     html.classList.add('is-page-leaving');
 
     const delay = options && options.fromTabbar ? 135 : 105;
-    requestAnimationFrame(function(){
-      setTimeout(function(){ location.assign(url.href); }, delay);
-    });
+    // Never gate navigation on requestAnimationFrame: frames can be throttled
+    // while the 3D scene is busy or the page is being backgrounded.
+    setTimeout(function(){ location.assign(url.href); }, delay);
   };
 
   document.addEventListener('pointerover', function(event){
@@ -196,7 +199,9 @@ function wt(){var s=q(),h=function(E){return E||"\u672A\u63D0\u4F9B"};return{typ
 
     let url;
     try { url = new URL(a.href, location.href); } catch { return; }
-    if(!isCrossPage(url)) return;
+    // Keep quotation anchors fully functional even if this script's animated
+    // navigation fails or is delayed: let the browser follow their href.
+    if(!isCrossPage(url) || fileName(url) === 'rfq.html') return;
 
     event.preventDefault();
     window.SignwellNavigate(url.href, {fromTabbar: !!a.closest('[data-tabbar]')});
