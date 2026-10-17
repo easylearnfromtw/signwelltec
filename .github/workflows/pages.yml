@@ -22,8 +22,9 @@ jobs:
       - name: Validate 3D scripts and rendering regressions
         run: |
           node --check --input-type=module < assets/js/software-drive.js
+          node --check --input-type=module < assets/js/scene.js
           node --check --input-type=module < assets/js/render-loop.mjs
-          node --test tests/render-loop.test.mjs tests/performance.test.mjs
+          node --test tests/render-loop.test.mjs tests/performance.test.mjs tests/scene-gpu.test.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
