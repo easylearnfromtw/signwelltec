@@ -362,10 +362,24 @@ html:not(.js) .marquee__group{flex-wrap:wrap;justify-content:center;padding:0}
   transition:background .2s ease,transform .2s ease,border-color .2s ease;
 }
 .foot__portal-btn svg{width:18px;height:18px;flex:none;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.foot__portal-actions{display:flex;flex:0 0 auto;flex-direction:column;align-items:stretch;gap:12px;min-width:min(100%,236px)}
+.foot .foot__portal-video-btn{background:transparent;border-color:rgba(255,255,255,.55);color:#fff;cursor:pointer}
+.foot .foot__portal-video-btn:hover{background:rgba(255,255,255,.13);border-color:#fff;color:#fff}
+.foot .foot__portal-video-btn svg{fill:currentColor;stroke:none}
+.software-film[hidden]{display:none!important}
+.software-film{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;padding:clamp(12px,3vw,24px);background:rgba(8,9,12,.91);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+.software-film__dialog{position:relative;width:min(100%,480px);max-height:94dvh;display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(255,255,255,.25);border-radius:20px;background:#111217;color:#fff;box-shadow:0 20px 100px rgba(0,0,0,.55)}
+.software-film__head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px 12px 18px}
+.software-film__head h2{margin:0;font:700 14px/1.5 var(--f-cn);color:#fff}
+.software-film__close{display:grid;place-items:center;width:40px;height:40px;flex:none;border:1px solid rgba(255,255,255,.3);border-radius:50%;background:transparent;color:#fff;font-size:24px;line-height:1;cursor:pointer}
+.software-film__close:hover,.software-film__close:focus-visible{background:#ffd84d;color:#0a0a0b;outline-offset:2px}
+.software-film__video{display:block;align-self:center;width:auto;max-width:100%;height:auto;max-height:calc(94dvh - 120px);aspect-ratio:512/910;background:#000}
+.software-film__caption{padding:10px 18px 14px;color:rgba(255,255,255,.68);font:500 11px/1.5 var(--f-mono);letter-spacing:.06em;text-align:center}
 .foot .foot__portal-btn:hover{background:#fff;border-color:#fff;color:var(--ink);transform:translateY(-2px)}
 .foot .foot__portal-btn:focus-visible{outline:3px solid #fff;outline-offset:4px}
 @media(max-width:760px){
   .foot__portal{flex-direction:column;align-items:stretch;gap:22px;padding:24px 20px;border-radius:20px}
+  .foot__portal-actions{width:100%}
   .foot .foot__portal-btn{width:100%}
 }
 @media(prefers-reduced-motion:reduce){.foot .foot__portal-btn{transition:none}}
@@ -633,16 +647,36 @@ html.snap *,html.snap *::before,html.snap *::after{transition:none!important;ani
       <h2 class="foot__portal-title" id="software-site-title">探索 SIGNWELL<span>SOFT</span></h2>
       <p class="foot__portal-desc">前往欣緯軟體獨立官網，了解數位設計、3D 技術、服務與作品。</p>
     </div>
-    <a class="foot__portal-btn" href="https://easylearnfromtw.github.io/Signwellsoft/" target="_blank" rel="noopener noreferrer" aria-label="開啟 SIGNWELLSOFT 欣緯軟體獨立官網（另開新分頁）">
-      <span>前往 SIGNWELLSOFT</span>
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
-    </a>
+    <div class="foot__portal-actions">
+      <a class="foot__portal-btn" href="https://easylearnfromtw.github.io/Signwellsoft/" target="_blank" rel="noopener noreferrer" aria-label="開啟 SIGNWELLSOFT 欣緯軟體獨立官網（另開新分頁）">
+        <span>前往 SIGNWELLSOFT</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+      </a>
+      <button class="foot__portal-btn foot__portal-video-btn" type="button" data-software-film-open aria-haspopup="dialog" aria-controls="software-film">
+        <span>觀看形象影片</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5v14l11-7z"/></svg>
+      </button>
+    </div>
   </section>
   <div class="foot__in">
     <span>SIGNWELL · 欣緯科技 ／ <a href="https://easylearnfromtw.github.io/signwelltec/">返回首頁</a> ／ <a href="medical-responsibility.html">認識欣緯生醫</a></span>
     <span>欣緯軟體為欣緯科技軟體部門，目前籌備中。</span>
   </div>
 </footer>
+
+<div class="software-film" id="software-film" role="dialog" aria-modal="true" aria-labelledby="software-film-title" hidden>
+  <div class="software-film__dialog" role="document">
+    <div class="software-film__head">
+      <h2 id="software-film-title">SIGNWELL SOFTWARE · 形象影片</h2>
+      <button class="software-film__close" type="button" aria-label="關閉形象影片" data-software-film-close>&times;</button>
+    </div>
+    <video class="software-film__video" controls playsinline preload="none" aria-label="欣緯軟體 20 秒形象影片">
+      <source src="assets/video/signwell-software-film.mp4" type="video/mp4">
+      您的瀏覽器不支援影片播放，可<a href="assets/video/signwell-software-film.mp4">直接開啟影片</a>。
+    </video>
+    <p class="software-film__caption">SIGNWELL SOFTWARE · ORIGINAL BAND MUSIC · 00:20</p>
+  </div>
+</div>
 
 <nav class="dock glass" id="dock" aria-label="欣緯軟體章節">
   <div class="dock__track" id="dockTrack">
@@ -663,6 +697,47 @@ html.snap *,html.snap *::before,html.snap *::after{transition:none!important;ani
   window.addEventListener('scroll',sync,{passive:true});
   window.addEventListener('pageshow',sync);
   sync();
+})();
+</script>
+<script>
+/* Open the brand film on demand; keep it paused and unloaded until requested. */
+(function(){
+  var trigger=document.querySelector('[data-software-film-open]');
+  var layer=document.getElementById('software-film');
+  if(!trigger||!layer)return;
+  var video=layer.querySelector('video');
+  var close=layer.querySelector('[data-software-film-close]');
+  var previousFocus=null,previousOverflow='';
+  function hide(){
+    if(layer.hidden)return;
+    video.pause();
+    video.currentTime=0;
+    layer.hidden=true;
+    document.body.style.overflow=previousOverflow;
+    (previousFocus&&previousFocus.isConnected?previousFocus:trigger).focus();
+  }
+  function show(){
+    previousFocus=document.activeElement;
+    previousOverflow=document.body.style.overflow;
+    layer.hidden=false;
+    document.body.style.overflow='hidden';
+    close.focus();
+    var playback=video.play();
+    if(playback&&typeof playback.catch==='function')playback.catch(function(){});
+  }
+  trigger.addEventListener('click',show);
+  close.addEventListener('click',hide);
+  layer.addEventListener('click',function(event){if(event.target===layer)hide()});
+  document.addEventListener('keydown',function(event){
+    if(layer.hidden)return;
+    if(event.key==='Escape'){event.preventDefault();hide()}
+    if(event.key==='Tab'){
+      var controls=[close,video];var first=controls[0],last=controls[controls.length-1];
+      if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}
+      else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}
+    }
+  });
+  window.addEventListener('pagehide',function(){if(!layer.hidden)hide()});
 })();
 </script>
 <script nomodule>document.documentElement.classList.add('no3d');document.documentElement.classList.remove('boot');</script>
