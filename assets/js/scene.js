@@ -4293,6 +4293,13 @@ function swGpuDpr(width, height, maxDpr = 2, pixelBudget = 3000000) {
   const hardware = window.devicePixelRatio || 1;
   return Math.max(.5, Math.min(hardware, maxDpr, Math.sqrt(pixelBudget / Math.max(1, width * height))));
 }
+// Local-only diagnostics: identify a WebGL context reset separately from
+// geometric shimmering. Nothing is sent to a server.
+function swGpuEvent(stage, status) {
+  const events = window.__signwell3dEvents || (window.__signwell3dEvents = []);
+  events.push({ stage, status, at: new Date().toISOString() });
+  if (events.length > 30) events.shift();
+}
 function b_(i, { onReady: t, reducedMotion: e = false, interactive: n = true } = {}) {
   const s = document.createElement("canvas");
   s.className = "hero3d-canvas";
@@ -4301,7 +4308,7 @@ function b_(i, { onReady: t, reducedMotion: e = false, interactive: n = true } =
   const mobile = Math.min(window.innerWidth, window.innerHeight) < 700;
   let r;
   try {
-    r = new ui({ canvas: s, antialias: !mobile, powerPreference: "high-performance", alpha: false });
+    r = new ui({ canvas: s, antialias: true, powerPreference: "high-performance", alpha: false });
   } catch {
     s.remove();
     return null;
@@ -4317,7 +4324,7 @@ function b_(i, { onReady: t, reducedMotion: e = false, interactive: n = true } =
   c.background = new Lt("#000000");
   c.environment = Cs(r);
   c.environmentIntensity = 1;
-  const h = new we(28, 1, .1, 100);
+  const h = new we(28, 1, .35, 100);
   h.position.set(0, 0, 11);
   const f = y_(r.capabilities.getMaxAnisotropy());
   const g = new $t(new Oe(1, f.aspect), new Ue({ map: f.texture, alphaTest: .5, toneMapped: false }));
@@ -4361,15 +4368,15 @@ function b_(i, { onReady: t, reducedMotion: e = false, interactive: n = true } =
   const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   let sizeY = 1, scale = 1, centerY = 0;
   let dragging = false, distance = 0, previousX = 0, previousY = 0;
-  let visible = true, destroyed = false, frame = 0;
-  let lastTime = performance.now(), ready = false;
+  let visible = true, destroyed = false, frame = 0, contextAvailable = true;
+  let lastTime = performance.now(), ready = false, readyAnnounced = false;
   function settled() {
     return Math.abs(rotationX.value - rotationX.target) < .0001 && Math.abs(rotationX.v) < .0001 &&
       Math.abs(rotationY.value - rotationY.target) < .0001 && Math.abs(rotationY.v) < .0001 &&
       Math.abs(pointer.tx - pointer.x) < .0001 && Math.abs(pointer.ty - pointer.y) < .0001;
   }
   function wake() {
-    if (!frame && visible && !document.hidden && !destroyed) {
+    if (!frame && visible && !document.hidden && !destroyed && contextAvailable) {
       lastTime = performance.now();
       frame = requestAnimationFrame(render);
     }
@@ -4456,7 +4463,7 @@ function b_(i, { onReady: t, reducedMotion: e = false, interactive: n = true } =
   }
   function render(time) {
     frame = 0;
-    if (destroyed || document.hidden || !visible) return;
+    if (destroyed || document.hidden || !visible || !contextAvailable) return;
     const dt = Math.min(.05, Math.max(.001, (time - lastTime) / 1000));
     lastTime = time;
     stepRotation(rotationX, dt);
@@ -4471,8 +4478,9 @@ function b_(i, { onReady: t, reducedMotion: e = false, interactive: n = true } =
     r.render(c, h);
     if (!ready) {
       ready = true;
+      i.classList.remove("is-static");
       i.classList.add("is-live");
-      t?.();
+      if (!readyAnnounced) { readyAnnounced = true; t?.(); }
     }
     if (!settled()) frame = requestAnimationFrame(render);
   }
@@ -4484,6 +4492,24 @@ function b_(i, { onReady: t, reducedMotion: e = false, interactive: n = true } =
     if (document.hidden) pause();
     else if (visible) wake();
   }
+  function heroContextLost(event) {
+    event.preventDefault();
+    contextAvailable = false;
+    pause();
+    ready = false;
+    i.classList.remove("is-live");
+    i.classList.add("is-static"); // show the non-WebGL logo while the GPU resets
+    swGpuEvent("hero", "lost");
+  }
+  function heroContextRestored() {
+    if (destroyed) return;
+    contextAvailable = true;
+    ready = false;
+    swGpuEvent("hero", "restored");
+    wake(); // Three.js has already reinitialized its renderer
+  }
+  s.addEventListener("webglcontextlost", heroContextLost);
+  s.addEventListener("webglcontextrestored", heroContextRestored);
   i.addEventListener("pointermove", move, { passive: true });
   i.addEventListener("pointerdown", start, { passive: true });
   i.addEventListener("pointerleave", leave, { passive: true });
@@ -4508,6 +4534,8 @@ function b_(i, { onReady: t, reducedMotion: e = false, interactive: n = true } =
       pause();
       observer.disconnect();
       resizeObserver.disconnect();
+      s.removeEventListener("webglcontextlost", heroContextLost);
+      s.removeEventListener("webglcontextrestored", heroContextRestored);
       i.removeEventListener("pointermove", move);
       i.removeEventListener("pointerdown", start);
       i.removeEventListener("pointerleave", leave);
@@ -4532,7 +4560,7 @@ var Ac={};function Ye(i){if(Ac[i])return Ac[i];let t={epoxy:()=>new Be({color:ne
   const viewerMobile = Math.min(window.innerWidth, window.innerHeight) < 700;
   let viewerW = 0, viewerH = 0, viewerDpr = 1;
   let o;
-  try { o = new ui({ canvas: a, antialias: !viewerMobile, alpha: !0, preserveDrawingBuffer: !1, powerPreference: "high-performance" }); }
+  try { o = new ui({ canvas: a, antialias: !0, alpha: !0, preserveDrawingBuffer: !1, powerPreference: "high-performance" }); }
   catch { a.remove(); return null; }
   o.setPixelRatio(1);
   o.outputColorSpace = de;
@@ -4559,16 +4587,16 @@ var Ac={};function Ye(i){if(Ac[i])return Ac[i];let t={epoxy:()=>new Be({color:ne
   h.rotation.x = -Math.PI / 2; h.receiveShadow = !0; l.add(h);
   const d = new $t(new Oe(1, 1), new Ue({ map: L_(), transparent: !0, depthWrite: !1, toneMapped: !1 }));
   d.rotation.x = -Math.PI / 2; d.position.y = .002; l.add(d);
-  const u = new we(24, 1, .05, 100), f = new C(0, .25, 0);
+  const u = new we(24, 1, .3, 100), f = new C(0, .25, 0);
   const g = { theta: Cc.iso.theta, phi: Cc.iso.phi, radius: 9.5 };
   const m = new _e(); l.add(m);
   let p = null, S = null, E = !0, y = null, w = [];
   let v = null, A = "iso", I = 0;
   let D = !1, V = 0, J = 0, q = 0, it = 0;
-  let tt = 0, bt = performance.now(), Tt = !0, inView = !1, destroyed = !1;
+  let tt = 0, bt = performance.now(), Tt = !0, inView = !1, destroyed = !1, viewerContextAvailable = true;
 
   function requestRender() {
-    if (destroyed || !inView || document.hidden || tt) return;
+    if (destroyed || !inView || document.hidden || tt || !viewerContextAvailable) return;
     bt = performance.now();
     tt = requestAnimationFrame(render);
   }
@@ -4654,7 +4682,7 @@ var Ac={};function Ye(i){if(Ac[i])return Ac[i];let t={epoxy:()=>new Be({color:ne
   }
   function render(G, force = !1) {
     tt = 0;
-    if (destroyed || document.hidden || !inView && !force) return;
+    if (destroyed || document.hidden || !viewerContextAvailable || !inView && !force) return;
     const dt = Math.min(.05, (G - bt) / 1e3); bt = G;
     if (v) {
       v.t += dt / v.dur; const progress = Ju(Math.min(1, v.t));
@@ -4703,6 +4731,24 @@ var Ac={};function Ye(i){if(Ac[i])return Ac[i];let t={epoxy:()=>new Be({color:ne
     if (document.hidden) { D = !1; i.classList.remove("is-grabbing"); stop(); }
     else requestRender();
   }
+  function viewerContextLost(event) {
+    event.preventDefault();
+    viewerContextAvailable = false;
+    stop();
+    Tt = true;
+    i.classList.remove("is-live"); // reveal product image fallback
+    swGpuEvent("viewer", "lost");
+  }
+  function viewerContextRestored() {
+    if (destroyed) return;
+    viewerContextAvailable = true;
+    Tt = true;
+    o.shadowMap.needsUpdate = !0;
+    swGpuEvent("viewer", "restored");
+    requestRender();
+  }
+  a.addEventListener("webglcontextlost", viewerContextLost);
+  a.addEventListener("webglcontextrestored", viewerContextRestored);
   i.addEventListener("pointerdown", pointerDown); i.addEventListener("pointermove", pointerMove);
   i.addEventListener("pointerup", pointerEnd); i.addEventListener("pointercancel", pointerEnd);
   document.addEventListener("visibilitychange", visibility);
@@ -4723,6 +4769,8 @@ var Ac={};function Ye(i){if(Ac[i])return Ac[i];let t={epoxy:()=>new Be({color:ne
     destroy() {
       destroyed = !0; stop(); K.disconnect(); z.disconnect();
       document.removeEventListener("visibilitychange", visibility);
+      a.removeEventListener("webglcontextlost", viewerContextLost);
+      a.removeEventListener("webglcontextrestored", viewerContextRestored);
       i.removeEventListener("pointerdown", pointerDown); i.removeEventListener("pointermove", pointerMove);
       i.removeEventListener("pointerup", pointerEnd); i.removeEventListener("pointercancel", pointerEnd);
       o.dispose(); a.remove();
@@ -4742,7 +4790,7 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
     i.appendChild(r));
   let a;
   try {
-    a = new ui({ canvas: r, antialias: !tapeMobile, alpha: !0, powerPreference: "high-performance" });
+    a = new ui({ canvas: r, antialias: !0, alpha: !0, powerPreference: "high-performance" });
   } catch {
     return (r.remove(), null);
   }
@@ -4779,7 +4827,7 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
     (h.receiveShadow = !0),
     (h.renderOrder = 1),
     o.add(h));
-  let d = new we(30, 1, 0.1, 200),
+  let d = new we(30, 1, 0.5, 200),
     u = t.map(B_),
     f = u.map((L) => {
       let H = new Fe(L);
@@ -4789,10 +4837,10 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
         H
       );
     }),
-    g = f.map((L) => new Ue({ map: L, toneMapped: !1 })),
+    g = f.map((L) => new Ue({ map: L, toneMapped: !1, polygonOffset: !0, polygonOffsetFactor: -1, polygonOffsetUnits: -1 })),
     v = f.map(
       (L) =>
-        new Ue({ map: L, toneMapped: !1, color: new Lt(1.04, 1.04, 1.04) }),
+        new Ue({ map: L, toneMapped: !1, color: new Lt(1.04, 1.04, 1.04), polygonOffset: !0, polygonOffsetFactor: -1, polygonOffsetUnits: -1 }),
     ),
     m = new _e();
   o.add(m);
@@ -4906,11 +4954,11 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
   let bounds = { x: 5.4, z: 3.4 };
   let stroke = null, activePointer = null, count = 0, rollDistance = 0;
   let hovered = -1, selected = -1, visible = false, frame = 0;
-  let destroyed = false, sized = false, covered = false;
+  let destroyed = false, sized = false, covered = false, tapeContextAvailable = true;
   let shadowX = NaN, shadowZ = NaN, shadowAngle = NaN;
 
   function render() {
-    if (destroyed) return;
+    if (destroyed || !tapeContextAvailable) return;
     frame = 0;
     const angle = rollDistance / Dn;
     rolling.copy(up).multiplyScalar(Math.sin(angle)).addScaledVector(direction, Math.cos(angle));
@@ -4925,10 +4973,11 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
       shadowX = head.x; shadowZ = head.z; shadowAngle = angle;
     }
     a.render(o, d);
+    if (!i.classList.contains("is-live")) i.classList.add("is-live");
   }
 
   function requestRender() {
-    if (!frame && visible && !covered && !document.hidden && !destroyed) frame = requestAnimationFrame(render);
+    if (!frame && visible && !covered && !document.hidden && !destroyed && tapeContextAvailable) frame = requestAnimationFrame(render);
   }
 
   function resize() {
@@ -5200,6 +5249,22 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
     else requestRender();
   }
 
+  function tapeContextLost(event) {
+    event.preventDefault();
+    tapeContextAvailable = false;
+    cancelAnimationFrame(frame); frame = 0;
+    i.classList.remove("is-live");
+    swGpuEvent("tape", "lost");
+  }
+  function tapeContextRestored() {
+    if (destroyed) return;
+    tapeContextAvailable = true;
+    a.shadowMap.needsUpdate = true;
+    swGpuEvent("tape", "restored");
+    requestRender();
+  }
+  r.addEventListener("webglcontextlost", tapeContextLost);
+  r.addEventListener("webglcontextrestored", tapeContextRestored);
   r.addEventListener("pointerdown", start);
   r.addEventListener("pointermove", move);
   r.addEventListener("touchmove", blockScrollWhileDrawing, { passive: false });
@@ -5253,6 +5318,8 @@ var Di=1,Dn=1,Ir=.62,fi=6,Nn=Math.PI*2*Dn/fi,Ni=Nn*.9,Ui=512,Li=Math.round(Ui*(D
       intersection.disconnect(); observer.disconnect();
       document.removeEventListener("visibilitychange", visibility);
       window.removeEventListener("blur", finish);
+      r.removeEventListener("webglcontextlost", tapeContextLost);
+      r.removeEventListener("webglcontextrestored", tapeContextRestored);
       r.removeEventListener("touchmove", blockScrollWhileDrawing);
       o.traverse(object => { if (object.geometry) object.geometry.dispose(); });
       [...g, ...v, b.material, x.material, I, O, h.material, B.material, floorText.material].forEach(material => material.dispose());
