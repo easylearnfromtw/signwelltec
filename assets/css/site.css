@@ -1279,3 +1279,13 @@ body[data-page="home"] #capital .capital-number{
 .tape-track:not(.gpu-paused){will-change:transform}
 .chain-wire:not(.gpu-paused)::after,.scroll-cue i:not(.gpu-paused)::after{will-change:transform}
 html:not(.is-page-leaving):not([data-nav-enter])::after{will-change:auto}
+
+/* On iOS Safari, animating opacity of an actively drawn WebGL surface can
+   trigger an extra compositor layer while its drawing buffer is swapping.
+   Keep the one-time page copy fades, but show each canvas only after its first
+   successful frame instead of cross-fading the GPU backing texture. */
+@supports (-webkit-touch-callout: none) {
+  .hero-stage canvas,
+  .lib-stage canvas,
+  .tape-stage canvas { transition: none; }
+}
