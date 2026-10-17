@@ -340,6 +340,36 @@ html:not(.js) .marquee__group{flex-wrap:wrap;justify-content:center;padding:0}
 @media (max-width:640px){.partners__cta{width:100%}.btn--coop{width:100%}.partner{height:82px;gap:12px;padding:0 22px 0 14px;border-radius:20px}.partner__mark{width:48px;height:48px}.partner__name b{font-size:16px}.partner__name b.latin{font-size:16.5px}.partner__name small{font-size:11px}.marquee__group{gap:12px;padding-right:12px}}
 @media (prefers-reduced-motion:reduce){.marquee{-webkit-mask-image:none;mask-image:none}.marquee__track{animation:none;width:auto;padding-inline:var(--gutter)}.marquee__group{flex-wrap:wrap;justify-content:center;padding:0}}
 
+/* Dedicated SIGNWELLSOFT site entry, always visible at the end of the page. */
+.foot__portal{
+  max-width:var(--max);margin:0 auto 30px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px 40px;
+  padding:clamp(24px,3.6vw,42px);
+  border:1px solid rgba(255,255,255,.22);border-radius:24px;
+  background:linear-gradient(112deg,rgba(61,107,255,.24) 0%,rgba(255,255,255,.08) 59%,rgba(255,216,77,.1) 100%);
+  color:#fff;
+}
+.foot__portal-copy{min-width:0}
+.foot__portal-kicker{display:block;margin-bottom:10px;color:var(--yellow);font:600 11px/1.5 var(--f-mono);letter-spacing:.14em}
+.foot__portal-title{color:#fff;font-family:var(--f-display);font-size:clamp(26px,3vw,39px);font-weight:900;line-height:1.2;letter-spacing:-.025em}
+.foot__portal-title span{color:var(--yellow)}
+.foot__portal-desc{margin-top:12px;color:rgba(255,255,255,.73);font-size:14px;line-height:1.8}
+.foot .foot__portal-btn{
+  flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:14px;
+  min-height:56px;padding:13px 22px;border:1px solid var(--yellow);border-radius:999px;
+  background:var(--yellow);color:var(--ink);text-decoration:none;
+  font-size:14px;font-weight:800;line-height:1.3;
+  transition:background .2s ease,transform .2s ease,border-color .2s ease;
+}
+.foot__portal-btn svg{width:18px;height:18px;flex:none;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.foot .foot__portal-btn:hover{background:#fff;border-color:#fff;color:var(--ink);transform:translateY(-2px)}
+.foot .foot__portal-btn:focus-visible{outline:3px solid #fff;outline-offset:4px}
+@media(max-width:760px){
+  .foot__portal{flex-direction:column;align-items:stretch;gap:22px;padding:24px 20px;border-radius:20px}
+  .foot .foot__portal-btn{width:100%}
+}
+@media(prefers-reduced-motion:reduce){.foot .foot__portal-btn{transition:none}}
+
 .foot{position:relative;z-index:6;padding:26px var(--gutter) calc(110px + env(safe-area-inset-bottom,0px));background:var(--ink);color:rgba(255,255,255,.6);font-size:12.5px;line-height:1.8;border-top:1px solid rgba(255,255,255,.1)}
 .foot__in{max-width:var(--max);margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 30px}
 .foot a{color:#fff;border-bottom:1px solid rgba(255,255,255,.4)}
@@ -597,6 +627,17 @@ html.snap *,html.snap *::before,html.snap *::after{transition:none!important;ani
 </main>
 
 <footer class="foot">
+  <section class="foot__portal" aria-labelledby="software-site-title">
+    <div class="foot__portal-copy">
+      <span class="foot__portal-kicker">DISCOVER · SIGNWELL SOFTWARE</span>
+      <h2 class="foot__portal-title" id="software-site-title">探索 SIGNWELL<span>SOFT</span></h2>
+      <p class="foot__portal-desc">前往欣緯軟體獨立官網，了解數位設計、3D 技術、服務與作品。</p>
+    </div>
+    <a class="foot__portal-btn" href="https://easylearnfromtw.github.io/Signwellsoft/" target="_blank" rel="noopener noreferrer" aria-label="開啟 SIGNWELLSOFT 欣緯軟體獨立官網（另開新分頁）">
+      <span>前往 SIGNWELLSOFT</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+    </a>
+  </section>
   <div class="foot__in">
     <span>SIGNWELL · 欣緯科技 ／ <a href="https://easylearnfromtw.github.io/signwelltec/">返回首頁</a> ／ <a href="medical-responsibility.html">認識欣緯生醫</a></span>
     <span>欣緯軟體為欣緯科技軟體部門，目前籌備中。</span>
