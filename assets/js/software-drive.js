@@ -194,7 +194,7 @@ async function start3D() {
      phones render native up to 3×, both inside a pixel budget. A governor only ever steps down
      (one notch at a time, before a frame is drawn) so the canvas never shows a cleared buffer. */
   const DEV = devicePixelRatio || 1;
-  const Q_LEVELS = [1, .87, .75, .64];
+  const Q_LEVELS = [1, .86, .72, .62];
   let qLevel = (LOW && !SMALL) || (navigator.deviceMemory || 8) <= 3 ? 1 : 0;
   const qInit = qLevel; let qN = 0, qSlow = 0, qBad = 0, qGood = 0, qWentUp = false, qUpLocked = false, dprNow = 0;
   function baseDpr(cw, ch) {
@@ -211,7 +211,7 @@ async function start3D() {
   renderer.toneMapping = THREE.NoToneMapping;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.shadowMap.autoUpdate = false;           // refreshed every other frame in the loop
+  renderer.shadowMap.autoUpdate = false;           // synchronized once per rendered frame
   const MAX_ANISO = renderer.capabilities.getMaxAnisotropy();
   const HAZE = new THREE.Color(0xeef0f1);
   const scene = new THREE.Scene();
@@ -223,7 +223,7 @@ async function start3D() {
   scene.add(hemi);
   const sun = new THREE.DirectionalLight(0xfff1df, 2.15);
   sun.castShadow = true;
-  const SMAP = LOW ? 1536 : 2048;
+  const SMAP = LOW ? 1024 : 1536;
   sun.shadow.mapSize.set(SMAP, SMAP);
   const SH = 72; Object.assign(sun.shadow.camera, { left: -SH, right: SH, top: SH, bottom: -SH, near: 1, far: 340 });
   sun.shadow.bias = -0.0004; sun.shadow.normalBias = .4; sun.shadow.radius = 3;
@@ -1582,11 +1582,11 @@ async function start3D() {
   function pick(cx, cy) { ptr.set(cx / W * 2 - 1, -(cy / H) * 2 + 1); ray.setFromCamera(ptr, camera); const hits = ray.intersectObjects(signs.map(s => s.face), false); if (!hits.length || hits[0].distance > 180) return null; const sg = signs.find(s => s.face === hits[0].object); return sg && (sg.kind === 'mgr' || sg.url) ? sg : null; }
 
   /* ---------------- frame loop ---------------- */
-  let sCam = 4, sGoal = 4, prevS = 4, speed = 0, time = 0, lastScrollAt = 0, activeIdx = -1, covered = false, hidden = null, frameNo = 0;
+  let sCam = 4, sGoal = 4, prevS = 4, speed = 0, time = 0, lastScrollAt = 0, activeIdx = -1, covered = false, hidden = null;
   let readyAt = 0, canRender = false, contextReady = true; const redrawQ = [];
   const loop = createRenderLoop({ draw: frame, isVisible: () => canRender && contextReady && !document.hidden });
   wakeChrome = () => loop.wake();
-  const camPos = new THREE.Vector3(), camTgt = new THREE.Vector3(), tgtSm = new THREE.Vector3(), posSm = new THREE.Vector3(), focusV = new THREE.Vector3(), lastSun = new THREE.Vector3(1e9, 0, 0);
+  const camPos = new THREE.Vector3(), camTgt = new THREE.Vector3(), tgtSm = new THREE.Vector3(), posSm = new THREE.Vector3(), focusV = new THREE.Vector3();
   let firstFrame = true;
   const setOf = tag => peopleSets.filter(p => p.tag === tag);
   const PEOPLE = { office: setOf('office'), park: setOf('park'), foot: setOf('foot'), city: setOf('city') };
@@ -1636,7 +1636,7 @@ async function start3D() {
       if (qN >= 90) {
         const r = qSlow / qN; qN = qSlow = 0;
         if (r > .4) { qGood = 0; if (++qBad >= 2 && qLevel < Q_LEVELS.length - 1) { qBad = 0; qLevel++; if (qWentUp) qUpLocked = true; applyDpr(W, H); } }
-        else { qBad = 0; if (r < .03 && qLevel > qInit && !qUpLocked) { if (++qGood >= 8) { qGood = 0; qLevel--; qWentUp = true; applyDpr(W, H); } } else qGood = 0; }
+        else { qBad = 0; qGood = 0; } // Keep reduced quality stable until next visit.
       }
     }
 
@@ -1672,10 +1672,18 @@ async function start3D() {
       sp.scale.set(sp.userData.w * spring, sp.userData.h * spring, 1);
       sp.position.copy(sp.userData.base); if (!reduced.matches) sp.position.y += Math.sin(time * 1.6 + i) * .18;
     });
-    // sun follows the view; the shadow map is refreshed every other frame, or at once when the view jumps
-    focusV.copy(tgtSm).lerp(posSm, .35); const tx = Math.round(focusV.x / 2) * 2, tz = Math.round(focusV.z / 2) * 2;
-    sun.target.position.set(tx, focusV.y, tz); sun.position.set(tx + SUN_OFF.x, focusV.y + SUN_OFF.y, tz + SUN_OFF.z); sun.target.updateMatrixWorld();
-    const jump = lastSun.distanceToSquared(sun.target.position) > 36; if (jump || (frameNo++ & 1) === 0 || firstFrame) { renderer.shadowMap.needsUpdate = true; lastSun.copy(sun.target.position); }
+    // Stabilize the moving light at shadow-map texel increments instead of
+    // snapping every two world units (which caused visible shadow jumps).
+    focusV.copy(tgtSm).lerp(posSm, .35);
+    const shadowTexel = (2 * SH) / SMAP;
+    const tx = Math.round(focusV.x / shadowTexel) * shadowTexel;
+    const ty = Math.round(focusV.y / shadowTexel) * shadowTexel;
+    const tz = Math.round(focusV.z / shadowTexel) * shadowTexel;
+    sun.target.position.set(tx, ty, tz);
+    sun.position.set(tx + SUN_OFF.x, ty + SUN_OFF.y, tz + SUN_OFF.z);
+    sun.target.updateMatrixWorld();
+    // Dynamic shadows must update on the same frame as traffic and camera.
+    renderer.shadowMap.needsUpdate = true;
     updateHotspots(sCam);
     renderer.render(scene, camera); needRender = false;
     if (firstFrame) { firstFrame = false; readyAt = now; root.classList.add('ready'); if (SNAP) console.log('[drive] first frame', Math.round(performance.now() - T0) + 'ms', renderer.info.render.triangles + ' tris', renderer.info.render.calls + ' calls', 'dpr ' + dprNow.toFixed(2), renderer.domElement.width + '×' + renderer.domElement.height); }
@@ -1725,7 +1733,7 @@ async function start3D() {
   // then the world is rebuilt on the GPU from the same scene. Only if it never comes back do we fall back to flat.
   let lostT = 0;
   canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); contextReady = false; loop.pause(); root.classList.add('gl-lost'); clearTimeout(lostT); lostT = setTimeout(() => { canRender = false; root.classList.remove('gl-lost'); startFlat(); }, 8000); });
-  canvas.addEventListener('webglcontextrestored', () => { clearTimeout(lostT); if (!canRender) return; applyDpr(W, H); lastSun.set(1e9, 0, 0); warmGPU().then(() => { contextReady = true; root.classList.remove('gl-lost'); resume(); }); });
+  canvas.addEventListener('webglcontextrestored', () => { clearTimeout(lostT); if (!canRender) return; applyDpr(W, H); renderer.shadowMap.needsUpdate = true; warmGPU().then(() => { contextReady = true; root.classList.remove('gl-lost'); resume(); }); });
   if (SNAP) window.__drive = { STOPS, TEX, camera, van, THREE, renderer, get sCam() { return sCam; }, get running() { return loop.running; }, get needRender() { return needRender; }, get covered() { return covered; }, get driveTop() { return driveTop; }, get vhPx() { return vhPx; } };
   jumpHash();
   const u0 = (scrollY - driveTop) / vhPx; sCam = sAtScroll(u0).s; prevS = sCam;
