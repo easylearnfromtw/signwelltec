@@ -19,6 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Validate 3D scripts and rendering regressions
+        run: |
+          node --check --input-type=module < assets/js/software-drive.js
+          node --check --input-type=module < assets/js/render-loop.mjs
+          node --test tests/render-loop.test.mjs tests/performance.test.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
